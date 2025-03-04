@@ -2,9 +2,9 @@ package Controllers;
 
 import java.util.Scanner;
 
-public class InterfaceController {
+public class MainController {
 
-    public InterfaceController() {
+    public MainController() {
     }
 
     public void startProgramm() {
@@ -31,17 +31,19 @@ public class InterfaceController {
 
             switch (choice) {
                 case 1:
-                    TagebuchController tg = new TagebuchController();
-                    tg.TagebuchMenu(scanner);
+                    Tagebuch tagebuch = new Tagebuch();
+                    tagebuch.showMenu(scanner);
                     break;
                 case 2:
-                    System.out.println("Stimmungskalender wurde gewählt.");
+                    Stimmungskalender stimmungskalender = new Stimmungskalender();
+                    stimmungskalender.showMenu(scanner);
                     break;
                 case 3:
-                    System.out.println("Routinen verwalten wurde gewählt.");
+                    Routine routine = new Routine();
+                    routine.showMenu(scanner);
                     break;
                 case 4:
-                    System.out.println("Atem- und Entspannungsübungen wurde gewählt.");
+                    AtemUndEnspannung.showMenu(scanner);
                     break;
                 case 5:
                     System.out.println("Hier ist dein Inspirationssatz!");

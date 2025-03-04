@@ -2,18 +2,13 @@ package Controllers;
 
 import java.util.Scanner;
 
-public class StimmungskalenderController {
-
-    public StimmungskalenderController() {}
-
-    void StimmungskalenderMenu(Scanner scanner){
+public class AtemUndEnspannung {
+    static void showMenu(Scanner scanner){
         while (true) {
-            System.out.println("\nHier kannst du dein Stimmungskalender verwalten: \n");
-            System.out.println("Wähle bitte aus, was du tun möchtest:");
-            System.out.println("1 - Daten eintragen");
-            System.out.println("2 - Graph ausgeben");
-            System.out.println("3 - Eintrag bearbeiten");;
-            System.out.println("4 - Zurück zum Hauptmenü");
+            System.out.println("\n Wähle bitte aus, was du tun möchtest:");
+            System.out.println("1 - Atemübung durchführen");
+            System.out.println("2 - Entspannungsübung durchführen");
+            System.out.println("3 - Zurück zum Hauptmenü");
             System.out.print("Deine Wahl: ");
 
             int benutzerAuswahl;
@@ -26,15 +21,12 @@ public class StimmungskalenderController {
 
             switch (benutzerAuswahl) {
                 case 1:
-                    System.out.println("Daten eintragen");
+                    System.out.println("Atemübung durchführen");
                     break;
                 case 2:
-                    System.out.println("Graph ausgeben");
+                    System.out.println("Entspannungsübung durchführen");
                     break;
                 case 3:
-                    System.out.println("Eintrag bearbeiten...");
-                    break;
-                case 4:
                     System.out.println("Zurück zum Hauptmenü");
                     return;
                 default:
