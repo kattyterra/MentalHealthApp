@@ -15,8 +15,15 @@ public class BenutzerEingabe {
     }
 
     public String leseUhrzeit(Scanner scanner) {
-        System.out.println("Gib die Uhrzeit im Format HH:mm ein:");
-        return scanner.nextLine();
+        while (true) {
+            System.out.println("Gib die Uhrzeit im Format HH:mm:ss ein:");
+            String eingabe = scanner.nextLine();
+            if (eingabe.matches("\\d{2}:\\d{2}:\\d{2}")) {
+                return eingabe;
+            } else {
+                System.out.println("Ungültiges Format. Bitte erneut versuchen.");
+            }
+        }
     }
 
 }

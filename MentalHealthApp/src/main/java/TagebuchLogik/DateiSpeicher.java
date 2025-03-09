@@ -15,13 +15,16 @@ public class DateiSpeicher implements TagebuchRepository{
     public DateiSpeicher() {
         File dir = new File(ordner);
         if (!dir.exists()) {
-            dir.mkdirs();
+            boolean success = dir.mkdirs();
+            if (!success) {
+                System.err.println("Ordner '" + ordner + "' konnte nicht erstellt werden!");
+            }
         }
     }
 
     @Override
     public void speichern(TagebuchEintrag eintrag) {
-        String pfad = ordner + eintrag.getDatum() + ".txt";
+        String pfad = ordner + eintrag.datum() + ".txt";
         File file = new File(pfad);
         try (FileWriter writer = new FileWriter(file, true)) {
             if (file.exists() && file.length() > 0) {
@@ -48,47 +51,107 @@ public class DateiSpeicher implements TagebuchRepository{
 
     @Override
     public void loeschenEintrag(String datum, String uhrzeit) {
-        String string_pfad = ordner + datum + ".txt";
-        Path path = Paths.get(string_pfad);
-        if (!Files.exists(path)) {
-            System.err.println("Fehler: Datei existiert nicht - " + string_pfad);
-            return;
-        }
+        String pfad = ordner + datum + ".txt";
+        Path path = Paths.get(pfad);
+        if (!Files.exists(path)) return;
 
         try {
             List<String> lines = Files.readAllLines(path);
-            String suchMuster = "Eingetragen um " + uhrzeit + ":";
-            List<String> updatedLines = new ArrayList<>();
-            boolean loescheZeilen = false;
-            boolean eintragGefunden = false;
-
-            for (String line : lines) {
-                if (line.startsWith("Eingetragen um ")) {
-                    loescheZeilen = line.startsWith(suchMuster);
-                    if (loescheZeilen) {
-                        eintragGefunden = true;
-                        continue;
-                    }
-                }
-                if (!loescheZeilen) {
-                    updatedLines.add(line);
-                }
-            }
-
-            if (!eintragGefunden) {
-                System.err.println("Kein Eintrag mit Uhrzeit " + uhrzeit + " gefunden.");
-                return;
-            }
+            List<String> updatedLines = baueAktualisierteZeilen(lines, uhrzeit);
 
             if (updatedLines.isEmpty()) {
                 Files.delete(path);
-                System.out.println("Datei gelöscht, da keine Einträge mehr vorhanden sind.");
             } else {
                 Files.write(path, updatedLines);
-                System.out.println("Eintrag mit Uhrzeit " + uhrzeit + " gelöscht.");
             }
         } catch (IOException e) {
             System.err.println("Fehler beim Löschen des Eintrags: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String lesen(String datum) {
+        String pfad = ordner + datum + ".txt";
+        Path path = Paths.get(pfad);
+        if (!Files.exists(path)) {
+            return "Kein Eintrag für dieses Datum gefunden.";
+        }
+
+        try {
+            List<String> lines = Files.readAllLines(path);
+            return String.join("\n", lines);
+        } catch (IOException e) {
+            return "Fehler beim Lesen des Eintrags: " + e.getMessage();
+        }
+    }
+
+    @Override
+    public List<String> getVerfuegbareEintraege() {
+        File verzeichnis = new File(ordner);
+        File[] dateien = verzeichnis.listFiles((dir, name) -> name.endsWith(".txt"));
+
+        List<String> verfuegbareEintraege = new ArrayList<>();
+        if (dateien != null) {
+            for (File datei : dateien) {
+                verfuegbareEintraege.add(datei.getName().replace(".txt", ""));
+            }
+        }
+        return verfuegbareEintraege;
+    }
+
+    @Override
+    public boolean bearbeiten(String datum, String uhrzeit, String neuerText) {
+        String pfad = ordner + datum + ".txt";
+        Path path = Paths.get(pfad);
+        if (!Files.exists(path)) return false;
+
+        try {
+            List<String> lines = Files.readAllLines(path);
+            List<String> updatedLines = aktualisierteZeilenFuerBearbeiten(lines, uhrzeit, neuerText);
+
+            Files.write(path, updatedLines);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private List<String> baueAktualisierteZeilen(List<String> lines, String uhrzeit) {
+        List<String> updatedLines = new ArrayList<>();
+        boolean loescheZeilen = false;
+
+        for (String line : lines) {
+            if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
+                loescheZeilen = true;
+                continue;
+            }
+            if (loescheZeilen && !line.startsWith("Eingetragen um ")) {
+                continue;
+            }
+            loescheZeilen = false;
+            updatedLines.add(line);
+        }
+        return updatedLines;
+    }
+
+    private List<String> aktualisierteZeilenFuerBearbeiten(List<String> lines, String uhrzeit, String neuerText) {
+        List<String> updatedLines = new ArrayList<>();
+        boolean bearbeiten = false;
+
+        for (String line : lines) {
+            if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
+                bearbeiten = true;
+                updatedLines.add(line); // Uhrzeit bleibt erhalten
+                continue;
+            }
+            if (bearbeiten && !line.startsWith("Eingetragen um ")) {
+                updatedLines.add(neuerText); // Neuen Text speichern
+                bearbeiten = false;
+                continue;
+            }
+            updatedLines.add(line);
+        }
+
+        return updatedLines;
     }
 }
