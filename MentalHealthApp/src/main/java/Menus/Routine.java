@@ -1,4 +1,4 @@
-package Controllers;
+package Menus;
 
 import java.util.Scanner;
 

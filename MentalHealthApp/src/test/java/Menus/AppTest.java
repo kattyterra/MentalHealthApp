@@ -1,4 +1,4 @@
-package Controllers;
+package Menus;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

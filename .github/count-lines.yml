@@ -1,0 +1,28 @@
+name: Count Lines of Code
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  cloc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@6
+        with:
+          options: --md --include-lang=java --exclude-dir=test --not-match-f=test --out=cloc.md
+
+      - name: Save Cloc Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloc.md
+          path: cloc.md
+
+      - name: Output Report
+        run: cat cloc.md >> $GITHUB_STEP_SUMMARY

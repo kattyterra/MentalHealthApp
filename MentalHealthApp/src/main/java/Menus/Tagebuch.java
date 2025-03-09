@@ -1,8 +1,12 @@
-package Controllers;
+package Menus;
+
+import TagebuchLogik.TagebuchVerwaltung;
 
 import java.util.Scanner;
 
 public class Tagebuch {
+
+    private final TagebuchVerwaltung tgverw = new TagebuchVerwaltung();
 
      void showMenu(Scanner scanner) {
         while (true) {
@@ -25,7 +29,7 @@ public class Tagebuch {
 
             switch (benutzerAuswahl) {
                 case 1:
-                    System.out.println("Neuen Eintrag schreiben...");
+                    tgverw.eintragSchreiben(scanner);
                     break;
                 case 2:
                     System.out.println("Eintrag lesen...");
@@ -34,7 +38,7 @@ public class Tagebuch {
                     System.out.println("Eintrag bearbeiten...");
                     break;
                 case 4:
-                    System.out.println("Eintrag löschen...");
+                    tgverw.eintragLoeschen(scanner);
                     break;
                 case 5:
                     System.out.println("Zurück zum Hauptmenü...");

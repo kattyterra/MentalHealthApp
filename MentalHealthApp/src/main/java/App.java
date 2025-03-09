@@ -1,8 +1,8 @@
-package Controllers;
+import Menus.Main;
+
 public class App {
     public static void main(String[] args) {
-        InterfaceController controller = new InterfaceController();
-        controller.startProgramm();
-
+        Main programmStart = new Main();
+        programmStart.showMenu();
     }
 }

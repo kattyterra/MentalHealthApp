@@ -1,9 +1,9 @@
-package Controllers;
+package Menus;
 
 import java.util.Scanner;
 
 public class AtemUndEnspannung {
-    static void showMenu(Scanner scanner){
+    void showMenu(Scanner scanner){
         while (true) {
             System.out.println("\n Wähle bitte aus, was du tun möchtest:");
             System.out.println("1 - Atemübung durchführen");

@@ -1,13 +1,13 @@
-package Controllers;
+package Menus;
 
 import java.util.Scanner;
 
-public class MainController {
+public class Main {
 
-    public MainController() {
+    public Main() {
     }
 
-    public void startProgramm() {
+    public void showMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -43,7 +43,8 @@ public class MainController {
                     routine.showMenu(scanner);
                     break;
                 case 4:
-                    AtemUndEnspannung.showMenu(scanner);
+                    AtemUndEnspannung atemUndEnspannung = new AtemUndEnspannung();
+                    atemUndEnspannung.showMenu(scanner);
                     break;
                 case 5:
                     System.out.println("Hier ist dein Inspirationssatz!");
