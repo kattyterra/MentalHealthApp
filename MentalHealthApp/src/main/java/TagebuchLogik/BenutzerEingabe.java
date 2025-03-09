@@ -13,4 +13,10 @@ public class BenutzerEingabe {
         System.out.println("Gib das Datum im Format yyyy-MM-dd ein:");
         return scanner.nextLine();
     }
+
+    public String leseUhrzeit(Scanner scanner) {
+        System.out.println("Gib die Uhrzeit im Format HH:mm ein:");
+        return scanner.nextLine();
+    }
+
 }
