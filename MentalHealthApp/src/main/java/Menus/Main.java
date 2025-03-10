@@ -45,7 +45,7 @@ public class Main {
                     stimmungskalender.showMenu(scanner);
                     break;
                 case 3:
-                    Routine routine = new Routine();
+                    RoutinenMenu routine = new RoutinenMenu();
                     routine.showMenu(scanner);
                     break;
                 case 4:

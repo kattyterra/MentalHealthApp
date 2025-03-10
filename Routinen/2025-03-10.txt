@@ -1,0 +1,24 @@
+Morgen
+Aufstehen um 7:40
+true
+Morgen
+Zähne Putzen
+true
+Morgen
+Frühstücken
+true
+Mittag
+Eine Runde raus gehen
+true
+Mittag
+Mittagessen
+true
+Abend
+Zähne putzen
+false
+Abend
+Duschen
+false
+Abend
+10 minuten für die Selbstreflexion
+false
