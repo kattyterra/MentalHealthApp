@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class InspirationsSpeicher implements InspirationsRepository {
-    private final String pfad = "Inspirationssaetze(nicht_ändern!)/Inspo.txt";
+    private final String pfad = "Textvorlagen(nicht_ändern!)/Inspo.txt";
 
     @Override
     public List<String> ladeSaetze() {
