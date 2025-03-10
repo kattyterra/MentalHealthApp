@@ -16,9 +16,10 @@ public class Main {
             System.out.println("1 - Dein Tagebuch");
             System.out.println("2 - Dein Stimmungskalender");
             System.out.println("3 - Deine Routinen");
-            System.out.println("4 - Atem- und Entspannungsübungen");
-            System.out.println("5 - Deine kleine Inspirationsecke");
-            System.out.println("6 - Programm beenden");
+            System.out.println("4 - Atemübungen");
+            System.out.println("5 - Entspannungsübungenübungen");
+            System.out.println("6 - Deine kleine Inspirationsecke");
+            System.out.println("7 - Programm beenden");
             System.out.print("Deine Wahl: ");
 
             int choice;
@@ -43,14 +44,17 @@ public class Main {
                     routine.showMenu(scanner);
                     break;
                 case 4:
-                    AtemUndEnspannung atemUndEnspannung = new AtemUndEnspannung();
-                    atemUndEnspannung.showMenu(scanner);
+                    Atemuebungen atemuebungen = new Atemuebungen();
+                    atemuebungen.showMenu(scanner);
                     break;
                 case 5:
+                    System.out.println("entspannungsübungen");
+                    break;
+                case 6:
                     Inspirationssaetze inspirationssaetze = new Inspirationssaetze();
                     inspirationssaetze.showMenu(scanner);
                     break;
-                case 6:
+                case 7:
                     System.out.println("Programm wird beendet...");
                     running = false;
                     break;
