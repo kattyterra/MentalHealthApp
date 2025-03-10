@@ -144,11 +144,11 @@ public class DateiSpeicher implements TagebuchRepository {
         for (String line : lines) {
             if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
                 bearbeiten = true;
-                updatedLines.add(line); // Uhrzeit bleibt erhalten
+                updatedLines.add(line);
                 continue;
             }
             if (bearbeiten && !line.startsWith("Eingetragen um ")) {
-                updatedLines.add(neuerText); // Neuen Text speichern
+                updatedLines.add(neuerText);
                 bearbeiten = false;
                 continue;
             }

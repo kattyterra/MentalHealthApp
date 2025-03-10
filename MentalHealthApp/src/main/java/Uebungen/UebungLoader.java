@@ -1,41 +1,42 @@
-package AtemuebungenLogik;
+package Uebungen;
 
 import java.io.*;
 import java.util.*;
 
-public class AtemuebungLoader {
+public class UebungLoader {
 
-    public static List<Atemuebung> ladeUebungen(String dateipfad) {
-        List<Atemuebung> uebungen = new ArrayList<>();
-
+    public static List<Uebung> ladeUebungen(String dateipfad) {
+        List<Uebung> uebungen = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(dateipfad))) {
             String zeile;
             String name = null;
             String ziel = null;
             List<String> anleitung = new ArrayList<>();
+            boolean leseAnleitung = false;
 
             while ((zeile = reader.readLine()) != null) {
                 if (zeile.matches("^\\d+\\.\\s.*")) {
                     if (name != null) {
-                        uebungen.add(new Atemuebung(name, ziel, new ArrayList<>(anleitung)));
+                        uebungen.add(new Uebung(name, ziel, new ArrayList<>(anleitung)));
                         anleitung.clear();
                     }
                     name = zeile.substring(3).trim();
                     ziel = null;
+                    leseAnleitung = false;
                 } else if (zeile.startsWith("Ziel:")) {
                     ziel = zeile.substring(5).trim();
-                } else if (!zeile.isBlank()) {
+                    leseAnleitung = true;
+                } else if (leseAnleitung && !zeile.isBlank()) {
                     anleitung.add(zeile);
                 }
             }
 
-            // Letzte Übung speichern
             if (name != null) {
-                uebungen.add(new Atemuebung(name, ziel, anleitung));
+                uebungen.add(new Uebung(name, ziel, anleitung));
             }
 
         } catch (IOException e) {
-            System.out.println("Fehler beim Laden der Atemübungen: " + e.getMessage());
+            System.out.println("Fehler beim Laden der Übungen: " + e.getMessage());
         }
 
         return uebungen;
