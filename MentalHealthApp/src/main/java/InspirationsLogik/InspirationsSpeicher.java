@@ -7,11 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class InspirationsSpeicher implements InspirationsRepository {
-    private final String pfad = "Textvorlagen(nicht_ändern!)/Inspo.txt";
 
     @Override
     public List<String> ladeSaetze() {
         try {
+            String pfad = "Textvorlagen(nicht_ändern!)/Inspo.txt";
             return Files.readAllLines(Paths.get(pfad));
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Inspirationssätze: " + e.getMessage());

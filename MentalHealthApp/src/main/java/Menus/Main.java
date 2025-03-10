@@ -1,5 +1,10 @@
 package Menus;
 
+import Uebungen.Uebung;
+import Uebungen.UebungLoader;
+
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -17,7 +22,7 @@ public class Main {
             System.out.println("2 - Dein Stimmungskalender");
             System.out.println("3 - Deine Routinen");
             System.out.println("4 - Atemübungen");
-            System.out.println("5 - Entspannungsübungenübungen");
+            System.out.println("5 - Achtsamkeitsübungen");
             System.out.println("6 - Deine kleine Inspirationsecke");
             System.out.println("7 - Programm beenden");
             System.out.print("Deine Wahl: ");
@@ -44,11 +49,14 @@ public class Main {
                     routine.showMenu(scanner);
                     break;
                 case 4:
-                    Atemuebungen atemuebungen = new Atemuebungen();
-                    atemuebungen.showMenu(scanner);
+                    List<Uebung> atemUebungen = UebungLoader.ladeUebungen("Textvorlagen(nicht_ändern!)/Atemuebungen.txt");
+                    UebungMenu atemMenu = new UebungMenu(atemUebungen, "🫁 Deine Atemübungen: ");
+                    atemMenu.showMenu(scanner);
                     break;
                 case 5:
-                    System.out.println("entspannungsübungen");
+                    List<Uebung> achtsamUebungen = UebungLoader.ladeUebungen("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt");
+                    UebungMenu achtsamMenu = new UebungMenu(achtsamUebungen, "🧘 Deine Achtsamkeitsübungen: ");
+                    achtsamMenu.showMenu(scanner);
                     break;
                 case 6:
                     Inspirationssaetze inspirationssaetze = new Inspirationssaetze();
