@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stimmungskalender/stimmungskalender.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Stimmungskalender/stimmungskalender.txt" afterDir="false" />
-    </list>
+    <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
