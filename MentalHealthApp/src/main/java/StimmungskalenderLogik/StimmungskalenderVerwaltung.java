@@ -33,13 +33,14 @@ public class StimmungskalenderVerwaltung {
         Stimmungseintrag eintrag = new Stimmungseintrag(datum, uhrzeit, stimmung);
         repository.speichern(eintrag);
         System.out.println("Stimmungseintrag gespeichert!");
+        warnungBeiTiefemStimmungsverlauf();
     }
 
     public void eintraegeAlsGraphAnzeigen() {
         List<String> eintraege = repository.lesenAlle();
 
         if (eintraege.isEmpty()) {
-            System.out.println("📭 Keine Einträge vorhanden.");
+            System.out.println("Keine Einträge vorhanden.");
             return;
         }
 
@@ -63,4 +64,31 @@ public class StimmungskalenderVerwaltung {
             }
         }
     }
+
+    public void warnungBeiTiefemStimmungsverlauf() {
+        List<String> eintraege = repository.lesenAlle();
+        if (eintraege.isEmpty()) return;
+
+        List<Integer> letzte7Stimmungen = new ArrayList<>();
+
+        for (int i = eintraege.size() - 1; i >= 0 && letzte7Stimmungen.size() < 7; i--) {
+            String eintrag = eintraege.get(i);
+            if (eintrag.contains("Stimmung:")) {
+                String[] teile = eintrag.split("Stimmung:");
+                try {
+                    int stimmung = Integer.parseInt(teile[1].trim());
+                    letzte7Stimmungen.add(stimmung);
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+
+        if (letzte7Stimmungen.size() == 7 &&
+                letzte7Stimmungen.stream().allMatch(wert -> wert < 5)) {
+            System.out.println("\n⚠️ Hinweis: Deine Stimmung war in den letzten 7 Tagen " +
+                    "durchgehend unter 5.");
+            System.out.println("Vielleicht wäre es hilfreich, mit jemandem darüber zu sprechen " +
+                    "oder dir etwas Gutes zu tun 💛");
+        }
+    }
+
 }
