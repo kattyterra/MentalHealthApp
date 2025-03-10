@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/AtemuebungenLogik/Atemuebung.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/AtemuebungenLogik/AtemuebungLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Textvorlagen(nicht_ändern!)/Atemuebungen.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inspirationssaetze(nicht_ändern!)/Inspo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Textvorlagen(nicht_ändern!)/Inspo.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/InspirationsLogik/InspirationsSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/InspirationsLogik/InspirationsSpeicher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/AtemUndEnspannung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Atemuebungen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/InspirationsLogik/InspirationsSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/InspirationsLogik/InspirationsSpeicher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/AtemuebungenLogik/Atemuebung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/AtemuebungenLogik/Atemuebung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Atemuebungen.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Atemuebungen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stimmungskalender/stimmungskalender.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Stimmungskalender/stimmungskalender.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
