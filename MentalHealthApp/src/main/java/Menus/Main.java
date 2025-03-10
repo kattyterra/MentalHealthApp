@@ -13,9 +13,9 @@ public class Main {
 
         while (running) {
             System.out.println("\nWähle bitte aus, was du tun möchtest:");
-            System.out.println("1 - Tagebuch verwalten");
-            System.out.println("2 - Stimmungskalender");
-            System.out.println("3 - Routinen verwalten");
+            System.out.println("1 - Dein Tagebuch");
+            System.out.println("2 - Dein Stimmungskalender");
+            System.out.println("3 - Deine Routinen");
             System.out.println("4 - Atem- und Entspannungsübungen");
             System.out.println("5 - Inspirationssatz bekommen");
             System.out.println("6 - Programm beenden");

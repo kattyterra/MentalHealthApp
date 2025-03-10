@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MentalHealthApp/MentalHealthApp.iml" filepath="$PROJECT_DIR$/MentalHealthApp/MentalHealthApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SWE_Projekt.iml" filepath="$PROJECT_DIR$/.idea/SWE_Projekt.iml" />
     </modules>
   </component>

@@ -1,8 +1,17 @@
 package Menus;
 
+import StimmungskalenderLogik.StimmungskalenderSpeicher;
+import StimmungskalenderLogik.StimmungskalenderVerwaltung;
+
 import java.util.Scanner;
 
 public class Stimmungskalender {
+
+    private final StimmungskalenderVerwaltung verwaltung;
+
+    public Stimmungskalender() {
+        this.verwaltung = new StimmungskalenderVerwaltung(new StimmungskalenderSpeicher());
+    }
 
     void showMenu(Scanner scanner){
         while (true) {
@@ -10,8 +19,7 @@ public class Stimmungskalender {
             System.out.println("Wähle bitte aus, was du tun möchtest:");
             System.out.println("1 - Daten eintragen");
             System.out.println("2 - Graph ausgeben");
-            System.out.println("3 - Eintrag bearbeiten");;
-            System.out.println("4 - Zurück zum Hauptmenü");
+            System.out.println("3 - Zurück zum Hauptmenü");
             System.out.print("Deine Wahl: ");
 
             int benutzerAuswahl;
@@ -24,16 +32,12 @@ public class Stimmungskalender {
 
             switch (benutzerAuswahl) {
                 case 1:
-                    System.out.println("Daten eintragen");
+                    verwaltung.eintragHinzufuegen(scanner);
                     break;
                 case 2:
-                    System.out.println("Graph ausgeben");
+                    verwaltung.eintraegeAlsGraphAnzeigen();
                     break;
                 case 3:
-                    System.out.println("Eintrag bearbeiten...");
-                    break;
-                case 4:
-                    System.out.println("Zurück zum Hauptmenü");
                     return;
                 default:
                     System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
