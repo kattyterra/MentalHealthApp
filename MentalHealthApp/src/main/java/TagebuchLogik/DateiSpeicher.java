@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateiSpeicher implements TagebuchRepository{
+public class DateiSpeicher implements TagebuchRepository {
     private final String ordner = "Tagebuch/";
 
     public DateiSpeicher() {
@@ -134,7 +134,10 @@ public class DateiSpeicher implements TagebuchRepository{
         return updatedLines;
     }
 
-    private List<String> aktualisierteZeilenFuerBearbeiten(List<String> lines, String uhrzeit, String neuerText) {
+    private List<String> aktualisierteZeilenFuerBearbeiten(
+            List<String> lines,
+            String uhrzeit,
+            String neuerText) {
         List<String> updatedLines = new ArrayList<>();
         boolean bearbeiten = false;
 
