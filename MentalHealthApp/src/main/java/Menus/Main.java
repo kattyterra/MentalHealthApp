@@ -17,7 +17,7 @@ public class Main {
             System.out.println("2 - Dein Stimmungskalender");
             System.out.println("3 - Deine Routinen");
             System.out.println("4 - Atem- und Entspannungsübungen");
-            System.out.println("5 - Inspirationssatz bekommen");
+            System.out.println("5 - Deine kleine Inspirationsecke");
             System.out.println("6 - Programm beenden");
             System.out.print("Deine Wahl: ");
 
@@ -47,7 +47,8 @@ public class Main {
                     atemUndEnspannung.showMenu(scanner);
                     break;
                 case 5:
-                    System.out.println("Hier ist dein Inspirationssatz!");
+                    Inspirationssaetze inspirationssaetze = new Inspirationssaetze();
+                    inspirationssaetze.showMenu(scanner);
                     break;
                 case 6:
                     System.out.println("Programm wird beendet...");

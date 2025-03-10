@@ -5,21 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/Stimmungseintrag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderSpeicher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Inspirationssaetze(nicht_ändern!)/Inspo.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/InspirationsLogik/InspirationsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/InspirationsLogik/InspirationsSpeicher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/InspirationsLogik/InspirationsVerwaltung.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Inspirationssaetze.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Stimmungskalender.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Stimmungskalender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/TagebuchLogik/DateiSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/TagebuchLogik/DateiSpeicher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Stimmungskalender.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Stimmungskalender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/DateiSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/DateiSpeicher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/TagebuchEintrag.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/TagebuchEintrag.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/TagebuchVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/TagebuchLogik/TagebuchVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -59,7 +54,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/katya/OneDrive/Desktop/MHApp",
