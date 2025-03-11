@@ -4,55 +4,47 @@ import routinen_logik.*;
 
 import java.util.Scanner;
 
-/**
- * Diese Klasse stellt ein Menü zur Verwaltung der Routinen bereit.
- * Benutzer können Routinen ansehen, abhaken, hinzufügen, bearbeiten oder löschen.
- */
 public class RoutinenMenu {
     private final RoutinenVerwaltung verwaltung;
 
-    /**
-     * Konstruktor – initialisiert die RoutinenVerwaltung mit einem neuen RoutineManager.
-     */
-    public RoutinenMenu() {
-        this.verwaltung = new RoutinenVerwaltung(new RoutineManager());
+    public RoutinenMenu() throws RoutineException {
+        RoutineRepository repository = new FileBasedRoutineRepository();
+        RoutineVorschlagsService vorschlagsService = new RoutineVorschlagsService("Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt");
+        this.verwaltung = new RoutinenVerwaltung(repository, vorschlagsService);
     }
 
-    /**
-     * Zeigt das Routinenverwaltungsmenü an und verarbeitet Benutzereingaben.
-     *
-     * @param scanner Scanner-Objekt für Benutzereingaben
-     */
     public void showMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
             System.out.println("\n📋 Routinenverwaltung:");
-            System.out.println("1 - Meine Routinen ansehen/abhacken");
-            System.out.println("2 - Routine hinzufügen");
-            System.out.println("3 - Routine bearbeiten");
-            System.out.println("4 - Routine löschen");
-            System.out.println("5 - Zurück zum Hauptmenü");
+            System.out.println("1 - Meine Routinen ansehen/abhaken");
+            System.out.println("2 - Routinen-Statistik anzeigen");
+            System.out.println("3 - Routine hinzufügen");
+            System.out.println("4 - Routine bearbeiten");
+            System.out.println("5 - Routine löschen");
+            System.out.println("6 - Routine-Historie anzeigen");
+            System.out.println("7 - Zurück zum Hauptmenü");
 
-            int auswahl = verwaltungReadInt(scanner);
+            int auswahl = readInt(scanner);
 
-            switch (auswahl) {
-                case 1 -> verwaltung.checklisteVerwalten(scanner);
-                case 2 -> verwaltung.routineHinzufuegen(scanner);
-                case 3 -> verwaltung.routineBearbeiten(scanner);
-                case 4 -> verwaltung.routineLoeschen(scanner);
-                case 5 -> running = false;
-                default -> System.out.println("Ungültige Auswahl.");
+            try {
+                switch (auswahl) {
+                    case 1 -> verwaltung.checklisteVerwalten(scanner);
+                    case 2 -> verwaltung.routinenStatistikAnzeigen();
+                    case 3 -> verwaltung.routineHinzufuegen(scanner);
+                    case 4 -> verwaltung.routineBearbeiten(scanner);
+                    case 5 -> verwaltung.routineLoeschen(scanner);
+                    case 6 -> verwaltung.routinenHistorieAnzeigen();
+                    case 7 -> running = false;
+                    default -> System.out.println("Ungültige Auswahl.");
+                }
+            } catch (RoutineException e) {
+                System.out.println("⚠ Fehler: " + e.getMessage());
             }
         }
     }
 
-    /**
-     * Liest eine Ganzzahl vom Benutzer ein und gibt sie zurück.
-     *
-     * @param scanner Scanner-Objekt für Benutzereingaben
-     * @return die eingegebene Zahl oder -1 bei Fehler
-     */
-    private int verwaltungReadInt(Scanner scanner) {
+    private int readInt(Scanner scanner) {
         System.out.print("Deine Wahl: ");
         try {
             return Integer.parseInt(scanner.nextLine());
@@ -60,4 +52,6 @@ public class RoutinenMenu {
             return -1;
         }
     }
+
+
 }
