@@ -18,8 +18,9 @@ public class Stimmungskalender {
             System.out.println("\nHier kannst du dein Stimmungskalender verwalten: \n");
             System.out.println("Wähle bitte aus, was du tun möchtest:");
             System.out.println("1 - Daten eintragen");
-            System.out.println("2 - Graph ausgeben");
-            System.out.println("3 - Zurück zum Hauptmenü");
+            System.out.println("2 - Stimmungsverlauf als Graph ausgeben");
+            System.out.println("3 - Alle Einträge anzeigen");
+            System.out.println("4 - Zurück zum Hauptmenü");
             System.out.print("Deine Wahl: ");
 
             int benutzerAuswahl;
@@ -33,11 +34,15 @@ public class Stimmungskalender {
             switch (benutzerAuswahl) {
                 case 1:
                     verwaltung.eintragHinzufuegen(scanner);
+                    verwaltung.emotionenErfassen(scanner);
                     break;
                 case 2:
                     verwaltung.eintraegeAlsGraphAnzeigen();
                     break;
                 case 3:
+                    verwaltung.eintraegeTextuellAnzeigen();
+                    break;
+                case 4:
                     return;
                 default:
                     System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");

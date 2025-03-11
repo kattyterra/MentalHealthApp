@@ -5,26 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/RoutinenMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/RoutinenLogik/Routine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/RoutinenLogik/RoutineManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/RoutinenLogik/RoutinenVerwaltung.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Routinen/2025-03-10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Routinen/stammliste.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/Emotionseintrag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Textvorlagen(nicht_ändern!)/EmotionenListe.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Routine.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/AchtsamkeitsuebungenLogik/Achtsamkeitsuebung.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/AchtsamkeitsuebungenLogik/AchtsamkeitsuebungLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/AtemuebungenLogik/Atemuebung.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/AtemuebungenLogik/AtemuebungLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Achtsamkeitsuebungen.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Atemuebungen.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Routine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/UebungMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/UebungMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/Uebung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/Uebung.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/UebungLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/UebungLoader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Stimmungskalender.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/Menus/Stimmungskalender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderSpeicher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/StimmungskalenderLogik/StimmungskalenderVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Stimmungskalender.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/Stimmungskalender.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/RoutinenLogik/RoutinenVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/RoutinenLogik/RoutinenVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/StimmungskalenderLogik/StimmungskalenderVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stimmungskalender/stimmungskalender.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +27,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -67,11 +60,14 @@
     "git-widget-placeholder": "pc",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/katya/OneDrive/Desktop/MHApp",
+    "last_opened_file_path": "C:/Users/admin/Desktop/SWE_Projekt/Textvorlagen(nicht_ändern!)",
     "settings.editor.selected.configurable": "Errors"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Desktop\SWE_Projekt\Textvorlagen(nicht_ändern!)" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\admin\Desktop\MentalHealthApp\.github" />
       <recent name="C:\Users\admin\Desktop\MentalHealthApp\MentalHealthApp" />
