@@ -1,7 +1,8 @@
 package menus;
 
-import uebungen.Uebung;
-import uebungen.UebungLoader;
+import routinen_logik.RoutineException;
+import uebungen.TextdateiUebungRepository;
+import uebungen.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -55,20 +56,22 @@ public class Main {
                     stimmungskalender.showMenu(scanner);
                 }
                 case 3 -> {
-                    RoutinenMenu routine = new RoutinenMenu();
-                    routine.showMenu(scanner);
+                    try {
+                        RoutinenMenu routine = new RoutinenMenu();
+                        routine.showMenu(scanner);
+                    } catch (RoutineException e) {
+                        System.out.println("⚠ Fehler beim Öffnen der Routinenverwaltung: " + e.getMessage());
+                    };
                 }
                 case 4 -> {
                     // Atemübungen laden und anzeigen
-                    List<Uebung> atemUebungen = UebungLoader.ladeUebungen("Textvorlagen(nicht_ändern!)/Atemuebungen.txt");
-                    UebungMenu atemMenu = new UebungMenu(atemUebungen, "🫁 Deine Atemübungen: ");
-                    atemMenu.showMenu(scanner);
+                    UebungService service = new UebungService(new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Atemuebungen.txt"));
+                    new UebungMenu(service.getAlleUebungen(), "🫁 Deine Atemübungen: ").showMenu(scanner);
                 }
                 case 5 -> {
                     // Achtsamkeitsübungen laden und anzeigen
-                    List<Uebung> achtsamUebungen = UebungLoader.ladeUebungen("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt");
-                    UebungMenu achtsamMenu = new UebungMenu(achtsamUebungen, "🧘 Deine Achtsamkeitsübungen: ");
-                    achtsamMenu.showMenu(scanner);
+                    UebungService service = new UebungService(new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt"));
+                    new UebungMenu(service.getAlleUebungen(), "🧘 Deine Achtsamkeitsübungen: ").showMenu(scanner);
                 }
                 case 6 -> {
                     // Inspirationssätze anzeigen
