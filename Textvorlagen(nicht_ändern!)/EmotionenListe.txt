@@ -1,32 +1,32 @@
 #Positive Emotionen (aufbauend / stärkend)#
-Emotion: Freude; Intensität: Leichte Heiterkeit → Euphorie;
-Emotion: Zufriedenheit; Intensität: Gelassenheit → tiefe Zufriedenheit;
-Emotion: Dankbarkeit; Intensität: stille Wertschätzung → tiefe Dankbarkeit;
-Emotion: Liebe; Intensität: Zuneigung → tiefe Liebe;
-Emotion: Hoffnung; Intensität: vorsichtiger Optimismus → starke Hoffnung;
-Emotion: Stolz; Intensität: leichte Zufriedenheit → starker Stolz;
-Emotion: Vertrauen; Intensität: angenehme Nähe → tiefes Vertrauen;
-Emotion: Inspiration; Intensität: Neugier → kreative Begeisterung;
-Emotion: Entspannung; Intensität: innere Ruhe → tiefe Gelassenheit;
+Emotion: Freude 😊; Intensität: Leichte Heiterkeit → Euphorie;
+Emotion: Zufriedenheit 😌; Intensität: Gelassenheit → tiefe Zufriedenheit;
+Emotion: Dankbarkeit 🙏; Intensität: stille Wertschätzung → tiefe Dankbarkeit;
+Emotion: Liebe ❤️; Intensität: Zuneigung → tiefe Liebe;
+Emotion: Hoffnung 🌟; Intensität: vorsichtiger Optimismus → starke Hoffnung;
+Emotion: Stolz 😎; Intensität: leichte Zufriedenheit → starker Stolz;
+Emotion: Vertrauen 🤝; Intensität: angenehme Nähe → tiefes Vertrauen;
+Emotion: Inspiration 💡; Intensität: Neugier → kreative Begeisterung;
+Emotion: Entspannung 🧘; Intensität: innere Ruhe → tiefe Gelassenheit;
 
 #Neutrale oder ambivalente Emotionen#
-Emotion: Überraschung; Intensität: leichte Irritation → Schock;
-Emotion: Interesse; Intensität: Aufmerksamkeit → Neugier;
-Emotion: Nostalgie; Intensität: leise Erinnerung → tiefe Wehmut;
-Emotion: Sehnsucht; Intensität: leichte Unruhe → starke Sehnsucht;
-Emotion: Unsicherheit; Intensität: leichte Zweifel → tiefe Verunsicherung;
+Emotion: Überraschung 😲; Intensität: leichte Irritation → Schock;
+Emotion: Interesse 👀; Intensität: Aufmerksamkeit → Neugier;
+Emotion: Nostalgie 🕰️; Intensität: leise Erinnerung → tiefe Wehmut;
+Emotion: Sehnsucht 💭; Intensität: leichte Unruhe → starke Sehnsucht;
+Emotion: Unsicherheit 😕; Intensität: leichte Zweifel → tiefe Verunsicherung;
 
 #Negative Emotionen (herausfordernd / belastend)#
-Emotion: Traurigkeit; Intensität: Melancholie → tiefe Trauer;
-Emotion: Angst; Intensität: Nervosität → Panik;
-Emotion: Wut; Intensität: Gereiztheit → Raserei;
-Emotion: Ekel; Intensität: leichte Abneigung → starker Ekel;
-Emotion: Scham; Intensität: leichte Peinlichkeit → tiefe Scham;
-Emotion: Schuld; Intensität: Unwohlsein → starke Schuldgefühle;
-Emotion: Neid; Intensität: Missgunst → destruktiver Neid;
-Emotion: Eifersucht; Intensität: Unsicherheit → Besitzangst;
-Emotion: Frustration; Intensität: Unzufriedenheit → starke Gereiztheit;
-Emotion: Erschöpfung; Intensität: Müdigkeit → totale Erschöpfung;
-Emotion: Überforderung; Intensität: Unsicherheit → Hilflosigkeit;
-Emotion: Einsamkeit; Intensität: Alleinsein → tiefe Einsamkeit;
-Emotion: Verzweiflung; Intensität: Hoffnungslosigkeit → tiefe Krise;
+Emotion: Traurigkeit 😢; Intensität: Melancholie → tiefe Trauer;
+Emotion: Angst 😨; Intensität: Nervosität → Panik;
+Emotion: Wut 😡; Intensität: Gereiztheit → Raserei;
+Emotion: Ekel 🤢; Intensität: leichte Abneigung → starker Ekel;
+Emotion: Scham 😳; Intensität: leichte Peinlichkeit → tiefe Scham;
+Emotion: Schuld 😔; Intensität: Unwohlsein → starke Schuldgefühle;
+Emotion: Neid 😒; Intensität: Missgunst → destruktiver Neid;
+Emotion: Eifersucht 😤; Intensität: Unsicherheit → Besitzangst;
+Emotion: Frustration 😠; Intensität: Unzufriedenheit → starke Gereiztheit;
+Emotion: Erschöpfung 😩; Intensität: Müdigkeit → totale Erschöpfung;
+Emotion: Überforderung 😵; Intensität: Unsicherheit → Hilflosigkeit;
+Emotion: Einsamkeit 🥺; Intensität: Alleinsein → tiefe Einsamkeit;
+Emotion: Verzweiflung 😞; Intensität: Hoffnungslosigkeit → tiefe Krise;
