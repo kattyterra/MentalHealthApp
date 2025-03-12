@@ -6,34 +6,43 @@ import stimmungskalender_logik.StimmungskalenderVerwaltung;
 import java.util.Scanner;
 
 /**
- * Diese Klasse stellt ein Menü zur Verwaltung des Stimmungskalenders bereit.
- * Der Benutzer kann Stimmungsdaten eintragen, den Verlauf anzeigen oder alle Einträge textuell ausgeben.
+ * Menüklasse zur Bedienung des Stimmungskalenders in der MentalHealthApp.
+ * <p>
+ * Der Benutzer kann:
+ * <ul>
+ *     <li>Stimmungsdaten erfassen</li>
+ *     <li>Stimmungsverlauf als Textgraph anzeigen</li>
+ *     <li>Alle bisherigen Einträge textuell ausgeben</li>
+ * </ul>
  */
 public class Stimmungskalender {
 
+    /** Zentrale Verwaltung des Stimmungskalenders */
     private final StimmungskalenderVerwaltung verwaltung;
 
     /**
-     * Konstruktor – initialisiert die Stimmungskalenderverwaltung mit einem neuen Speicher.
+     * Konstruktor – initialisiert die Verwaltung mit einem konkreten Speicher.
      */
     public Stimmungskalender() {
         this.verwaltung = new StimmungskalenderVerwaltung(new StimmungskalenderSpeicher());
     }
 
     /**
-     * Zeigt das Stimmungskalendermenü an und verarbeitet Benutzereingaben.
+     * Zeigt das Stimmungskalender-Menü und verarbeitet Benutzereingaben.
+     * Das Menü läuft in einer Schleife, bis der Benutzer „Zurück zum Hauptmenü“ auswählt.
      *
-     * @param scanner Scanner-Objekt für Benutzereingaben
+     * @param scanner Scanner zur Eingabe
      */
     void showMenu(Scanner scanner) {
         while (true) {
-            System.out.println("\nHier kannst du deinen Stimmungskalender verwalten: \n");
-            System.out.println("Wähle bitte aus, was du tun möchtest:");
-            System.out.println("1 - Daten eintragen");
-            System.out.println("2 - Stimmungsverlauf als Graph ausgeben");
-            System.out.println("3 - Alle Einträge anzeigen");
-            System.out.println("4 - Zurück zum Hauptmenü");
-            System.out.print("Deine Wahl: ");
+            System.out.println("\n😊 Stimmungskalender – Deine emotionale Reise im Blick");
+            System.out.println("────────────────────────────────────────────────────");
+            System.out.println(" 1 - 📝 Daten eintragen – dokumentiere deine Tagesstimmung & Emotionen");
+            System.out.println(" 2 - 📈 Stimmungsverlauf als Graph anzeigen – erkenne deine Entwicklungen");
+            System.out.println(" 3 - 📖 Alle Einträge anzeigen – dein emotionales Protokoll");
+            System.out.println(" 4 - 🔙 Zurück zum Hauptmenü");
+            System.out.println("────────────────────────────────────────────────────");
+            System.out.print("👉 Deine Wahl: ");
 
             int benutzerAuswahl;
             try {
@@ -44,15 +53,31 @@ public class Stimmungskalender {
             }
 
             switch (benutzerAuswahl) {
-                case 1 -> {
-                    // Neuen Stimmungseintrag hinzufügen und Emotionen erfassen
+                case 1: {
+                    // Neue Stimmung und Emotionen erfassen
                     verwaltung.eintragHinzufuegen(scanner);
                     verwaltung.emotionenErfassen(scanner);
+                    break;
                 }
-                case 2 -> verwaltung.eintraegeAlsGraphAnzeigen(); // Stimmungsverlauf als Graph anzeigen
-                case 3 -> verwaltung.eintraegeTextuellAnzeigen(); // Alle Einträge textuell anzeigen
-                case 4 -> { return; } // Zurück zum Hauptmenü
-                default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                case 2: {
+                    // Stimmungskurve als Textgraph anzeigen
+                    verwaltung.eintraegeAlsGraphAnzeigen();
+                    break;
+                }
+                case 3: {
+                    // Alle Einträge in Textform ausgeben
+                    verwaltung.eintraegeTextuellAnzeigen();
+                    break;
+                }
+                case 4: {
+                    // Zurück zum Hauptmenü
+                    return;
+                }
+                default: {
+                    // Fehlerbehandlung bei ungültiger Eingabe
+                    System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                    break;
+                }
             }
         }
     }

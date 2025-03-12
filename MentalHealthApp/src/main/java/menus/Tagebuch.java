@@ -10,6 +10,8 @@ import java.util.Scanner;
  * Benutzer können Einträge schreiben, lesen, bearbeiten und löschen.
  */
 public class Tagebuch {
+
+    /** Verwaltungsklasse für alle Tagebuchfunktionen */
     private final TagebuchVerwaltung tagebuchVerwaltung;
 
     /**
@@ -26,24 +28,56 @@ public class Tagebuch {
      */
     public void showMenu(Scanner scanner) {
         while (true) {
-            System.out.println("\nHier kannst du dein Tagebuch verwalten:");
-            System.out.println("1 - Eintrag schreiben");
-            System.out.println("2 - Eintrag lesen");
-            System.out.println("3 - Eintrag bearbeiten");
-            System.out.println("4 - Eintrag löschen");
-            System.out.println("5 - Zurück zum Hauptmenü");
-            System.out.print("Deine Wahl: ");
+            System.out.println("\n📔 Tagebuch – Gedanken festhalten & reflektieren");
+            System.out.println("───────────────────────────────────────────────");
+            System.out.println(" 1 - ✍️  Eintrag schreiben – was möchtest du loswerden?");
+            System.out.println(" 2 - 📖 Eintrag lesen – blättere durch deine Gedankenwelt");
+            System.out.println(" 3 - ✏️  Eintrag bearbeiten – passe deine Worte nachträglich an");
+            System.out.println(" 4 - 🗑️  Eintrag löschen – was du loslassen möchtest");
+            System.out.println(" 5 - 🔙 Zurück zum Hauptmenü");
+            System.out.println("───────────────────────────────────────────────");
+            System.out.print("👉 Deine Wahl: ");
+
 
             int auswahl = scanner.nextInt();
             scanner.nextLine();
 
             switch (auswahl) {
-                case 1 -> tagebuchVerwaltung.eintragSchreiben(scanner); // Neuer Tagebucheintrag schreiben
-                case 2 -> tagebuchVerwaltung.eintragLesen(scanner); // Eintrag lesen
-                case 3 -> tagebuchVerwaltung.eintragBearbeiten(scanner); // Eintrag bearbeiten
-                case 4 -> tagebuchVerwaltung.eintragLoeschen(scanner); // Eintrag löschen
-                case 5 -> { return; } // Zurück zum Hauptmenü
-                default -> System.out.println("Ungültige Auswahl.");
+                case 1:
+                {
+                    // Neuer Tagebucheintrag wird geschrieben
+                    tagebuchVerwaltung.eintragSchreiben(scanner);
+                    break;
+                }
+                case 2:
+                {
+                    // Bestehenden Eintrag anzeigen
+                    tagebuchVerwaltung.eintragLesen(scanner);
+                    break;
+                }
+                case 3:
+                {
+                    // Eintrag bearbeiten
+                    tagebuchVerwaltung.eintragBearbeiten(scanner);
+                    break;
+                }
+                case 4:
+                {
+                    // Eintrag löschen
+                    tagebuchVerwaltung.eintragLoeschen(scanner);
+                    break;
+                }
+                case 5:
+                {
+                    // Zurück zum Hauptmenü
+                    return;
+                }
+                default:
+                {
+                    // Ungültige Auswahlbehandlung
+                    System.out.println("Ungültige Auswahl.");
+                    break;
+                }
             }
         }
     }

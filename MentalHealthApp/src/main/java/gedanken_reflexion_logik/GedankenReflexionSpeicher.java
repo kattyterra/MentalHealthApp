@@ -8,9 +8,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Konkrete Implementierung des {@link GedankenReflexionRepository}.
+ *
+ * Diese Klasse verwaltet das Speichern und Auslesen von Gedankenreflexionseinträgen
+ * im Dateisystem. Jeder Eintrag wird in einer Textdatei abgelegt,
+ * gruppiert nach dem jeweiligen Tagesdatum.
+ */
 public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
+
+    /** Ordnerpfad für alle Reflexionsdateien */
     private final String ordner = "Reflexionen/";
 
+    /**
+     * Konstruktor – prüft, ob der Speicherordner vorhanden ist,
+     * und erstellt ihn bei Bedarf.
+     */
     public GedankenReflexionSpeicher() {
         File dir = new File(ordner);
         if (!dir.exists()) {
@@ -21,6 +34,13 @@ public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
         }
     }
 
+    /**
+     * Speichert einen neuen Gedankenreflexionseintrag in einer Tagesdatei.
+     * Falls bereits eine Datei für das heutige Datum existiert,
+     * wird der Eintrag dort angehängt.
+     *
+     * @param eintrag Der zu speichernde GedankenReflexionEintrag
+     */
     @Override
     public void speichern(GedankenReflexionEintrag eintrag) {
         String pfad = ordner + LocalDate.now() + ".txt";
@@ -31,10 +51,18 @@ public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
         }
     }
 
+    /**
+     * Liest alle vorhandenen Gedankenreflexionseinträge aus dem Speicherordner.
+     * Die Einträge werden nach Datum sortiert zurückgegeben und können direkt
+     * für die Anzeige genutzt werden.
+     *
+     * @return Liste aller gespeicherten Einträge als Textzeilen
+     */
     @Override
     public List<String> lesenAlle() {
         List<String> zeilen = new ArrayList<>();
         File[] dateien = new File(ordner).listFiles((d, name) -> name.endsWith(".txt"));
+
         if (dateien != null) {
             Arrays.sort(dateien);
             for (File f : dateien) {
@@ -46,6 +74,7 @@ public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
                 }
             }
         }
+
         return zeilen;
     }
 }
