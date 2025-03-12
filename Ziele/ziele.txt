@@ -1,0 +1,7 @@
+GESUNDHEIT
+test
+1
+false
+2025-09-09
+KEINE
+notiz
