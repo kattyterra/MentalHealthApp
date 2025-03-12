@@ -45,19 +45,23 @@ public class GedankenReflexionMenu {
 
             switch (input) {
                 case "1":
+                {
                     verwaltung.neuerEintrag(scanner);
                     break;
-
+                }
                 case "2":
+                {
                     verwaltung.alleEintraegeAnzeigen();
                     break;
-
+                }
                 case "0":
+                {
                     return;
-
-                default:
+                }
+                default:{
                     System.out.println("Ungültige Eingabe.");
                     break;
+                }
             }
         }
     }
