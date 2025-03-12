@@ -1,10 +1,10 @@
 package menus;
 
+import fortschrittsbericht_logik.FortschrittsberichtService;
 import routinen_logik.RoutineException;
 import uebungen.TextdateiUebungRepository;
 import uebungen.*;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -35,7 +35,9 @@ public class Main {
             System.out.println("4 - Atemübungen");
             System.out.println("5 - Achtsamkeitsübungen");
             System.out.println("6 - Deine kleine Inspirationsecke");
-            System.out.println("7 - Programm beenden");
+            System.out.println("7 - Gedankenkarussell stoppen (Selbstreflexion)");
+            System.out.println("8 - Persönlicher Fortschrittsbericht / Monatsrückblick anzeigen");
+            System.out.println("9 - Programm beenden");
             System.out.print("Deine Wahl: ");
 
             int choice;
@@ -47,42 +49,72 @@ public class Main {
             }
 
             switch (choice) {
-                case 1 -> {
+                case 1:
+                {
                     Tagebuch tagebuch = new Tagebuch();
                     tagebuch.showMenu(scanner);
+                    break;
                 }
-                case 2 -> {
+                case 2:
+                {
                     Stimmungskalender stimmungskalender = new Stimmungskalender();
                     stimmungskalender.showMenu(scanner);
+                    break;
                 }
-                case 3 -> {
+                case 3:
+                    {
                     try {
                         RoutinenMenu routine = new RoutinenMenu();
                         routine.showMenu(scanner);
                     } catch (RoutineException e) {
                         System.out.println("⚠ Fehler beim Öffnen der Routinenverwaltung: " + e.getMessage());
                     };
+                        break;
                 }
-                case 4 -> {
+                case 4:
+                {
                     // Atemübungen laden und anzeigen
                     UebungService service = new UebungService(new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Atemuebungen.txt"));
                     new UebungMenu(service.getAlleUebungen(), "🫁 Deine Atemübungen: ").showMenu(scanner);
+                    break;
                 }
-                case 5 -> {
+                case 5:
+                {
                     // Achtsamkeitsübungen laden und anzeigen
                     UebungService service = new UebungService(new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt"));
                     new UebungMenu(service.getAlleUebungen(), "🧘 Deine Achtsamkeitsübungen: ").showMenu(scanner);
+                    break;
                 }
-                case 6 -> {
+                case 6:
+                {
                     // Inspirationssätze anzeigen
                     Inspirationssaetze inspirationssaetze = new Inspirationssaetze();
                     inspirationssaetze.showMenu(scanner);
+                    break;
                 }
-                case 7 -> {
+                case 7:
+                {
+                    GedankenReflexionMenu gedankenReflexionMenu = new GedankenReflexionMenu();
+                    gedankenReflexionMenu.showMenu(scanner);
+                    break;
+                }
+                case 8:
+                {
+                    FortschrittsberichtService fortschrittsberichtService = new FortschrittsberichtService();
+                    fortschrittsberichtService.monatsberichtAnzeigen();
+                    break;
+                }
+                case 9:
+                {
                     System.out.println("Programm wird beendet...");
                     running = false;
+                    break;
                 }
-                default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                default:
+                {
+                    System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                    break;
+                }
             }
         }
 
