@@ -20,13 +20,13 @@ public class ZielStatistikService {
                 .filter(Ziel::isErledigt)
                 .count();
 
-        System.out.println("✅ Erledigte Ziele: " + erledigt + " von " + ziele.size());
+        System.out.println("\n✅ Erledigte Ziele: " + erledigt + " von " + ziele.size());
 
         Map<ZielKategorie, Long> proKategorie = ziele.stream()
                 .filter(Ziel::isErledigt)
                 .collect(Collectors.groupingBy(Ziel::getKategorie, Collectors.counting()));
 
-        System.out.println("📊 Zielerreichung nach Kategorien:");
+        System.out.println("\n📊 Zielerreichung nach Kategorien:");
         for (Map.Entry<ZielKategorie, Long> entry : proKategorie.entrySet()) {
             System.out.println(" - " + entry.getKey().name() + ": " + entry.getValue() + " erledigt");
         }
