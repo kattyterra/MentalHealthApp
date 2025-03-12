@@ -134,7 +134,9 @@ public class StimmungskalenderVerwaltung {
         }
 
         // Emotionen mit Kategorien anzeigen
-        System.out.println("\nVerfügbare Emotionen:");
+        System.out.println("\n💬 Verfügbare Emotionen – was fühlst du gerade?");
+        System.out.println("──────────────────────────────────────────────");
+
         List<String> emotionenNamen = new ArrayList<>();
         int auswahlNummer = 1;
 

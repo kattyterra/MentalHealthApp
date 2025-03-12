@@ -3,7 +3,17 @@ package fortschrittsbericht_logik;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Diese Klasse erzeugt einen persönlichen Fortschrittsbericht (Monatsrückblick)
+ * auf Grundlage der gespeicherten Daten in den Modulen Stimmung, Tagebuch,
+ * Routinen, Emotionen und Gedankenreflexion.
+ */
 public class FortschrittsberichtService {
+
+    /**
+     * Hauptmethode zur Anzeige des Monatsberichts mit allen Teilstatistiken.
+     * Ruft die einzelnen Auswertungsmethoden auf.
+     */
     public void monatsberichtAnzeigen() {
         String monat = java.time.LocalDate.now().getMonth().toString();
         System.out.println("\n📊 Persönlicher Monatsrückblick – " + monat);
@@ -16,10 +26,15 @@ public class FortschrittsberichtService {
         zeigeGedankenReflexionEintraege();
     }
 
+    /**
+     * Ermittelt den Durchschnitt aller Stimmungseinträge.
+     * Grundlage sind alle Textdateien im Verzeichnis "Stimmungskalender".
+     */
     private void zeigeStimmungsauswertung() {
         File ordner = new File("Stimmungskalender");
         File[] dateien = ordner.listFiles((d, name) -> name.endsWith(".txt"));
         int summe = 0, count = 0;
+
         if (dateien != null) {
             for (File f : dateien) {
                 try (BufferedReader r = new BufferedReader(new FileReader(f))) {
@@ -34,10 +49,15 @@ public class FortschrittsberichtService {
                 } catch (Exception ignored) {}
             }
         }
+
         double avg = (count > 0) ? (double) summe / count : 0.0;
         System.out.printf("• Stimmung Ø: %.1f (%d Einträge)\n", avg, count);
     }
 
+    /**
+     * Zählt die Anzahl vorhandener Tagebuchdateien.
+     * Grundlage sind alle Textdateien im Verzeichnis "Tagebuch".
+     */
     private void zeigeTagebuchEintraege() {
         File ordner = new File("Tagebuch");
         String[] files = ordner.list((d, n) -> n.endsWith(".txt"));
@@ -45,10 +65,15 @@ public class FortschrittsberichtService {
         System.out.println("• Einträge im Tagebuch: " + anzahl);
     }
 
+    /**
+     * Analysiert die Routineerfüllung über alle Routinen-Tagesdateien hinweg.
+     * Grundlage ist jede 3. Zeile der Tagesdateien, welche den Erledigungsstatus enthält.
+     */
     private void zeigeRoutineStatistik() {
         File ordner = new File("Routinen");
         File[] files = ordner.listFiles((d, n) -> n.endsWith(".txt") && !n.equals("stammliste.txt"));
         int gesamt = 0, erledigt = 0;
+
         if (files != null) {
             for (File f : files) {
                 try (BufferedReader r = new BufferedReader(new FileReader(f))) {
@@ -56,7 +81,8 @@ public class FortschrittsberichtService {
                     int zeilenzähler = 0;
                     while ((zeile = r.readLine()) != null) {
                         zeilenzähler++;
-                        if (zeilenzähler % 3 == 0) { // jede 3. Zeile = erledigt-Status
+                        // Jede 3. Zeile in Routine-Dateien = Status true/false
+                        if (zeilenzähler % 3 == 0) {
                             if (Boolean.parseBoolean(zeile.trim())) erledigt++;
                             gesamt++;
                         }
@@ -64,10 +90,15 @@ public class FortschrittsberichtService {
                 } catch (IOException ignored) {}
             }
         }
+
         double prozent = (gesamt > 0) ? (100.0 * erledigt / gesamt) : 0;
         System.out.printf("• Routinen erfüllt: %.1f%% (%d von %d)\n", prozent, erledigt, gesamt);
     }
 
+    /**
+     * Analysiert alle Emotionseinträge aus den Stimmungskalender-Dateien.
+     * Pro Emotion werden Ø-Intensität und Häufigkeit berechnet.
+     */
     private void zeigeEmotionenStatistik() {
         File ordner = new File("Stimmungskalender");
         File[] dateien = ordner.listFiles((d, name) -> name.endsWith(".txt"));
@@ -79,6 +110,7 @@ public class FortschrittsberichtService {
                     String zeile;
                     while ((zeile = reader.readLine()) != null) {
                         if (zeile.startsWith("- Emotion:")) {
+                            // Zeilenformat: "- Emotion: Name | Intensität: Zahl"
                             String[] teile = zeile.split("\\|");
                             if (teile.length >= 2) {
                                 String name = teile[0].split(":")[1].trim();
@@ -101,6 +133,10 @@ public class FortschrittsberichtService {
         }
     }
 
+    /**
+     * Zählt die Anzahl an gespeicherten Gedankenreflexionseinträgen
+     * (aus dem Modul „Gedankenkarussell stoppen“).
+     */
     private void zeigeGedankenReflexionEintraege() {
         File ordner = new File("Reflexionen");
         File[] files = ordner.listFiles((d, n) -> n.endsWith(".txt"));

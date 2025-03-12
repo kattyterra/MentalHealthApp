@@ -27,16 +27,30 @@ public class Inspirationssaetze {
      */
     public void showMenu(Scanner scanner) {
         while (true) {
-            System.out.println("\nWähle, was du tun möchtest:");
-            System.out.println("1 - Zufälligen Satz anzeigen");
-            System.out.println("2 - Zurück zum Hauptmenü");
-            System.out.print("Deine Wahl: ");
+            System.out.println("\n💡 Inspirationsecke – kleine Impulse für deinen Tag");
+            System.out.println("────────────────────────────────────────────");
+            System.out.println(" 1 - ✨ Zufälligen Satz anzeigen – ein Gedanke, der dich stärkt");
+            System.out.println(" 2 - 🔙 Zurück zum Hauptmenü");
+            System.out.println("────────────────────────────────────────────");
+            System.out.print("👉 Deine Wahl: ");
+
 
             int auswahl = Integer.parseInt(scanner.nextLine());
             switch (auswahl) {
-                case 1 -> zeigeSaetze(scanner);
-                case 2 -> { return; }
-                default -> System.out.println("Ungültige Eingabe.");
+                case 1:
+                {
+                    zeigeSaetze(scanner);
+                    break;
+                }
+                case 2:
+                {
+                    return;
+                }
+                default:
+                {
+                    System.out.println("Ungültige Eingabe.");
+                    break;
+                }
             }
         }
     }

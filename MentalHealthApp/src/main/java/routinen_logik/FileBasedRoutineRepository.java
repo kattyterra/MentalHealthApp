@@ -4,12 +4,38 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Konkrete Implementierung des {@link RoutineRepository} zur Verwaltung von Routinen über Textdateien.
+ * Die Routinen werden in zwei Dateien gespeichert:
+ * <ul>
+ *     <li>stammliste.txt – langfristige Stammliste aller Routinen</li>
+ *     <li>yyyy-MM-dd.txt – Tagesdatei mit aktuellem Erfüllungsstatus</li>
+ * </ul>
+ * Diese Klasse sorgt für das Laden, Speichern, Hinzufügen, Bearbeiten und Löschen der Routinen.
+ */
 public class FileBasedRoutineRepository implements RoutineRepository {
+
+    /** Verzeichnis für Routinen-Dateien */
     private final String ordner = "Routinen";
+
+    /** Stammliste-Datei mit Basisinformationen zu allen Routinen */
     private final String stammliste = ordner + "/stammliste.txt";
+
+    /** Tagesdatei für den heutigen Tag (Datum-basiert) */
     private final String tagesdatei;
+
+    /** Interner Zwischenspeicher der geladenen Routinen */
     private final List<Routine> routinen = new ArrayList<>();
 
+    /**
+     * Konstruktor – initialisiert das Repository:
+     * <ul>
+     *     <li>legt Speicherverzeichnis und Dateien an (falls nicht vorhanden)</li>
+     *     <li>lädt entweder Tagesdatei oder Stammliste</li>
+     * </ul>
+     *
+     * @throws RoutineException bei Fehlern während der Initialisierung
+     */
     public FileBasedRoutineRepository() throws RoutineException {
         try {
             File dir = new File(ordner);
@@ -19,6 +45,7 @@ public class FileBasedRoutineRepository implements RoutineRepository {
                     System.err.println("Ordner '" + ordner + "' konnte nicht erstellt werden!");
                 }
             }
+
             File stamm = new File(stammliste);
             if (!stamm.exists()) {
                 if (stamm.createNewFile()) {
@@ -27,18 +54,27 @@ public class FileBasedRoutineRepository implements RoutineRepository {
                     System.out.println("⚠ Stammliste konnte nicht erstellt werden.");
                 }
             }
+
             String datum = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             tagesdatei = ordner + "/" + datum + ".txt";
-            if (new File(tagesdatei).exists()) ladeTagesdatei();
-            else {
+
+            if (new File(tagesdatei).exists()) {
+                ladeTagesdatei();
+            } else {
                 ladeStammliste();
                 speichern();
             }
+
         } catch (IOException e) {
             throw new RoutineException("Fehler bei Initialisierung: " + e.getMessage());
         }
     }
 
+    /**
+     * Lädt alle Routinen aus der Stammliste (ohne Erledigt-Status).
+     *
+     * @throws RoutineException bei Ladefehlern
+     */
     private void ladeStammliste() throws RoutineException {
         routinen.clear();
         try (BufferedReader r = new BufferedReader(new FileReader(stammliste))) {
@@ -53,7 +89,11 @@ public class FileBasedRoutineRepository implements RoutineRepository {
         }
     }
 
-
+    /**
+     * Lädt alle Routinen aus der Tagesdatei inklusive Erledigt-Status.
+     *
+     * @throws RoutineException bei Ladefehlern
+     */
     private void ladeTagesdatei() throws RoutineException {
         routinen.clear();
         try (BufferedReader r = new BufferedReader(new FileReader(tagesdatei))) {
@@ -71,11 +111,22 @@ public class FileBasedRoutineRepository implements RoutineRepository {
         }
     }
 
+    /**
+     * Gibt die aktuell verwalteten Routinen zurück.
+     *
+     * @return Liste der Routinen
+     */
     @Override
     public List<Routine> getRoutinen() {
         return routinen;
     }
 
+    /**
+     * Fügt eine neue Routine hinzu und speichert sie sowohl in der Tagesdatei als auch in der Stammliste.
+     *
+     * @param routine die neue Routine
+     * @throws RoutineException bei Speicherfehlern
+     */
     @Override
     public void hinzufuegen(Routine routine) throws RoutineException {
         routinen.add(routine);
@@ -90,6 +141,14 @@ public class FileBasedRoutineRepository implements RoutineRepository {
         }
     }
 
+    /**
+     * Bearbeitet eine bestehende Routine anhand ihres Indexes.
+     *
+     * @param index Index der zu bearbeitenden Routine
+     * @param neueArt neue Routinenart
+     * @param neueBeschreibung neue Beschreibung
+     * @throws RoutineException bei ungültigem Index oder Speicherfehler
+     */
     @Override
     public void bearbeiten(int index, RoutinenArt neueArt, String neueBeschreibung) throws RoutineException {
         if (index < 0 || index >= routinen.size()) throw new RoutineException("Ungültiger Index.");
@@ -99,6 +158,12 @@ public class FileBasedRoutineRepository implements RoutineRepository {
         speichern();
     }
 
+    /**
+     * Löscht eine Routine anhand ihres Indexes.
+     *
+     * @param index Index der zu löschenden Routine
+     * @throws RoutineException bei ungültigem Index oder Speicherfehler
+     */
     @Override
     public void loeschen(int index) throws RoutineException {
         if (index < 0 || index >= routinen.size()) throw new RoutineException("Ungültiger Index.");
@@ -106,6 +171,11 @@ public class FileBasedRoutineRepository implements RoutineRepository {
         speichern();
     }
 
+    /**
+     * Speichert den aktuellen Zustand aller Routinen in der Tagesdatei.
+     *
+     * @throws RoutineException bei Schreibfehlern
+     */
     @Override
     public void speichern() throws RoutineException {
         try (BufferedWriter w = new BufferedWriter(new FileWriter(tagesdatei))) {
