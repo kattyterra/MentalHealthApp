@@ -1,5 +1,7 @@
 package fortschrittsbericht_logik;
 
+import zielverwaltung_logik.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -24,6 +26,7 @@ public class FortschrittsberichtService {
         zeigeRoutineStatistik();
         zeigeEmotionenStatistik();
         zeigeGedankenReflexionEintraege();
+        zeigeZielauswertung();
     }
 
     /**
@@ -142,5 +145,21 @@ public class FortschrittsberichtService {
         File[] files = ordner.listFiles((d, n) -> n.endsWith(".txt"));
         int anzahl = (files != null) ? files.length : 0;
         System.out.println("• Gedankenreflexionen (Einträge): " + anzahl);
+    }
+
+    private void zeigeZielauswertung() {
+        ZielRepository zielRepo = new DateibasierterZielRepository();
+        List<Ziel> ziele = zielRepo.laden();
+        long erledigt = ziele.stream().filter(Ziel::isErledigt).count();
+
+        System.out.println("• Ziele insgesamt: " + ziele.size());
+        System.out.println("• Davon erledigt: " + erledigt);
+        if (ziele.size() > 0) {
+            double prozent = (100.0 * erledigt / ziele.size());
+            System.out.printf("• Zielerreichungsquote: %.1f%%\n", prozent);
+        }
+
+        System.out.println("• Offene Ziele als Motivation:");
+        ziele.stream().filter(z -> !z.isErledigt()).forEach(z -> System.out.println("  - " + z.getBeschreibung()));
     }
 }

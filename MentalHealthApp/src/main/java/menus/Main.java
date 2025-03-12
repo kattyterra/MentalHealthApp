@@ -5,6 +5,7 @@ import routinen_logik.RoutineException;
 import uebungen.TextdateiUebungRepository;
 import uebungen.*;
 import gedanken_reflexion_logik.*;
+import zielverwaltung_logik.ZielService;
 
 import java.util.Scanner;
 
@@ -42,7 +43,8 @@ public class Main {
             System.out.println(" 6 - 💡  Inspirationsecke – kleine Impulse für deinen Tag");
             System.out.println(" 7 - 🧠  Gedankenkarussell stoppen – klare Gedanken finden");
             System.out.println(" 8 - 📊  Monatsrückblick – dein Fortschritt im Überblick");
-            System.out.println(" 9 - ❌  Programm beenden");
+            System.out.println(" 9 - ✨ Ziele setzen & Fortschritte feiern");
+            System.out.println(" 10 - ❌  Programm beenden");
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
@@ -110,7 +112,12 @@ public class Main {
                     fortschrittsberichtService.monatsberichtAnzeigen();
                     break;
                 }
-                case 9: {
+                case 9:{
+                    ZielMenu zielMenu = new ZielMenu();
+                    zielMenu.showMenu(scanner);
+                    break;
+                }
+                case 10: {
                     // Programm beenden
                     System.out.println("Programm wird beendet...");
                     running = false;
