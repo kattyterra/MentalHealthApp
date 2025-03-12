@@ -79,14 +79,21 @@ public class Ziel {
 
     @Override
     public String toString() {
-        String status = erledigt ? "[✓]" : "[ ]";
+        String status = erledigt ? "✅ Erledigt" : "⏳ Offen";
         String prioText = switch (prioritaet) {
-            case 1 -> "hoch";
-            case 2 -> "mittel";
-            case 3 -> "niedrig";
-            default -> "unbekannt";
+            case 1 -> "❗ Hoch";
+            case 2 -> "⚠\uFE0F Mittel";
+            case 3 -> "❇\uFE0F Niedrig";
+            default -> "❔ Unbekannt";
         };
-        return status + " [" + kategorie + "] (Prio: " + prioText + ", bis: " + faelligkeit + ", " + wiederholung + ") – " + beschreibung;
+        String notizText = motivationsnotiz.isBlank() ? "" : "\n💬 Notiz: " + motivationsnotiz;
+
+        return "\n📌 Ziel: " + beschreibung +
+                "\n   Status: " + status +
+                "\n   Kategorie: " + kategorie +
+                "\n   Priorität: " + prioText +
+                "\n   Fällig bis: " + faelligkeit +
+                "\n   Wiederholung: " + wiederholung + notizText;
     }
 }
 
