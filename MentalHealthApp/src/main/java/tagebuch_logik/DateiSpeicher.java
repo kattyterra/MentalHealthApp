@@ -1,214 +1,182 @@
+
 package tagebuch_logik;
 
+import utility.DateiSchreibHelfer;
+import utility.DateiLeseHelfer;
+import utility.VerzeichnisHelfer;
+
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Diese Klasse implementiert das Interface TagebuchRepository.
- * Sie übernimmt das Speichern, Lesen, Bearbeiten und Löschen von Tagebucheinträgen
- * auf Dateiebene – eine Datei pro Tag (nach Datum benannt).
+ * Diese Klasse implementiert das {@link TagebuchRepository} und verwaltet das
+ * Speichern, Lesen, Bearbeiten und Löschen von Tagebucheinträgen im Dateisystem.
+ *
+ * Pro Tag wird eine separate Datei im Verzeichnis „Tagebuch/“ angelegt.
+ * Für Dateioperationen werden die Hilfsklassen {@link DateiSchreibHelfer},
+ * {@link DateiLeseHelfer} und {@link VerzeichnisHelfer} verwendet.
  */
+
 public class DateiSpeicher implements TagebuchRepository {
     private final String ordner = "Tagebuch/";
+    private final DateiSchreibHelfer schreibHelfer;
+    private final DateiLeseHelfer leseHelfer;
 
     /**
-     * Konstruktor: Erstellt den Ordner "Tagebuch", wenn er noch nicht existiert.
+     * Konstruktor – stellt sicher, dass der Tagebuchordner existiert,
+     * und initialisiert die Datei-Helferklassen.
      */
     public DateiSpeicher() {
-        File dir = new File(ordner);
-        if (!dir.exists()) {
-            boolean success = dir.mkdirs();
-            if (!success) {
-                System.err.println("Ordner '" + ordner + "' konnte nicht erstellt werden!");
-            }
-        }
+        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
+        verzeichnisHelfer.sicherstellen(ordner);
+        this.schreibHelfer = new DateiSchreibHelfer();
+        this.leseHelfer = new DateiLeseHelfer();
     }
 
     /**
-     * Speichert einen TagebuchEintrag in die Tagesdatei.
-     * Wird die Datei bereits genutzt, wird ein Zeilenumbruch vorangestellt.
+     * Hilfsmethode zur Bildung des vollständigen Dateipfads für einen gegebenen Tag
+     */
+    private Path getPfad(String datum) {
+        return Paths.get(ordner + datum + ".txt");
+    }
+
+    /**
+     * Speichert einen Tagebucheintrag in der entsprechenden Tagesdatei.
+     * Falls bereits Einträge vorhanden sind, wird der neue Eintrag mit einer Leerzeile abgetrennt.
      *
-     * @param eintrag der zu speichernde Tagebucheintrag
+     * @param eintrag der zu speichernde {@link TagebuchEintrag}
      */
     @Override
     public void speichern(TagebuchEintrag eintrag) {
-        String pfad = ordner + eintrag.datum() + ".txt";
-        File file = new File(pfad);
-        try (FileWriter writer = new FileWriter(file, true)) {
-            if (file.exists() && file.length() > 0) {
-                writer.write(System.lineSeparator());
-            }
-            writer.write(eintrag.formatForFile());
-            writer.write(System.lineSeparator());
-            System.out.println("Eintrag gespeichert: " + pfad);
-        } catch (IOException e) {
-            System.err.println("Fehler beim Speichern: " + e.getMessage());
-        }
+        Path pfad = getPfad(eintrag.datum());
+        schreibHelfer.anhaengenMitLeerzeileWennNoetig(pfad.toString(), eintrag.formatForFile());
+        System.out.println("Eintrag gespeichert: " + pfad);
     }
 
     /**
-     * Löscht die komplette Datei für ein bestimmtes Datum (ganzer Eintrag).
+     * Löscht die komplette Tagesdatei eines gegebenen Datums (inkl. aller Einträge darin).
      *
-     * @param datum das Datum des Eintrags, der gelöscht werden soll
+     * @param datum das Datum der zu löschenden Datei (Format: yyyy-MM-dd)
      */
     @Override
     public void loeschen(String datum) {
-        String pfad = ordner + datum + ".txt";
         try {
-            Files.delete(Paths.get(pfad));
-            System.out.println("Datei gelöscht: " + pfad);
+            Files.deleteIfExists(getPfad(datum));
+            System.out.println("Datei gelöscht: " + getPfad(datum));
         } catch (IOException e) {
             System.err.println("Fehler beim Löschen: " + e.getMessage());
         }
     }
 
     /**
-     * Löscht einen bestimmten Eintrag innerhalb der Tagesdatei (nach Uhrzeit).
-     * Wird der letzte Eintrag gelöscht, wird ggf. auch die Datei entfernt.
+     * Löscht einen bestimmten Eintrag innerhalb einer Tagesdatei basierend auf der Uhrzeit.
+     * Wenn dies der letzte Eintrag ist, wird die Datei ggf. komplett entfernt.
      *
      * @param datum das Datum der Datei
      * @param uhrzeit die Uhrzeit des zu löschenden Eintrags
      */
     @Override
     public void loeschenEintrag(String datum, String uhrzeit) {
-        String pfad = ordner + datum + ".txt";
-        Path path = Paths.get(pfad);
+        Path path = getPfad(datum);
         if (!Files.exists(path)) return;
 
         try {
             List<String> lines = Files.readAllLines(path);
-            List<String> updatedLines = baueAktualisierteZeilen(lines, uhrzeit);
+            List<String> updated = new ArrayList<>();
+            boolean loesche = false;
 
-            if (updatedLines.isEmpty()) {
+            for (String line : lines) {
+                if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
+                    loesche = true;
+                    continue;
+                }
+                if (loesche && !line.startsWith("Eingetragen um ")) {
+                    continue;
+                }
+                loesche = false;
+                updated.add(line);
+            }
+
+            if (updated.isEmpty()) {
                 Files.delete(path);
             } else {
-                Files.write(path, updatedLines);
+                Files.write(path, updated);
             }
+
         } catch (IOException e) {
             System.err.println("Fehler beim Löschen des Eintrags: " + e.getMessage());
         }
     }
 
     /**
-     * Liest alle Einträge eines bestimmten Tages aus der Datei.
+     * Liest den gesamten Inhalt einer Tagesdatei als zusammenhängenden Textblock.
      *
-     * @param datum das gewünschte Datum im Format yyyy-MM-dd
-     * @return alle Einträge als zusammenhängender Textblock
+     * @param datum das gewünschte Datum (Format: yyyy-MM-dd)
+     * @return der Textinhalt oder eine Fehlermeldung
      */
     @Override
     public String lesen(String datum) {
-        String pfad = ordner + datum + ".txt";
-        Path path = Paths.get(pfad);
-        if (!Files.exists(path)) {
-            return "Kein Eintrag für dieses Datum gefunden.";
-        }
-
-        try {
-            List<String> lines = Files.readAllLines(path);
-            return String.join("\n", lines);
-        } catch (IOException e) {
-            return "Fehler beim Lesen des Eintrags: " + e.getMessage();
-        }
+        return leseHelfer.leseTextblock(getPfad(datum).toString());
     }
 
     /**
-     * Gibt eine Liste aller vorhandenen Eintragsdaten (Dateinamen ohne .txt).
+     * Gibt eine Liste aller verfügbaren Tagebuchdaten (Dateinamen ohne ".txt"-Endung) zurück.
      *
-     * @return Liste der verfügbaren Tagebucheinträge (Datumsangaben)
+     * @return Liste von Datums-Strings aller vorhandenen Tagebucheinträge
      */
     @Override
     public List<String> getVerfuegbareEintraege() {
         File verzeichnis = new File(ordner);
         File[] dateien = verzeichnis.listFiles((dir, name) -> name.endsWith(".txt"));
+        List<String> eintraege = new ArrayList<>();
 
-        List<String> verfuegbareEintraege = new ArrayList<>();
         if (dateien != null) {
             for (File datei : dateien) {
-                verfuegbareEintraege.add(datei.getName().replace(".txt", ""));
+                eintraege.add(datei.getName().replace(".txt", ""));
             }
         }
-        return verfuegbareEintraege;
+        return eintraege;
     }
 
     /**
-     * Bearbeitet einen bestimmten Eintrag (Text ersetzen) anhand der Uhrzeit.
+     * Ersetzt den Text eines bestimmten Eintrags in einer Tagesdatei anhand der Uhrzeit.
      *
-     * @param datum Datum der Datei
-     * @param uhrzeit Uhrzeit des Eintrags, der ersetzt werden soll
-     * @param neuerText neuer Textinhalt für den Eintrag
+     * @param datum das Datum der Datei
+     * @param uhrzeit die Uhrzeit des Eintrags, der ersetzt werden soll
+     * @param neuerText der neue Textinhalt
      * @return true, wenn der Eintrag erfolgreich bearbeitet wurde
      */
     @Override
     public boolean bearbeiten(String datum, String uhrzeit, String neuerText) {
-        String pfad = ordner + datum + ".txt";
-        Path path = Paths.get(pfad);
+        Path path = getPfad(datum);
         if (!Files.exists(path)) return false;
 
         try {
             List<String> lines = Files.readAllLines(path);
-            List<String> updatedLines = aktualisierteZeilenFuerBearbeiten(lines, uhrzeit, neuerText);
+            List<String> updated = new ArrayList<>();
+            boolean ersetzen = false;
 
-            Files.write(path, updatedLines);
+            for (String line : lines) {
+                if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
+                    ersetzen = true;
+                    updated.add(line);
+                    continue;
+                }
+                if (ersetzen && !line.startsWith("Eingetragen um ")) {
+                    updated.add(neuerText);
+                    ersetzen = false;
+                    continue;
+                }
+                updated.add(line);
+            }
+
+            Files.write(path, updated);
             return true;
         } catch (IOException e) {
             return false;
         }
-    }
-
-    /**
-     * Entfernt alle Zeilen zu einem bestimmten Eintrag (nach Uhrzeit).
-     * Hilfsmethode für loeschenEintrag().
-     */
-    private List<String> baueAktualisierteZeilen(List<String> lines, String uhrzeit) {
-        List<String> updatedLines = new ArrayList<>();
-        boolean loescheZeilen = false;
-
-        for (String line : lines) {
-            if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
-                loescheZeilen = true;
-                continue;
-            }
-            if (loescheZeilen && !line.startsWith("Eingetragen um ")) {
-                continue;
-            }
-            loescheZeilen = false;
-            updatedLines.add(line);
-        }
-        return updatedLines;
-    }
-
-    /**
-     * Ersetzt den Inhalt eines bestimmten Eintrags nach Uhrzeit durch neuen Text.
-     * Hilfsmethode für bearbeiten().
-     */
-    private List<String> aktualisierteZeilenFuerBearbeiten(
-            List<String> lines,
-            String uhrzeit,
-            String neuerText) {
-
-        List<String> updatedLines = new ArrayList<>();
-        boolean bearbeiten = false;
-
-        for (String line : lines) {
-            if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
-                bearbeiten = true;
-                updatedLines.add(line);
-                continue;
-            }
-            if (bearbeiten && !line.startsWith("Eingetragen um ")) {
-                updatedLines.add(neuerText);
-                bearbeiten = false;
-                continue;
-            }
-            updatedLines.add(line);
-        }
-
-        return updatedLines;
     }
 }

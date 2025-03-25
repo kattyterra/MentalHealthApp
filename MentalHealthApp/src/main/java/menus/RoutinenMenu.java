@@ -48,10 +48,16 @@ public class RoutinenMenu {
             System.out.println(" 7 - 🔙 Zurück zum Hauptmenü");
             System.out.println("──────────────────────────────────────────────────────────────");
 
-            int auswahl = readInt(scanner);
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+                continue;
+            }
 
             try {
-                switch (auswahl) {
+                switch (choice) {
                     case 1:
                     {
                         verwaltung.checklisteVerwalten(scanner);
@@ -88,7 +94,7 @@ public class RoutinenMenu {
                     }
                     default:
                     {
-                        System.out.println("Ungültige Auswahl.");
+                        System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                         break;
                     }
                 }

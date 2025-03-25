@@ -48,7 +48,7 @@ public class Stimmungskalender {
             try {
                 benutzerAuswahl = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Ungültige Eingabe. Bitte eine Zahl eingeben.");
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
                 continue;
             }
 
@@ -75,7 +75,7 @@ public class Stimmungskalender {
                 }
                 default: {
                     // Fehlerbehandlung bei ungültiger Eingabe
-                    System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                     break;
                 }
             }

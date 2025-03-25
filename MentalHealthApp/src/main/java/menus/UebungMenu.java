@@ -35,14 +35,14 @@ public class UebungMenu {
             for (int i = 0; i < uebungen.size(); i++) {
                 System.out.println((i + 1) + " - " + uebungen.get(i).name());
             }
-            System.out.println((uebungen.size() + 1) + " - Zurück zum Hauptmenü");
+            System.out.println((uebungen.size() + 1) + " - 🔙 Zurück zum Hauptmenü");
             System.out.print("Deine Wahl: ");
 
             int wahl;
             try {
                 wahl = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Ungültige Eingabe.");
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
                 continue;
             }
 
@@ -51,7 +51,7 @@ public class UebungMenu {
             if (wahl > 0 && wahl <= uebungen.size()) {
                 zeigeUebung(uebungen.get(wahl - 1), scanner);
             } else {
-                System.out.println("Ungültige Auswahl.");
+                System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
     }
@@ -69,7 +69,7 @@ public class UebungMenu {
         for (String s : uebung.anleitung()) {
             System.out.println("• " + s);
         }
-        System.out.println("\nDrücke Enter, um zurückzukehren.");
+        System.out.println("\n🔙 Drücke Enter, um zurückzukehren.");
         scanner.nextLine();
     }
 }

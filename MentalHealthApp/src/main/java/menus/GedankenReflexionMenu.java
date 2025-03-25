@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 /**
  * Menüklasse zur Bedienung des Moduls „Gedankenkarussell stoppen“.
- *
  * Bietet dem Benutzer ein einfaches Textmenü zur Auswahl:
  * - Neue Reflexion durchführen
  * - Vorherige Einträge anzeigen
@@ -41,25 +40,31 @@ public class GedankenReflexionMenu {
             System.out.print("👉 Deine Auswahl: ");
 
 
-            String input = scanner.nextLine();
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+                continue;
+            }
 
-            switch (input) {
-                case "1":
+            switch (choice) {
+                case 1:
                 {
                     verwaltung.neuerEintrag(scanner);
                     break;
                 }
-                case "2":
+                case 2:
                 {
                     verwaltung.alleEintraegeAnzeigen();
                     break;
                 }
-                case "0":
+                case 0:
                 {
                     return;
                 }
                 default:{
-                    System.out.println("Ungültige Eingabe.");
+                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                     break;
                 }
             }

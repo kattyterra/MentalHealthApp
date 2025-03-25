@@ -4,8 +4,6 @@ import fortschrittsbericht_logik.FortschrittsberichtService;
 import routinen_logik.RoutineException;
 import uebungen.TextdateiUebungRepository;
 import uebungen.*;
-import gedanken_reflexion_logik.*;
-import zielverwaltung_logik.ZielService;
 
 import java.util.Scanner;
 
@@ -53,7 +51,7 @@ public class Main {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Ungültige Eingabe. Bitte eine Zahl eingeben.");
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
                 continue;
             }
 
@@ -125,7 +123,7 @@ public class Main {
                 }
                 default: {
                     // Ungültige Eingabe
-                    System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                     break;
                 }
             }
