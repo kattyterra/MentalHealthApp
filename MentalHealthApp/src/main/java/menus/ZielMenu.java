@@ -10,7 +10,7 @@ public class ZielMenu {
     private final ZielStatistikService statistikService;
 
     public ZielMenu() {
-        ZielRepository repo = new DateibasierterZielRepository();
+        ZielRepository repo = new ZielSpeicher();
         this.zielService = new ZielService(repo);
         this.statistikService = new ZielStatistikService();
     }
@@ -30,13 +30,15 @@ public class ZielMenu {
             System.out.println("9 - 🔙 Zurück zum Hauptmenü");
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Auswahl: ");
+
             int choice;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Ungültige Eingabe. Bitte eine Zahl eingeben.");
+                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
                 continue;
             }
+
             switch (choice) {
                 case 1:
                 {
@@ -62,32 +64,41 @@ public class ZielMenu {
                 {
                     List<Ziel> alleZiele = zielService.getZiele();
                     if (alleZiele.isEmpty()) {
-                        System.out.println("⚠ Es sind aktuell keine Ziele vorhanden.");
+                        System.out.println("⚠️ Du hast momentan noch keine Ziele eingetragen.");
+                        System.out.println("💡 Wie wäre es, wenn du dir ein neues Ziel setzt?");
                     } else {
+                        System.out.println("\n🎯 Deine aktuellen Ziele:");
                         alleZiele.forEach(System.out::println);
                     }
                     break;
                 }
                 case 6:
                 {
+                    System.out.println("\n📈 Deine Fortschritte auf einen Blick:");
                     statistikService.zeigeStatistik(zielService.getZiele());
                     break;
                 }
                 case 7:
                 {
+                    System.out.println("\n📂 Gefilterte Ziele nach Kategorie:");
                     zielService.filterNachKategorieMitAuswahl(scanner).forEach(System.out::println);
                     break;
                 }
                 case 8:
                 {
-                    System.out.println("\nStatus auswählen:");
-                    System.out.println("1 - Erledigt");
-                    System.out.println("2 - Offen");
-                    System.out.print("Auswahl: ");
+                    System.out.println("\n📌 Wähle den Status, den du filtern möchtest:");
+                    System.out.println("1 - ✅ Erledigte Ziele anzeigen");
+                    System.out.println("2 - ⏳ Offene Ziele anzeigen");
+                    System.out.print("👉 Deine Auswahl: ");
                     try {
                         int statusWahl = Integer.parseInt(scanner.nextLine());
                         boolean erledigt = (statusWahl == 1);
-                        zielService.filterNachStatus(erledigt, true).forEach(System.out::println);
+                        List<Ziel> gefiltert = zielService.filterNachStatus(erledigt, true);
+                        if (gefiltert.isEmpty()) {
+                            System.out.println("🔍 Keine Ziele mit diesem Status gefunden.");
+                        } else {
+                            gefiltert.forEach(System.out::println);
+                        }
                     } catch (Exception e) {
                         System.out.println("⚠ Ungültige Statusauswahl.");
                     }
@@ -99,7 +110,7 @@ public class ZielMenu {
                 }
                 default:
                 {
-                    System.out.println("Ungültige Eingabe");
+                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                     break;
                 }
             }

@@ -1,5 +1,7 @@
 package routinen_logik;
 
+import utility.VerzeichnisHelfer;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -38,13 +40,8 @@ public class FileBasedRoutineRepository implements RoutineRepository {
      */
     public FileBasedRoutineRepository() throws RoutineException {
         try {
-            File dir = new File(ordner);
-            if (!dir.exists()) {
-                boolean success = dir.mkdirs();
-                if (!success) {
-                    System.err.println("Ordner '" + ordner + "' konnte nicht erstellt werden!");
-                }
-            }
+            VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
+            verzeichnisHelfer.sicherstellen(ordner);
 
             File stamm = new File(stammliste);
             if (!stamm.exists()) {

@@ -148,7 +148,7 @@ public class FortschrittsberichtService {
     }
 
     private void zeigeZielauswertung() {
-        ZielRepository zielRepo = new DateibasierterZielRepository();
+        ZielRepository zielRepo = new ZielSpeicher();
         List<Ziel> ziele = zielRepo.laden();
         long erledigt = ziele.stream().filter(Ziel::isErledigt).count();
 
