@@ -33,7 +33,7 @@ public class Stimmungskalender {
      *
      * @param scanner Scanner zur Eingabe
      */
-    void showMenu(Scanner scanner) {
+    public void showMenu(Scanner scanner) {
         while (true) {
             System.out.println("\n😊 Stimmungskalender – Deine emotionale Reise im Blick");
             System.out.println("────────────────────────────────────────────────────");

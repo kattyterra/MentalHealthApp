@@ -8,11 +8,13 @@ import java.util.Scanner;
 public class ZielMenu {
     private final ZielService zielService;
     private final ZielStatistikService statistikService;
+    private final ZielEingabeHelper eingabeHelper;
 
     public ZielMenu() {
         ZielRepository repo = new ZielSpeicher();
         this.zielService = new ZielService(repo);
         this.statistikService = new ZielStatistikService();
+        this.eingabeHelper = new ZielEingabeHelper();
     }
 
     public void showMenu(Scanner scanner) {
@@ -42,22 +44,22 @@ public class ZielMenu {
             switch (choice) {
                 case 1:
                 {
-                    zielService.hinzufuegen(ZielEingabeHelper.erstelleZielVomBenutzer(scanner));
+                    zielService.hinzufuegen(eingabeHelper.erstelleZielVomBenutzer(scanner));
                     break;
                 }
                 case 2:
                 {
-                    zielService.abhaken(ZielEingabeHelper.indexAbfragen(scanner));
+                    zielService.abhaken(eingabeHelper.indexAbfragen(scanner));
                     break;
                 }
                 case 3:
                 {
-                    zielService.bearbeiten(ZielEingabeHelper.indexAbfragen(scanner), ZielEingabeHelper.erstelleZielVomBenutzer(scanner));
+                    zielService.bearbeiten(eingabeHelper.indexAbfragen(scanner), eingabeHelper.erstelleZielVomBenutzer(scanner));
                     break;
                 }
                 case 4:
                 {
-                    zielService.loeschen(ZielEingabeHelper.indexAbfragen(scanner));
+                    zielService.loeschen(eingabeHelper.indexAbfragen(scanner));
                     break;
                 }
                 case 5:
