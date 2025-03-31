@@ -15,7 +15,7 @@ import java.util.Scanner;
  *     <li>Alle bisherigen Einträge textuell ausgeben</li>
  * </ul>
  */
-public class Stimmungskalender {
+public class StimmungskalenderMenu {
 
     /** Zentrale Verwaltung des Stimmungskalenders */
     private final StimmungskalenderVerwaltung verwaltung;
@@ -23,7 +23,7 @@ public class Stimmungskalender {
     /**
      * Konstruktor – initialisiert die Verwaltung mit einem konkreten Speicher.
      */
-    public Stimmungskalender() {
+    public StimmungskalenderMenu() {
         this.verwaltung = new StimmungskalenderVerwaltung(new StimmungskalenderSpeicher());
     }
 

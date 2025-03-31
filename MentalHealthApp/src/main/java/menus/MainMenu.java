@@ -13,12 +13,12 @@ import java.util.Scanner;
  * Tagebuch, Stimmungskalender, Routinen, Atemübungen, Achtsamkeit, Inspiration,
  * Gedankenreflexion sowie der Fortschrittsbericht.
  */
-public class Main {
+public class MainMenu {
 
     /**
      * Leerer Konstruktor – notwendig für Instanziierung aus der App-Klasse.
      */
-    public Main() {
+    public MainMenu() {
     }
 
     /**
@@ -58,14 +58,14 @@ public class Main {
             switch (choice) {
                 case 1: {
                     // Tagebuchmodul aufrufen
-                    Tagebuch tagebuch = new Tagebuch();
-                    tagebuch.showMenu(scanner);
+                    TagebuchMenu tagebuchMenu = new TagebuchMenu();
+                    tagebuchMenu.showMenu(scanner);
                     break;
                 }
                 case 2: {
                     // Stimmungskalender aufrufen
-                    Stimmungskalender stimmungskalender = new Stimmungskalender();
-                    stimmungskalender.showMenu(scanner);
+                    StimmungskalenderMenu stimmungskalenderMenu = new StimmungskalenderMenu();
+                    stimmungskalenderMenu.showMenu(scanner);
                     break;
                 }
                 case 3: {
@@ -80,22 +80,22 @@ public class Main {
                 }
                 case 4: {
                     // Atemübungen anzeigen
-                    UebungService service = new UebungService(
+                    UebungsVerwaltung service = new UebungsVerwaltung(
                             new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Atemuebungen.txt"));
                     new UebungMenu(service.getAlleUebungen(), "🫁 Deine Atemübungen: ").showMenu(scanner);
                     break;
                 }
                 case 5: {
                     // Achtsamkeitsübungen anzeigen
-                    UebungService service = new UebungService(
+                    UebungsVerwaltung service = new UebungsVerwaltung(
                             new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt"));
                     new UebungMenu(service.getAlleUebungen(), "🧘 Deine Achtsamkeitsübungen: ").showMenu(scanner);
                     break;
                 }
                 case 6: {
                     // Inspirationssätze anzeigen
-                    Inspirationssaetze inspirationssaetze = new Inspirationssaetze();
-                    inspirationssaetze.showMenu(scanner);
+                    InspirationssaetzeMenu inspirationssaetzeMenu = new InspirationssaetzeMenu();
+                    inspirationssaetzeMenu.showMenu(scanner);
                     break;
                 }
                 case 7: {

@@ -10,13 +10,13 @@ import java.util.Scanner;
  * Der Benutzer kann über die Konsole einen zufälligen Satz anzeigen lassen
  * oder zum Hauptmenü zurückkehren.
  */
-public class Inspirationssaetze {
+public class InspirationssaetzeMenu {
     private final InspirationsVerwaltung verwaltung;
 
     /**
      * Konstruktor – initialisiert die Inspirationsverwaltung mit dem Dateispeicher.
      */
-    public Inspirationssaetze() {
+    public InspirationssaetzeMenu() {
         this.verwaltung = new InspirationsVerwaltung(new InspirationsSpeicher());
     }
 

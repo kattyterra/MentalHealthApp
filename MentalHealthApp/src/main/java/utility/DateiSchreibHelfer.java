@@ -31,7 +31,7 @@ public class DateiSchreibHelfer {
      * @param pfad Der Pfad zur Datei, an die der Text angehängt werden soll.
      * @param text Der Text, der ans Ende der Datei geschrieben werden soll.
      */
-    public void anhaengenMitLeerzeileWennNoetig(String pfad, String text) {
+    public void anhaengenMitLeerzeile(String pfad, String text) {
         File file = new File(pfad);
         try (FileWriter writer = new FileWriter(file, true)) {
             if (file.exists() && file.length() > 0) {

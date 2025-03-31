@@ -2,11 +2,11 @@ package zielverwaltung_logik;
 
 import java.util.*;
 
-public class ZielService {
+public class ZielVerwaltung {
     private final List<Ziel> ziele;
     private final ZielRepository repository;
 
-    public ZielService(ZielRepository repository) {
+    public ZielVerwaltung(ZielRepository repository) {
         this.repository = repository;
         this.ziele = repository.laden();
     }
