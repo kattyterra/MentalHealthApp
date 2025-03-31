@@ -31,7 +31,7 @@ public class UebungLoader {
      * @param dateipfad Pfad zur Datei mit Übungsvorlagen
      * @return Liste aller eingelesenen {@link Uebung}-Objekte
      */
-    public static List<Uebung> ladeUebungen(String dateipfad) {
+    public List<Uebung> ladeUebungen(String dateipfad) {
         List<Uebung> uebungen = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(dateipfad))) {

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Serviceklasse für statistische Auswertungen der Zielsetzung.
  */
-public class ZielStatistikService {
+public class ZielStatistikVerwaltung {
 
     /**
      * Zeigt eine Auswertung der Zielerreichung an.

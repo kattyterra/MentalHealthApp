@@ -52,7 +52,7 @@ public class DateiSpeicher implements TagebuchRepository {
     @Override
     public void speichern(TagebuchEintrag eintrag) {
         Path pfad = getPfad(eintrag.datum());
-        schreibHelfer.anhaengenMitLeerzeileWennNoetig(pfad.toString(), eintrag.formatForFile());
+        schreibHelfer.anhaengenMitLeerzeile(pfad.toString(), eintrag.formatForFile());
         System.out.println("Eintrag gespeichert: " + pfad);
     }
 

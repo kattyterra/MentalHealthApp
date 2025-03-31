@@ -154,7 +154,7 @@ public class FortschrittsberichtService {
 
         System.out.println("• Ziele insgesamt: " + ziele.size());
         System.out.println("• Davon erledigt: " + erledigt);
-        if (ziele.size() > 0) {
+        if (!ziele.isEmpty()) {
             double prozent = (100.0 * erledigt / ziele.size());
             System.out.printf("• Zielerreichungsquote: %.1f%%\n", prozent);
         }

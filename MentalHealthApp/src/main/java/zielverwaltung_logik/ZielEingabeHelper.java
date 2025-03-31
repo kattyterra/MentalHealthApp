@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ZielEingabeHelper {
-    public static Ziel erstelleZielVomBenutzer(Scanner s) {
+    public Ziel erstelleZielVomBenutzer(Scanner s) {
         System.out.println("\nKategorie auswählen:");
         ZielKategorie[] kategorien = ZielKategorie.values();
         for (int i = 0; i < kategorien.length; i++) {
@@ -38,7 +38,7 @@ public class ZielEingabeHelper {
         return ziel;
     }
 
-    public static int indexAbfragen(Scanner s) {
+    public int indexAbfragen(Scanner s) {
         System.out.print("Index: ");
         try { return Integer.parseInt(s.nextLine()) - 1; } catch (Exception e) { return -1; }
     }

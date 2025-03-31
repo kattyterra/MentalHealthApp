@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Diese Klasse stellt ein Menü für die Verwaltung von Tagebucheinträgen bereit.
  * Benutzer können Einträge schreiben, lesen, bearbeiten und löschen.
  */
-public class Tagebuch {
+public class TagebuchMenu {
 
     /** Verwaltungsklasse für alle Tagebuchfunktionen */
     private final TagebuchVerwaltung tagebuchVerwaltung;
@@ -17,7 +17,7 @@ public class Tagebuch {
     /**
      * Konstruktor – initialisiert die Tagebuchverwaltung mit einem Dateispeicher.
      */
-    public Tagebuch() {
+    public TagebuchMenu() {
         this.tagebuchVerwaltung = new TagebuchVerwaltung(new DateiSpeicher());
     }
 

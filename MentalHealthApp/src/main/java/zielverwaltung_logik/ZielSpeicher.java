@@ -9,10 +9,8 @@ import java.util.List;
 
 /**
  * Datei-basierte Implementierung des {@link ZielRepository}-Interfaces.
- *
  * Alle Ziele werden zeilenweise in einer zentralen Textdatei gespeichert („ziele.txt“ im Verzeichnis „Ziele/“).
  * Jedes Ziel besteht aus 7 aufeinanderfolgenden Zeilen, die bei Bedarf wieder eingelesen und geparst werden.
- *
  * Für die Verzeichnisstruktur wird {@link VerzeichnisHelfer} verwendet.
  */
 public class ZielSpeicher implements ZielRepository {

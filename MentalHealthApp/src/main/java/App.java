@@ -1,4 +1,4 @@
-import menus.Main;
+import menus.MainMenu;
 
 /**
  * Hauptklasse zum Starten des gesamten Programms.
@@ -13,7 +13,7 @@ public class App {
      * @param args Kommandozeilenparameter (werden hier nicht verwendet)
      */
     public static void main(String[] args) {
-        Main programmStart = new Main();
+        MainMenu programmStart = new MainMenu();
         programmStart.showMenu();
     }
 }

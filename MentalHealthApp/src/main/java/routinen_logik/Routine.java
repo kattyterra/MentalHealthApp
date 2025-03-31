@@ -2,7 +2,6 @@ package routinen_logik;
 
 /**
  * Repräsentiert eine einzelne Routine in der MentalHealthApp.
- *
  * Eine Routine enthält:
  * <ul>
  *     <li>eine Routinenart (z. B. MORGEN, ABEND)</li>

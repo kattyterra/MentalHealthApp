@@ -8,7 +8,7 @@ import java.util.List;
  * Er dient als Vermittler zwischen der Benutzeroberfläche (z. B. Menü) und dem {@link UebungRepository}.
  * Dadurch wird die Anwendung gemäß dem **Dependency Inversion Principle (DIP)** entkoppelt.
  */
-public class UebungService {
+public class UebungsVerwaltung {
 
     /** Das verwendete Repository zum Laden der Übungen */
     private final UebungRepository repository;
@@ -18,7 +18,7 @@ public class UebungService {
      *
      * @param repository das Repository zur Bereitstellung der Übungen
      */
-    public UebungService(UebungRepository repository) {
+    public UebungsVerwaltung(UebungRepository repository) {
         this.repository = repository;
     }
 

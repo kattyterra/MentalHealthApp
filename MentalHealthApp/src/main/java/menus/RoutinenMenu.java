@@ -103,20 +103,4 @@ public class RoutinenMenu {
             }
         }
     }
-
-    /**
-     * Hilfsmethode zur sicheren Ganzzahl-Eingabe.
-     * Bei falscher Eingabe wird -1 zurückgegeben.
-     *
-     * @param scanner Scanner zur Eingabe
-     * @return eingegebene Zahl oder -1 bei Fehler
-     */
-    private int readInt(Scanner scanner) {
-        System.out.print("Deine Wahl: ");
-        try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (Exception e) {
-            return -1;
-        }
-    }
 }

@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ZielMenu {
-    private final ZielService zielService;
-    private final ZielStatistikService statistikService;
+    private final ZielVerwaltung zielVerwaltung;
+    private final ZielStatistikVerwaltung statistikService;
+    private final ZielEingabeHelper eingabeHelper;
 
     public ZielMenu() {
         ZielRepository repo = new ZielSpeicher();
-        this.zielService = new ZielService(repo);
-        this.statistikService = new ZielStatistikService();
+        this.zielVerwaltung = new ZielVerwaltung(repo);
+        this.statistikService = new ZielStatistikVerwaltung();
+        this.eingabeHelper = new ZielEingabeHelper();
     }
 
     public void showMenu(Scanner scanner) {
@@ -42,27 +44,27 @@ public class ZielMenu {
             switch (choice) {
                 case 1:
                 {
-                    zielService.hinzufuegen(ZielEingabeHelper.erstelleZielVomBenutzer(scanner));
+                    zielVerwaltung.hinzufuegen(eingabeHelper.erstelleZielVomBenutzer(scanner));
                     break;
                 }
                 case 2:
                 {
-                    zielService.abhaken(ZielEingabeHelper.indexAbfragen(scanner));
+                    zielVerwaltung.abhaken(eingabeHelper.indexAbfragen(scanner));
                     break;
                 }
                 case 3:
                 {
-                    zielService.bearbeiten(ZielEingabeHelper.indexAbfragen(scanner), ZielEingabeHelper.erstelleZielVomBenutzer(scanner));
+                    zielVerwaltung.bearbeiten(eingabeHelper.indexAbfragen(scanner), eingabeHelper.erstelleZielVomBenutzer(scanner));
                     break;
                 }
                 case 4:
                 {
-                    zielService.loeschen(ZielEingabeHelper.indexAbfragen(scanner));
+                    zielVerwaltung.loeschen(eingabeHelper.indexAbfragen(scanner));
                     break;
                 }
                 case 5:
                 {
-                    List<Ziel> alleZiele = zielService.getZiele();
+                    List<Ziel> alleZiele = zielVerwaltung.getZiele();
                     if (alleZiele.isEmpty()) {
                         System.out.println("⚠️ Du hast momentan noch keine Ziele eingetragen.");
                         System.out.println("💡 Wie wäre es, wenn du dir ein neues Ziel setzt?");
@@ -75,13 +77,13 @@ public class ZielMenu {
                 case 6:
                 {
                     System.out.println("\n📈 Deine Fortschritte auf einen Blick:");
-                    statistikService.zeigeStatistik(zielService.getZiele());
+                    statistikService.zeigeStatistik(zielVerwaltung.getZiele());
                     break;
                 }
                 case 7:
                 {
                     System.out.println("\n📂 Gefilterte Ziele nach Kategorie:");
-                    zielService.filterNachKategorieMitAuswahl(scanner).forEach(System.out::println);
+                    zielVerwaltung.filterNachKategorieMitAuswahl(scanner).forEach(System.out::println);
                     break;
                 }
                 case 8:
@@ -93,7 +95,7 @@ public class ZielMenu {
                     try {
                         int statusWahl = Integer.parseInt(scanner.nextLine());
                         boolean erledigt = (statusWahl == 1);
-                        List<Ziel> gefiltert = zielService.filterNachStatus(erledigt, true);
+                        List<Ziel> gefiltert = zielVerwaltung.filterNachStatus(erledigt, true);
                         if (gefiltert.isEmpty()) {
                             System.out.println("🔍 Keine Ziele mit diesem Status gefunden.");
                         } else {

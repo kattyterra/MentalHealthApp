@@ -31,6 +31,7 @@ public class TextdateiUebungRepository implements UebungRepository {
      */
     @Override
     public List<Uebung> ladeAlle() {
-        return UebungLoader.ladeUebungen(dateipfad);
+        UebungLoader loader = new UebungLoader();
+        return loader.ladeUebungen(dateipfad);
     }
 }
