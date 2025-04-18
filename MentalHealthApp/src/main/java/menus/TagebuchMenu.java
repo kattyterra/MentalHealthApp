@@ -2,6 +2,7 @@ package menus;
 
 import tagebuch_logik.TagebuchVerwaltung;
 import tagebuch_logik.DateiSpeicher;
+import utility.AnswerParser;
 
 import java.util.Scanner;
 
@@ -14,16 +15,13 @@ public class TagebuchMenu {
     /** Verwaltungsklasse für alle Tagebuchfunktionen */
     private final TagebuchVerwaltung tagebuchVerwaltung;
 
-    /**
-     * Konstruktor – initialisiert die Tagebuchverwaltung mit einem Dateispeicher.
-     */
+    /** Konstruktor – initialisiert die Tagebuchverwaltung mit einem Dateispeicher */
     public TagebuchMenu() {
         this.tagebuchVerwaltung = new TagebuchVerwaltung(new DateiSpeicher());
     }
 
     /**
      * Zeigt das Tagebuchmenü und verarbeitet Benutzereingaben.
-     *
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void showMenu(Scanner scanner) {
@@ -39,11 +37,9 @@ public class TagebuchMenu {
             System.out.print("👉 Deine Wahl: ");
 
 
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 

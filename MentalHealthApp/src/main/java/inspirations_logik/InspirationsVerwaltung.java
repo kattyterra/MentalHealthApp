@@ -9,25 +9,14 @@ import java.util.Random;
  * und gibt einen zufälligen Satz zurück.
  */
 public class InspirationsVerwaltung {
-    private final InspirationsRepository repository;
-    private final Random random;
-
-    /**
-     * Konstruktor – initialisiert die Inspirationsverwaltung mit einem Repository.
-     *
-     * @param repository Die konkrete Speicherquelle für Inspirationssätze (z. B. Datei)
-     */
-    public InspirationsVerwaltung(InspirationsRepository repository) {
-        this.repository = repository;
-        this.random = new Random();
-    }
+    private final InspirationsRepository repository = new InspirationsSpeicher();
 
     /**
      * Gibt einen zufällig ausgewählten Inspirationssatz zurück.
-     *
      * @return Ein zufälliger Satz oder eine Fehlermeldung, wenn keine Sätze vorhanden sind.
      */
     public String gibZufaelligenSatz() {
+        Random random = new Random();
         List<String> saetze = repository.ladeSaetze();
         if (saetze.isEmpty()) {
             return "Keine Inspirationssätze verfügbar.";

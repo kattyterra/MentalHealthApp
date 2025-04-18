@@ -4,6 +4,7 @@ import fortschrittsbericht_logik.FortschrittsberichtService;
 import routinen_logik.RoutineException;
 import uebungen.TextdateiUebungRepository;
 import uebungen.*;
+import utility.AnswerParser;
 
 import java.util.Scanner;
 
@@ -47,11 +48,9 @@ public class MainMenu {
             System.out.print("👉 Deine Wahl: ");
 
 
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 
@@ -111,6 +110,7 @@ public class MainMenu {
                     break;
                 }
                 case 9:{
+                    // Ziele verwalten
                     ZielMenu zielMenu = new ZielMenu();
                     zielMenu.showMenu(scanner);
                     break;

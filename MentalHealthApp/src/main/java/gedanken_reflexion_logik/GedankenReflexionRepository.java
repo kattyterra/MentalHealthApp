@@ -4,10 +4,8 @@ import java.util.List;
 
 /**
  * Schnittstelle für das Repository zur Gedankenreflexion.
- *
  * Sie definiert die grundlegenden Operationen zum Speichern
  * und Lesen von GedankenReflexionEinträgen.
- *
  * Das Ziel ist eine lose Kopplung zwischen Speichermechanismus
  * (z. B. Datei, Datenbank) und der Geschäftslogik.
  */

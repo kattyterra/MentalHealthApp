@@ -5,7 +5,6 @@ import java.util.*;
 /**
  * Repräsentiert einen einzelnen Eintrag der geführten Gedankenreflexion
  * (aus dem Modul „Gedankenkarussell stoppen“).
- *
  * Jeder Eintrag enthält:
  * - das Datum der Reflexion,
  * - die Uhrzeit,

@@ -30,7 +30,6 @@ public class ZielSpeicher implements ZielRepository {
      * Überschreibt die bestehende Zieldatei mit einer neuen Liste von Zielen.
      * Jedes Ziel wird in 7 aufeinanderfolgenden Zeilen gespeichert:
      * Kategorie, Beschreibung, Priorität, Erledigt (true/false), Fälligkeitsdatum, Wiederholungstyp, Motivationsnotiz.
-     *
      * @param ziele Liste der zu speichernden {@link Ziel}-Objekte
      */
     @Override
@@ -53,7 +52,6 @@ public class ZielSpeicher implements ZielRepository {
     /**
      * Lädt alle in der Datei gespeicherten Ziele und gibt sie als Liste zurück.
      * Falls die Datei nicht existiert, wird eine leere Liste zurückgegeben.
-     *
      * @return Liste aller gespeicherten {@link Ziel}-Objekte
      */
     @Override
@@ -80,7 +78,6 @@ public class ZielSpeicher implements ZielRepository {
     /**
      * Parst ein vollständiges Ziel aus sieben aufeinanderfolgenden Zeilen im Reader.
      * Diese Methode wird während des Ladevorgangs verwendet.
-     *
      * @param reader BufferedReader, positioniert auf der ersten Zeile eines Ziels
      * @return das rekonstruierte {@link Ziel}-Objekt
      * @throws IOException bei Problemen mit dem Datei- oder Lesefluss

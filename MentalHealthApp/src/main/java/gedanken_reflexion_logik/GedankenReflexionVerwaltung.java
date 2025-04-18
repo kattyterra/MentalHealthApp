@@ -8,32 +8,18 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Diese Klasse steuert die zentrale Benutzerinteraktion
- * für das Modul „Gedankenkarussell stoppen“.
- *
- * Sie bietet Funktionen zum Erstellen neuer Gedankenreflexionseinträge
- * sowie zum Anzeigen aller bisherigen Einträge.
+ * Diese Klasse steuert die zentrale Benutzerinteraktion für das Modul „Gedankenkarussell stoppen“.
+ * Sie bietet Funktionen zum Erstellen neuer Gedankenreflexionseinträge sowie zum Anzeigen aller bisherigen Einträge.
  */
 public class GedankenReflexionVerwaltung {
 
     /** Repository zur Speicherung und Verwaltung der Einträge */
-    private final GedankenReflexionRepository repository;
+    private final GedankenReflexionRepository repository = new GedankenReflexionSpeicher();
+
 
     /**
-     * Konstruktor – erhält das konkrete Repository zur Verwaltung der Einträge.
-     *
-     * @param repository Implementierung des GedankenReflexionRepository
-     */
-    public GedankenReflexionVerwaltung(GedankenReflexionRepository repository) {
-        this.repository = repository;
-    }
-
-    /**
-     * Führt eine geführte Selbstreflexion durch.
-     * Der Benutzer beantwortet fünf strukturierte Fragen.
-     * Die Antworten sowie Datum, Uhrzeit und Belastungswert
-     * werden in einem Eintrag gespeichert.
-     *
+     * Führt eine geführte Selbstreflexion durch. Der Benutzer beantwortet fünf strukturierte Fragen.
+     * Die Antworten sowie Datum, Uhrzeit und Belastungswert werden in einem Eintrag gespeichert.
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void neuerEintrag(Scanner scanner) {

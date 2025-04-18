@@ -1,5 +1,6 @@
 package menus;
 
+import utility.AnswerParser;
 import zielverwaltung_logik.*;
 
 import java.util.List;
@@ -11,8 +12,7 @@ public class ZielMenu {
     private final ZielEingabeHelper eingabeHelper;
 
     public ZielMenu() {
-        ZielRepository repo = new ZielSpeicher();
-        this.zielVerwaltung = new ZielVerwaltung(repo);
+        this.zielVerwaltung = new ZielVerwaltung();
         this.statistikService = new ZielStatistikVerwaltung();
         this.eingabeHelper = new ZielEingabeHelper();
     }
@@ -33,11 +33,9 @@ public class ZielMenu {
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Auswahl: ");
 
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 

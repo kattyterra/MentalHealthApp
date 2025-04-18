@@ -1,7 +1,7 @@
 package menus;
 
-import inspirations_logik.InspirationsSpeicher;
 import inspirations_logik.InspirationsVerwaltung;
+import utility.AnswerParser;
 
 import java.util.Scanner;
 
@@ -11,14 +11,8 @@ import java.util.Scanner;
  * oder zum Hauptmenü zurückkehren.
  */
 public class InspirationssaetzeMenu {
-    private final InspirationsVerwaltung verwaltung;
+    private final InspirationsVerwaltung verwaltung = new InspirationsVerwaltung();
 
-    /**
-     * Konstruktor – initialisiert die Inspirationsverwaltung mit dem Dateispeicher.
-     */
-    public InspirationssaetzeMenu() {
-        this.verwaltung = new InspirationsVerwaltung(new InspirationsSpeicher());
-    }
 
     /**
      * Zeigt das Menü zur Auswahl von Aktionen im Bereich „Inspirationssätze“.
@@ -34,15 +28,11 @@ public class InspirationssaetzeMenu {
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
-
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
-
 
             switch (choice) {
                 case 1:

@@ -1,14 +1,14 @@
 package menus;
 
 import routinen_logik.*;
+import utility.AnswerParser;
 
 import java.util.Scanner;
 
 /**
  * Menüklasse für das Routinen-Modul der MentalHealthApp.
- *
  * Ermöglicht dem Benutzer den Zugriff auf alle Funktionen der Routinenverwaltung,
- * wie z. B. Routinen abhaken, hinzufügen, bearbeiten, löschen und Statistiken anzeigen.
+ * wie z.B. Routinen abhaken, hinzufügen, bearbeiten, löschen und Statistiken anzeigen.
  */
 public class RoutinenMenu {
 
@@ -19,20 +19,16 @@ public class RoutinenMenu {
      * Konstruktor – initialisiert die Routinenverwaltung mit
      * - einem dateibasierten Repository
      * - einem Vorschlagsservice für neue Routinen
-     *
      * @throws RoutineException falls die Initialisierung fehlschlägt
      */
     public RoutinenMenu() throws RoutineException {
         RoutineRepository repository = new FileBasedRoutineRepository();
-        RoutineVorschlagsService vorschlagsService =
-                new RoutineVorschlagsService("Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt");
+        RoutineVorschlagsService vorschlagsService = new RoutineVorschlagsService("Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt");
         this.verwaltung = new RoutinenVerwaltung(repository, vorschlagsService);
     }
 
     /**
-     * Zeigt das Routinenmenü in einer Schleife,
-     * bis der Benutzer den Punkt „Zurück“ wählt.
-     *
+     * Zeigt das Routinenmenü in einer Schleife bis der Benutzer den Punkt „Zurück“ wählt.
      * @param scanner Scanner für die Benutzereingabe
      */
     public void showMenu(Scanner scanner) {
@@ -48,11 +44,9 @@ public class RoutinenMenu {
             System.out.println(" 7 - 🔙 Zurück zum Hauptmenü");
             System.out.println("──────────────────────────────────────────────────────────────");
 
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 
