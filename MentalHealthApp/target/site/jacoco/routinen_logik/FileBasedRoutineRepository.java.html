@@ -50,11 +50,11 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 <span class="fc" id="L50">            String datum = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(new Date());</span>
 <span class="fc" id="L51">            tagesdatei = ordner + &quot;/&quot; + datum + &quot;.txt&quot;;</span>
 
-<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (new File(tagesdatei).exists()) {</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            if (new File(tagesdatei).exists()) {</span>
 <span class="fc" id="L54">                ladeTagesdatei();</span>
             } else {
-<span class="fc" id="L56">                ladeStammliste();</span>
-<span class="fc" id="L57">                speichern();</span>
+<span class="nc" id="L56">                ladeStammliste();</span>
+<span class="nc" id="L57">                speichern();</span>
             }
 
 <span class="nc" id="L60">        } catch (IOException e) {</span>
