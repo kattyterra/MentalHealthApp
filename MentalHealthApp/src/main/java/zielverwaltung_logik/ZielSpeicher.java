@@ -14,16 +14,24 @@ import java.util.List;
  * Für die Verzeichnisstruktur wird {@link VerzeichnisHelfer} verwendet.
  */
 public class ZielSpeicher implements ZielRepository {
-    private final String ordner = "Ziele/";
-    private final String pfad = ordner + "ziele.txt";
+    private final String ordner;
+    private final String pfad;
 
     /**
      * Konstruktor – stellt sicher, dass das Verzeichnis „Ziele/“ existiert.
      * Falls nicht vorhanden, wird es automatisch erstellt.
      */
     public ZielSpeicher() {
-        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
-        verzeichnisHelfer.sicherstellen(ordner);
+        this.ordner = "Ziele/";
+        this.pfad = ordner + "ziele.txt";
+        new VerzeichnisHelfer().sicherstellen(ordner);
+    }
+
+    /** Injektion-Konstruktor */
+    public ZielSpeicher(String ordnerPfad) {
+        this.ordner = ordnerPfad;
+        this.pfad = ordner + "ziele.txt";
+        new VerzeichnisHelfer().sicherstellen(ordner);
     }
 
     /**

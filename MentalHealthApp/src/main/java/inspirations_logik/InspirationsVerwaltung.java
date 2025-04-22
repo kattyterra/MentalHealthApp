@@ -9,8 +9,17 @@ import java.util.Random;
  * und gibt einen zufälligen Satz zurück.
  */
 public class InspirationsVerwaltung {
-    private final InspirationsRepository repository = new InspirationsSpeicher();
+    private final InspirationsRepository repository;
 
+    // Produktivkonstruktor
+    public InspirationsVerwaltung() {
+        this.repository = new InspirationsSpeicher("Textvorlagen(nicht_ändern!)/Inspo.txt");
+    }
+
+    // Injection-Konstruktor
+    public InspirationsVerwaltung(InspirationsRepository repository) {
+        this.repository = repository;
+    }
     /**
      * Gibt einen zufällig ausgewählten Inspirationssatz zurück.
      * @return Ein zufälliger Satz oder eine Fehlermeldung, wenn keine Sätze vorhanden sind.

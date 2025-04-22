@@ -22,9 +22,7 @@ public class RoutinenMenu {
      * @throws RoutineException falls die Initialisierung fehlschlägt
      */
     public RoutinenMenu() throws RoutineException {
-        RoutineRepository repository = new FileBasedRoutineRepository();
-        RoutineVorschlagsService vorschlagsService = new RoutineVorschlagsService("Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt");
-        this.verwaltung = new RoutinenVerwaltung(repository, vorschlagsService);
+        this.verwaltung = new RoutinenVerwaltung();
     }
 
     /**

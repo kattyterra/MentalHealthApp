@@ -3,16 +3,36 @@ package routinen_logik;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Die Klasse {@code RoutinenVerwaltung} stellt die zentrale Logik zur Verwaltung von täglichen Routinen dar.
+ * Sie erlaubt das Hinzufügen, Bearbeiten, Löschen und Abhaken von Routinen, sowie die Anzeige von Statistiken
+ * und der Historie. Dabei wird das Prinzip der Trennung von Verantwortung durch externe Services wie das
+ * {@code RoutineRepository} und den {@code RoutineVorschlagsService} unterstützt.
+ */
+
 public class RoutinenVerwaltung {
 
     private final RoutineRepository repository;
     private final RoutineVorschlagsService vorschlagsService;
 
+    /** Konstruktor */
+    public RoutinenVerwaltung() throws RoutineException {
+        this.repository = new FileBasedRoutineRepository();
+        this.vorschlagsService = new RoutineVorschlagsService("Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt");
+    }
+
+    /** Injektion-Konstruktor */
     public RoutinenVerwaltung(RoutineRepository repository, RoutineVorschlagsService vorschlagsService) {
         this.repository = repository;
         this.vorschlagsService = vorschlagsService;
     }
 
+    /**
+     * Fügt eine neue Routine hinzu. Der Benutzer kann eine Routinenart auswählen und eine Beschreibung
+     * entweder selbst eingeben oder aus Vorschlägen auswählen.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Hinzufügen ein Fehler auftritt
+     */
     public void routineHinzufuegen(Scanner scanner) throws RoutineException {
         RoutinenArt art = waehleRoutinenArt(scanner);
         if (art == null) return;
@@ -67,6 +87,12 @@ public class RoutinenVerwaltung {
         System.out.println("✅ Routine hinzugefügt.");
     }
 
+    /**
+     * Zeigt eine Checkliste aller Routinen an, sortiert nach Routinenart.
+     * Der Benutzer kann einzelne Routinen als erledigt oder nicht erledigt markieren.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Speichern ein Fehler auftritt
+     */
     public void checklisteVerwalten(Scanner scanner) throws RoutineException {
         List<Routine> checklist = repository.getRoutinen();
         if (checklist.isEmpty()) {
@@ -108,6 +134,12 @@ public class RoutinenVerwaltung {
         }
     }
 
+    /**
+     * Ermöglicht dem Benutzer, eine bestehende Routine zu bearbeiten.
+     * Sowohl die Routinenart als auch die Beschreibung können geändert werden.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Bearbeiten ein Fehler auftritt
+     */
     public void routineBearbeiten(Scanner scanner) throws RoutineException {
         List<Routine> routinen = repository.getRoutinen();
         if (routinen.isEmpty()) {
@@ -188,6 +220,11 @@ public class RoutinenVerwaltung {
         System.out.println("✅ Routine aktualisiert.");
     }
 
+    /**
+     * Löscht eine bestehende Routine basierend auf der Auswahl des Benutzers.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Löschen ein Fehler auftritt
+     */
     public void routineLoeschen(Scanner scanner) throws RoutineException {
         List<Routine> routinen = repository.getRoutinen();
         if (routinen.isEmpty()) {
@@ -221,6 +258,12 @@ public class RoutinenVerwaltung {
         System.out.println("✅ Routine gelöscht.");
     }
 
+    /**
+     * Zeigt eine Erfolgsstatistik aller aktuellen Routinen an.
+     * Die Statistik basiert auf den täglichen Routinen-Dateien im Routinen-Verzeichnis.
+     * Nur aktuell noch existierende Routinen werden berücksichtigt.
+     * @throws RoutineException falls beim Zugriff auf das Repository ein Fehler auftritt
+     */
     public void routinenStatistikAnzeigen() throws RoutineException {
         File ordner = new File("Routinen");
         File[] dateien = ordner.listFiles((dir, name) -> name.endsWith(".txt") && !name.equals("stammliste.txt"));
@@ -276,6 +319,10 @@ public class RoutinenVerwaltung {
         }
     }
 
+    /**
+     * Zeigt die gesamte Routinenhistorie für vergangene Tage an.
+     * Dabei wird jeder Eintrag mit Datum, Routinenart, Beschreibung und Erledigt-Status aufgelistet.
+     */
     public void routinenHistorieAnzeigen() {
         File ordner = new File("Routinen");
         File[] dateien = ordner.listFiles((dir, name) -> name.endsWith(".txt") && !name.equals("stammliste.txt"));
@@ -302,6 +349,8 @@ public class RoutinenVerwaltung {
         }
     }
 
+
+    /** private Hilfsmethoden */
     private RoutinenArt waehleRoutinenArt(Scanner scanner) {
         System.out.println("\nWähle die Routinenart:");
         System.out.println("1 - Morgen");

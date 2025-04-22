@@ -13,16 +13,16 @@ import java.util.List;
  */
 public class InspirationsSpeicher implements InspirationsRepository {
 
-    /**
-     * Lädt alle Inspirationssätze aus der Datei „Textvorlagen(nicht_ändern!)/Inspo.txt“.
-     *
-     * @return Liste der geladenen Sätze, oder eine leere Liste bei Fehler
-     */
+    private final String dateipfad;
+
+    public InspirationsSpeicher(String dateipfad) {
+        this.dateipfad = dateipfad;
+    }
+
     @Override
     public List<String> ladeSaetze() {
         try {
-            String pfad = "Textvorlagen(nicht_ändern!)/Inspo.txt";
-            return Files.readAllLines(Paths.get(pfad));
+            return Files.readAllLines(Paths.get(dateipfad));
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Inspirationssätze: " + e.getMessage());
             return Collections.emptyList();

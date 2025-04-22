@@ -3,9 +3,7 @@ package uebungen;
 import java.util.List;
 
 /**
- * Implementierung des {@link UebungRepository}, die alle Übungen
- * aus einer Textdatei lädt.
- * <p>
+ * Implementierung des {@link UebungRepository}, die alle Übungen aus einer Textdatei lädt.
  * Diese Klasse kapselt den Pfad zur Datei und delegiert das Laden
  * der Übungen an den {@link UebungLoader}.
  */
@@ -16,7 +14,6 @@ public class TextdateiUebungRepository implements UebungRepository {
 
     /**
      * Konstruktor – initialisiert das Repository mit einem Pfad zur Übungsdatei.
-     *
      * @param dateipfad Pfad zur Datei mit Atem- oder Achtsamkeitsübungen
      */
     public TextdateiUebungRepository(String dateipfad) {
@@ -26,7 +23,6 @@ public class TextdateiUebungRepository implements UebungRepository {
     /**
      * Lädt alle Übungen aus der definierten Textdatei.
      * Die Datei wird mithilfe des {@link UebungLoader} eingelesen.
-     *
      * @return Liste aller geladenen {@link Uebung}-Objekte
      */
     @Override

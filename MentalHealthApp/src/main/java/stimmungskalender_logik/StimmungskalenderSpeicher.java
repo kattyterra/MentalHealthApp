@@ -12,8 +12,15 @@ import java.util.List;
  */
 public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
     private final String ordner = "Stimmungskalender/";
-    private final DateiSchreibHelfer schreiber = new DateiSchreibHelfer();
+    private final DateiSchreibHelfer schreiber;
+    private final DateiLeseHelfer leser;
 
+    /** Injektion-Konstruktor */
+    public StimmungskalenderSpeicher(DateiSchreibHelfer schreiber, DateiLeseHelfer leser) {
+        this.schreiber = schreiber;
+        this.leser = leser;
+        new VerzeichnisHelfer().sicherstellen(ordner);
+    }
 
     /**
      * Konstruktor: Erstellt den Ordner „Stimmungskalender“, falls er noch nicht existiert.
@@ -21,6 +28,8 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
     public StimmungskalenderSpeicher() {
         VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
         verzeichnisHelfer.sicherstellen(ordner);
+        this.schreiber = new DateiSchreibHelfer();
+        this.leser = new DateiLeseHelfer();
     }
 
     /**
@@ -54,7 +63,6 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
      */
     @Override
     public List<String> lesenAlle() {
-        DateiLeseHelfer leser = new DateiLeseHelfer();
         return leser.leseAlleZeilen(ordner);
     }
 }

@@ -1,0 +1,6 @@
+ABEND
+Spazierengehen
+false
+MITTAG
+Meditieren
+false

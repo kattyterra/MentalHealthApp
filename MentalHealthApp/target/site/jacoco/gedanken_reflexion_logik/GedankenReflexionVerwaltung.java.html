@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GedankenReflexionVerwaltung.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">gedanken_reflexion_logik</a> &gt; <span class="el_source">GedankenReflexionVerwaltung.java</span></div><h1>GedankenReflexionVerwaltung.java</h1><pre class="source lang-java linenums">package gedanken_reflexion_logik;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * Diese Klasse steuert die zentrale Benutzerinteraktion für das Modul „Gedankenkarussell stoppen“.
+ * Sie bietet Funktionen zum Erstellen neuer Gedankenreflexionseinträge sowie zum Anzeigen aller bisherigen Einträge.
+ */
+public class GedankenReflexionVerwaltung {
+
+    /** Repository zur Speicherung und Verwaltung der Einträge */
+    private final GedankenReflexionRepository repository;
+
+    /** Konstruktor */
+<span class="nc" id="L20">    public GedankenReflexionVerwaltung() {</span>
+<span class="nc" id="L21">        this.repository = new GedankenReflexionSpeicher();</span>
+<span class="nc" id="L22">    }</span>
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L25">    public GedankenReflexionVerwaltung(GedankenReflexionRepository repository) {</span>
+<span class="fc" id="L26">        this.repository = repository;</span>
+<span class="fc" id="L27">    }</span>
+
+
+    /**
+     * Führt eine geführte Selbstreflexion durch. Der Benutzer beantwortet fünf strukturierte Fragen.
+     * Die Antworten sowie Datum, Uhrzeit und Belastungswert werden in einem Eintrag gespeichert.
+     * @param scanner Scanner-Objekt für Benutzereingaben
+     */
+    public void neuerEintrag(Scanner scanner) {
+<span class="fc" id="L36">        String datum = LocalDate.now().format(DateTimeFormatter.ISO_DATE);</span>
+<span class="fc" id="L37">        String uhrzeit = LocalTime.now().format(DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;));</span>
+<span class="fc" id="L38">        List&lt;String&gt; antworten = new ArrayList&lt;&gt;();</span>
+
+        // Geführte Reflexionsfragen
+<span class="fc" id="L41">        System.out.println(&quot;Was beschäftigt dich gerade?&quot;);</span>
+<span class="fc" id="L42">        antworten.add(scanner.nextLine());</span>
+
+<span class="fc" id="L44">        System.out.print(&quot;Wie stark belastet dich das (1–10)? &quot;);</span>
+<span class="fc" id="L45">        String belastung = scanner.nextLine();</span>
+
+<span class="fc" id="L47">        System.out.println(&quot;Was spricht objektiv dafür?&quot;);</span>
+<span class="fc" id="L48">        antworten.add(scanner.nextLine());</span>
+
+<span class="fc" id="L50">        System.out.println(&quot;Was spricht dagegen?&quot;);</span>
+<span class="fc" id="L51">        antworten.add(scanner.nextLine());</span>
+
+<span class="fc" id="L53">        System.out.println(&quot;Welche neue Sichtweise könntest du einnehmen?&quot;);</span>
+<span class="fc" id="L54">        antworten.add(scanner.nextLine());</span>
+
+<span class="fc" id="L56">        System.out.println(&quot;Was könntest du dir jetzt Gutes tun?&quot;);</span>
+<span class="fc" id="L57">        antworten.add(scanner.nextLine());</span>
+
+        // Eintrag erstellen und speichern
+<span class="fc" id="L60">        GedankenReflexionEintrag eintrag = new GedankenReflexionEintrag(datum, uhrzeit, belastung, antworten);</span>
+<span class="fc" id="L61">        repository.speichern(eintrag);</span>
+<span class="fc" id="L62">        System.out.println(&quot;✅ Reflexion gespeichert.&quot;);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Gibt alle gespeicherten Gedankenreflexionseinträge in der Konsole aus.
+     * Falls keine Einträge vorhanden sind, wird eine entsprechende Info angezeigt.
+     */
+    public void alleEintraegeAnzeigen() {
+<span class="fc" id="L70">        List&lt;String&gt; eintraege = repository.lesenAlle();</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (eintraege.isEmpty()) {</span>
+<span class="fc" id="L72">            System.out.println(&quot;Keine Einträge vorhanden.&quot;);</span>
+<span class="fc" id="L73">            return;</span>
+        }
+
+<span class="fc" id="L76">        eintraege.forEach(System.out::println);</span>
+<span class="fc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

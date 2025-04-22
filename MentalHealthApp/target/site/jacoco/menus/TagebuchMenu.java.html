@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TagebuchMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">menus</a> &gt; <span class="el_source">TagebuchMenu.java</span></div><h1>TagebuchMenu.java</h1><pre class="source lang-java linenums">package menus;
+
+import tagebuch_logik.TagebuchVerwaltung;
+import tagebuch_logik.DateiSpeicher;
+import utility.AnswerParser;
+
+import java.util.Scanner;
+
+/**
+ * Diese Klasse stellt ein Menü für die Verwaltung von Tagebucheinträgen bereit.
+ * Benutzer können Einträge schreiben, lesen, bearbeiten und löschen.
+ */
+public class TagebuchMenu {
+
+    /** Verwaltungsklasse für alle Tagebuchfunktionen */
+    private final TagebuchVerwaltung tagebuchVerwaltung;
+
+    /** Konstruktor – initialisiert die Tagebuchverwaltung mit einem Dateispeicher */
+<span class="nc" id="L19">    public TagebuchMenu() {</span>
+<span class="nc" id="L20">        this.tagebuchVerwaltung = new TagebuchVerwaltung(new DateiSpeicher());</span>
+<span class="nc" id="L21">    }</span>
+
+    /**
+     * Zeigt das Tagebuchmenü und verarbeitet Benutzereingaben.
+     * @param scanner Scanner-Objekt für Benutzereingaben
+     */
+    public void showMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L29">            System.out.println(&quot;\n📔 Tagebuch – Gedanken festhalten &amp; reflektieren&quot;);</span>
+<span class="nc" id="L30">            System.out.println(&quot;───────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L31">            System.out.println(&quot; 1 - ✍️  Eintrag schreiben – was möchtest du loswerden?&quot;);</span>
+<span class="nc" id="L32">            System.out.println(&quot; 2 - 📖 Eintrag lesen – blättere durch deine Gedankenwelt&quot;);</span>
+<span class="nc" id="L33">            System.out.println(&quot; 3 - ✏️  Eintrag bearbeiten – passe deine Worte nachträglich an&quot;);</span>
+<span class="nc" id="L34">            System.out.println(&quot; 4 - 🗑️  Eintrag löschen – was du loslassen möchtest&quot;);</span>
+<span class="nc" id="L35">            System.out.println(&quot; 5 - 🔙 Zurück zum Hauptmenü&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot;───────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L37">            System.out.print(&quot;👉 Deine Wahl: &quot;);</span>
+
+
+<span class="nc" id="L40">            AnswerParser answerParser = new AnswerParser();</span>
+<span class="nc" id="L41">            int choice = answerParser.parsen(scanner);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (choice == 99){</span>
+<span class="nc" id="L43">                continue;</span>
+            }
+
+<span class="nc bnc" id="L46" title="All 6 branches missed.">            switch (choice) {</span>
+                case 1:
+                {
+                    // Neuer Tagebucheintrag wird geschrieben
+<span class="nc" id="L50">                    tagebuchVerwaltung.eintragSchreiben(scanner);</span>
+<span class="nc" id="L51">                    break;</span>
+                }
+                case 2:
+                {
+                    // Bestehenden Eintrag anzeigen
+<span class="nc" id="L56">                    tagebuchVerwaltung.eintragLesen(scanner);</span>
+<span class="nc" id="L57">                    break;</span>
+                }
+                case 3:
+                {
+                    // Eintrag bearbeiten
+<span class="nc" id="L62">                    tagebuchVerwaltung.eintragBearbeiten(scanner);</span>
+<span class="nc" id="L63">                    break;</span>
+                }
+                case 4:
+                {
+                    // Eintrag löschen
+<span class="nc" id="L68">                    tagebuchVerwaltung.eintragLoeschen(scanner);</span>
+<span class="nc" id="L69">                    break;</span>
+                }
+                case 5:
+                {
+                    // Zurück zum Hauptmenü
+<span class="nc" id="L74">                    return;</span>
+                }
+                default:
+                {
+                    // Ungültige Auswahlbehandlung
+<span class="nc" id="L79">                    System.out.println(&quot;😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!&quot;);</span>
+                    break;
+                }
+            }
+<span class="nc" id="L83">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

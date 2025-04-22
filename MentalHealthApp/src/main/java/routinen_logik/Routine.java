@@ -3,18 +3,16 @@ package routinen_logik;
 /**
  * Repräsentiert eine einzelne Routine in der MentalHealthApp.
  * Eine Routine enthält:
- * <ul>
- *     <li>eine Routinenart (z. B. MORGEN, ABEND)</li>
- *     <li>eine Beschreibung der Aktivität</li>
- *     <li>einen Erledigt-Status (true/false)</li>
- * </ul>
+ *     -eine Routinenart (z.B. MORGEN, ABEND)
+ *     -eine Beschreibung der Aktivität
+ *     -einen Erledigt-Status (true/false)
  */
 public class Routine {
 
-    /** Art der Routine (z. B. MORGEN, MITTAG, ABEND) */
+    /** Art der Routine (z.B. MORGEN, MITTAG, ABEND) */
     private RoutinenArt art;
 
-    /** Beschreibung der Routine (z. B. „5 Minuten meditieren“) */
+    /** Beschreibung der Routine (z.B. „5 Minuten meditieren“) */
     private String beschreibung;
 
     /** Status: true, wenn Routine als erledigt markiert wurde */
@@ -23,7 +21,6 @@ public class Routine {
     /**
      * Konstruktor – erstellt eine neue Routine mit Art und Beschreibung.
      * Der Erledigt-Status ist initial immer false.
-     *
      * @param art Routinenart
      * @param beschreibung Beschreibung der Routine
      */
@@ -54,7 +51,6 @@ public class Routine {
     /**
      * Gibt eine lesbare Darstellung der Routine zurück (inkl. Statussymbol).
      * Beispiel: [✓] [MORGEN] – 5 Minuten meditieren
-     *
      * @return formatierter String
      */
     @Override

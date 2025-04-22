@@ -5,23 +5,86 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2535804-d0f3-45cc-846a-49a940ff7c1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/AnswerParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/gedanken_reflexion_logik_tests/GedankenReflexionSpeicherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/gedanken_reflexion_logik_tests/GedankenReflexionVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/inspirations_logik_tests/InspiraionsVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/inspirations_logik_tests/InspirationsSpeicherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/routinen_logik_tests/FileBasedRoutineRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/routinen_logik_tests/RoutineVorschlagsServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/routinen_logik_tests/RoutinenVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/stimmungskalender_logik_tests/StimmungsKalenderSpeicherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/stimmungskalender_logik_tests/StimmungskalenderVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/tagebuch_logik_tests/DateiSpeicherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/tagebuch_logik_tests/TagebuchVerwaltunTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/uebungen_tests/UebungLoaderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/uebungen_tests/UebungsVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/utility_tests/AnwerParserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/utility_tests/DateiLeseHelferTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/utility_tests/DateiSchreibHelferTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/utility_tests/VerzeichnisHelferTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/zielverwaltung_logik_tests/ZielEingabeHelperTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/zielverwaltung_logik_tests/ZielSpeicherTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/zielverwaltung_logik_tests/ZielStatistikVerwaltungTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MentalHealthApp/src/test/java/zielverwaltung_logik_tests/ZielVerwaltungTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/fortschrittsbericht_logik/FortschrittsberichtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/fortschrittsbericht_logik/FortschrittsberichtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionEintrag.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionEintrag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionSpeicher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/gedanken_reflexion_logik/GedankenReflexionVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsSpeicher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/inspirations_logik/InspirationsVerwaltung.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/GedankenReflexionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/GedankenReflexionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/InspirationssaetzeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/InspirationssaetzeMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/RoutinenMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/RoutinenMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/StimmungskalenderMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/StimmungskalenderMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/TagebuchMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/TagebuchMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/UebungMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/UebungMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/ZielMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/menus/ZielMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/FileBasedRoutineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/FileBasedRoutineRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/Routine.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/Routine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/RoutineVorschlagsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/RoutineVorschlagsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/RoutinenVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/routinen_logik/RoutinenVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/stimmungskalender_logik/StimmungskalenderSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/stimmungskalender_logik/StimmungskalenderSpeicher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/stimmungskalender_logik/StimmungskalenderVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/stimmungskalender_logik/StimmungskalenderVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/DateiSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/DateiSpeicher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/TagebuchRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/TagebuchRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/TagebuchVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/tagebuch_logik/TagebuchVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/TextdateiUebungRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/TextdateiUebungRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/UebungLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/UebungLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/UebungsVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/uebungen/UebungsVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/AnswerParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/AnswerParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/DateiSchreibHelfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/DateiSchreibHelfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/VerzeichnisHelfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/utility/VerzeichnisHelfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielEingabeHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielEingabeHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielSpeicher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielSpeicher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielStatistikVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielStatistikVerwaltung.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielVerwaltung.java" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/src/main/java/zielverwaltung_logik/ZielVerwaltung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/src/test/java/menus/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/RoutinenMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/RoutinenMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/UebungMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Menus/UebungMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/UebungLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/Uebungen/UebungLoader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/gedanken_reflexion_logik/GedankenReflexionSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/gedanken_reflexion_logik/GedankenReflexionSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/gedanken_reflexion_logik/GedankenReflexionVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/gedanken_reflexion_logik/GedankenReflexionVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/inspirations_logik/InspirationsSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/inspirations_logik/InspirationsSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/inspirations_logik/InspirationsVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/inspirations_logik/InspirationsVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/GedankenReflexionMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/GedankenReflexionMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/InspirationssaetzeMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/InspirationssaetzeMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/StimmungskalenderMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/StimmungskalenderMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/TagebuchMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/TagebuchMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/ZielMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/menus/ZielMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/FileBasedRoutineRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/FileBasedRoutineRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/Routine.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/Routine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/RoutineVorschlagsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/RoutineVorschlagsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/RoutinenVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/routinen_logik/RoutinenVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/stimmungskalender_logik/StimmungskalenderSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/stimmungskalender_logik/StimmungskalenderSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/stimmungskalender_logik/StimmungskalenderVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/stimmungskalender_logik/StimmungskalenderVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/tagebuch_logik/DateiSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/tagebuch_logik/DateiSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/tagebuch_logik/TagebuchVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/tagebuch_logik/TagebuchVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/uebungen/TextdateiUebungRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/uebungen/TextdateiUebungRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/uebungen/UebungsVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/uebungen/UebungsVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/AnswerParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/AnswerParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/DateiSchreibHelfer.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/DateiSchreibHelfer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/VerzeichnisHelfer.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/utility/VerzeichnisHelfer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/DateibasierterZielRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielEingabeHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielEingabeHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielSpeicher.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielSpeicher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielStatistikVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielStatistikVerwaltung.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielVerwaltung.class" beforeDir="false" afterPath="$PROJECT_DIR$/MentalHealthApp/target/classes/zielverwaltung_logik/ZielVerwaltung.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +122,29 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AnswerParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DateiLeseHelferTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DateiSchreibHelferTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DateiSpeicherTempDirTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DateiSpeicherTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FileBasedRoutineRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GedankenReflexionSpeicherTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GedankenReflexionSpeicherTest.speichern_ruftAnhaengenMitRichtigenWertenAuf.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GedankenReflexionVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InspirationsSpeicherTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InspirationsVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RoutineVorschlagsServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RoutinenVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StimmungskalenderSpeicherTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StimmungskalenderVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TagebuchVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UebungLoaderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UebungsVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VerzeichnisHelferTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZielEingabeHelperTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZielSpeicherTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZielStatistikVerwaltungTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ZielVerwaltungTest.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -82,17 +168,90 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="App" />
+  <component name="RunManager" selected="JUnit.DateiSpeicherTest">
+    <configuration name="DateiSpeicherTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="MentalHealthApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tagebuch_logik_tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tagebuch_logik_tests" />
+      <option name="MAIN_CLASS_NAME" value="tagebuch_logik_tests.DateiSpeicherTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GedankenReflexionSpeicherTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MentalHealthApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gedanken_reflexion_logik_tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gedanken_reflexion_logik_tests" />
+      <option name="MAIN_CLASS_NAME" value="gedanken_reflexion_logik_tests.GedankenReflexionSpeicherTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GedankenReflexionSpeicherTest.speichern_ruftAnhaengenMitRichtigenWertenAuf" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MentalHealthApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gedanken_reflexion_logik_tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gedanken_reflexion_logik_tests" />
+      <option name="MAIN_CLASS_NAME" value="gedanken_reflexion_logik_tests.GedankenReflexionSpeicherTest" />
+      <option name="METHOD_NAME" value="speichern_ruftAnhaengenMitRichtigenWertenAuf" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TagebuchVerwaltungTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MentalHealthApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tagebuch_logik_tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tagebuch_logik_tests" />
+      <option name="MAIN_CLASS_NAME" value="tagebuch_logik_tests.TagebuchVerwaltungTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ZielVerwaltungTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MentalHealthApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="zielverwaltung_logik_tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="zielverwaltung_logik_tests" />
+      <option name="MAIN_CLASS_NAME" value="zielverwaltung_logik_tests.ZielVerwaltungTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.DateiSpeicherTest" />
+        <item itemvalue="JUnit.TagebuchVerwaltungTest" />
+        <item itemvalue="JUnit.ZielVerwaltungTest" />
+        <item itemvalue="JUnit.GedankenReflexionSpeicherTest" />
+        <item itemvalue="JUnit.GedankenReflexionSpeicherTest.speichern_ruftAnhaengenMitRichtigenWertenAuf" />
       </list>
     </recent_temporary>
   </component>

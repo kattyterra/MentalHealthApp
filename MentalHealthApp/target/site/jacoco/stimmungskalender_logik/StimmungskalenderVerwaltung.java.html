@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StimmungskalenderVerwaltung.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">stimmungskalender_logik</a> &gt; <span class="el_source">StimmungskalenderVerwaltung.java</span></div><h1>StimmungskalenderVerwaltung.java</h1><pre class="source lang-java linenums">package stimmungskalender_logik;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * Diese Klasse verwaltet die Benutzerinteraktionen für den Stimmungskalender.
+ * Sie enthält Methoden zum Erfassen von Stimmungseinträgen und Emotionen,
+ * zur Anzeige als Text oder in grafischer Form sowie zur Auswertung des Stimmungstrends.
+ */
+public class StimmungskalenderVerwaltung {
+    private final StimmungskalenderRepository repository;
+
+    /**
+     * Konstruktor zur Initialisierung mit einer konkreten Repository-Implementierung.
+     * @param repository die Speicherstrategie für Stimmungseinträge (z.B. Datei)
+     */
+<span class="fc" id="L25">    public StimmungskalenderVerwaltung(StimmungskalenderRepository repository) {</span>
+<span class="fc" id="L26">        this.repository = repository;</span>
+<span class="fc" id="L27">    }</span>
+
+    /**
+     * Fragt den Benutzer nach seiner Tagesstimmung (1–10) und speichert den Eintrag.
+     * Zusätzlich wird geprüft, ob die letzten 7 Einträge besonders negativ waren.
+     * @param scanner Eingabequelle für Benutzereingaben
+     */
+    public void eintragHinzufuegen(Scanner scanner) {
+<span class="fc" id="L35">        String datum = LocalDate.now().format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;));</span>
+<span class="fc" id="L36">        String uhrzeit = LocalTime.now().format(DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;));</span>
+
+        int stimmung;
+        while (true) {
+<span class="fc" id="L40">            System.out.print(&quot;Wie ist deine Stimmung (1 = schlecht, 10 = sehr gut)? &quot;);</span>
+            try {
+<span class="fc" id="L42">                stimmung = Integer.parseInt(scanner.nextLine());</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">                if (stimmung &gt;= 1 &amp;&amp; stimmung &lt;= 10) break;</span>
+<span class="nc" id="L44">                else System.out.println(&quot;Bitte eine Zahl zwischen 1 und 10 eingeben.&quot;);</span>
+<span class="nc" id="L45">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L46">                System.out.println(&quot;Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L47">            }</span>
+        }
+
+<span class="fc" id="L50">        Stimmungseintrag eintrag = new Stimmungseintrag(datum, uhrzeit, stimmung);</span>
+<span class="fc" id="L51">        repository.speichern(eintrag);</span>
+<span class="fc" id="L52">        System.out.println(&quot;Stimmungseintrag gespeichert!&quot;);</span>
+<span class="fc" id="L53">        warnungBeiTiefemStimmungsverlauf();</span>
+<span class="fc" id="L54">    }</span>
+
+    /**
+     * Zeigt alle Stimmungseinträge als Balkendiagramm auf der Konsole. Je besser die Stimmung, desto länger der Balken.
+     */
+    public void eintraegeAlsGraphAnzeigen() {
+<span class="fc" id="L60">        List&lt;String&gt; eintraege = repository.lesenAlle();</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (eintraege.isEmpty()) {</span>
+<span class="nc" id="L63">            System.out.println(&quot;Keine Einträge vorhanden.&quot;);</span>
+<span class="nc" id="L64">            return;</span>
+        }
+
+<span class="fc" id="L67">        System.out.println(&quot;\nStimmungskalender (Graph):&quot;);</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (String eintrag : eintraege) {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (eintrag.contains(&quot;Stimmung:&quot;)) {</span>
+<span class="fc" id="L71">                String[] teile = eintrag.split(&quot;Stimmung:&quot;);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">                if (teile.length &lt; 2) continue;</span>
+
+<span class="fc" id="L74">                String beschriftung = teile[0].trim();</span>
+                int stimmung;
+                try {
+<span class="fc" id="L77">                    stimmung = Integer.parseInt(teile[1].trim());</span>
+<span class="nc" id="L78">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L79">                    stimmung = 0;</span>
+<span class="fc" id="L80">                }</span>
+
+<span class="fc" id="L82">                String balken = &quot;▇&quot;.repeat(stimmung);</span>
+<span class="fc" id="L83">                System.out.println(beschriftung + &quot; &quot; + balken + &quot; (&quot; + stimmung + &quot;)&quot;);</span>
+            }
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Gibt einen Hinweis aus, wenn die letzten 7 Stimmungseinträge alle unter 5 lagen.
+     * Ziel ist eine einfache Verlaufswarnung bei dauerhaft schlechter Stimmung.
+     */
+    public void warnungBeiTiefemStimmungsverlauf() {
+<span class="fc" id="L93">        List&lt;String&gt; eintraege = repository.lesenAlle();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (eintraege.isEmpty()) return;</span>
+
+<span class="fc" id="L96">        List&lt;Integer&gt; letzte7Stimmungen = new ArrayList&lt;&gt;();</span>
+
+        // Letzte 7 Stimmungseinträge auslesen
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">        for (int i = eintraege.size() - 1; i &gt;= 0 &amp;&amp; letzte7Stimmungen.size() &lt; 7; i--) {</span>
+<span class="fc" id="L100">            String eintrag = eintraege.get(i);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">            if (eintrag.contains(&quot;Stimmung:&quot;)) {</span>
+<span class="fc" id="L102">                String[] teile = eintrag.split(&quot;Stimmung:&quot;);</span>
+                try {
+<span class="fc" id="L104">                    int stimmung = Integer.parseInt(teile[1].trim());</span>
+<span class="fc" id="L105">                    letzte7Stimmungen.add(stimmung);</span>
+<span class="pc" id="L106">                } catch (NumberFormatException ignored) {}</span>
+            }
+        }
+
+        // Warnung bei 7 Einträgen &lt; 5
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (letzte7Stimmungen.size() == 7 &amp;&amp;</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">                letzte7Stimmungen.stream().allMatch(wert -&gt; wert &lt; 5)) {</span>
+<span class="fc" id="L113">            System.out.println(&quot;\n⚠️ Hinweis: Deine Stimmung war in den letzten 7 Tagen durchgehend unter 5.&quot;);</span>
+<span class="fc" id="L114">            System.out.println(&quot;Vielleicht wäre es hilfreich, mit jemandem darüber zu sprechen oder dir etwas Gutes zu tun 💛&quot;);</span>
+        }
+<span class="fc" id="L116">    }</span>
+
+    /**
+     * Ermöglicht die Auswahl und Eingabe von Emotionen für den aktuellen Tag.
+     * Jede Emotion wird mit Intensität (1–10) und Ursache dokumentiert.
+     * Die Emotionen werden aus einer Datei mit Kategorien gelesen.
+     * @param scanner Eingabequelle für Benutzereingaben
+     */
+    public void emotionenErfassen(Scanner scanner) {
+<span class="nc" id="L125">        List&lt;Emotionseintrag&gt; emotionseintraege = new ArrayList&lt;&gt;();</span>
+
+        List&lt;String&gt; emotionenListe;
+        try {
+<span class="nc" id="L129">            emotionenListe = Files.readAllLines(Paths.get(&quot;Textvorlagen(nicht_ändern!)/EmotionenListe.txt&quot;));</span>
+<span class="nc" id="L130">        } catch (IOException e) {</span>
+<span class="nc" id="L131">            System.err.println(&quot;Fehler beim Lesen der EmotionenListe.txt: &quot; + e.getMessage());</span>
+<span class="nc" id="L132">            return;</span>
+<span class="nc" id="L133">        }</span>
+
+        // Emotionen mit Kategorien anzeigen
+<span class="nc" id="L136">        System.out.println(&quot;\n💬 Verfügbare Emotionen – was fühlst du gerade?&quot;);</span>
+<span class="nc" id="L137">        System.out.println(&quot;──────────────────────────────────────────────&quot;);</span>
+
+<span class="nc" id="L139">        List&lt;String&gt; emotionenNamen = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L140">        int auswahlNummer = 1;</span>
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        for (String zeile : emotionenListe) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (zeile.startsWith(&quot;#&quot;)) {</span>
+                // Kategorieüberschrift anzeigen
+<span class="nc" id="L145">                System.out.println(&quot;\n&quot; + zeile.replace(&quot;#&quot;, &quot;===&quot;).trim());</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            } else if (zeile.startsWith(&quot;Emotion:&quot;)) {</span>
+<span class="nc" id="L147">                String[] teile = zeile.split(&quot;;&quot;);</span>
+<span class="nc" id="L148">                String name = teile[0].replace(&quot;Emotion:&quot;, &quot;&quot;).trim();</span>
+<span class="nc" id="L149">                emotionenNamen.add(name);</span>
+<span class="nc" id="L150">                System.out.println(auswahlNummer + &quot;. &quot; + name);</span>
+<span class="nc" id="L151">                auswahlNummer++;</span>
+            }
+<span class="nc" id="L153">        }</span>
+
+        // Emotionen erfassen
+        while (true) {
+<span class="nc" id="L157">            System.out.print(&quot;\nNummer der Emotion wählen (oder 0 zum Beenden): &quot;);</span>
+<span class="nc" id="L158">            String eingabe = scanner.nextLine();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            if (eingabe.equals(&quot;0&quot;)) break;</span>
+
+            try {
+<span class="nc" id="L162">                int index = Integer.parseInt(eingabe) - 1;</span>
+<span class="nc bnc" id="L163" title="All 4 branches missed.">                if (index &lt; 0 || index &gt;= emotionenNamen.size()) {</span>
+<span class="nc" id="L164">                    System.out.println(&quot;Ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L165">                    continue;</span>
+                }
+
+<span class="nc" id="L168">                String emotion = emotionenNamen.get(index);</span>
+<span class="nc" id="L169">                String beschreibung = getIntensitaetsbeschreibungZuEmotion(emotion, emotionenListe);</span>
+
+                int intensitaet;
+                while (true) {
+<span class="nc" id="L173">                    System.out.print(&quot;Wie stark fühlst du diese Emotion (1–10)? (&quot; + beschreibung + &quot;): &quot;);</span>
+                    try {
+<span class="nc" id="L175">                        intensitaet = Integer.parseInt(scanner.nextLine());</span>
+<span class="nc bnc" id="L176" title="All 4 branches missed.">                        if (intensitaet &gt;= 1 &amp;&amp; intensitaet &lt;= 10) break;</span>
+<span class="nc" id="L177">                        else System.out.println(&quot;Bitte eine Zahl von 1 bis 10 eingeben.&quot;);</span>
+<span class="nc" id="L178">                    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L179">                        System.out.println(&quot;Ungültige Zahl.&quot;);</span>
+<span class="nc" id="L180">                    }</span>
+                }
+
+<span class="nc" id="L183">                System.out.print(&quot;Was ist die Ursache für diese Emotion? &quot;);</span>
+<span class="nc" id="L184">                String ursache = scanner.nextLine();</span>
+
+<span class="nc" id="L186">                emotionseintraege.add(new Emotionseintrag(emotion, intensitaet, ursache));</span>
+<span class="nc" id="L187">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L188">                System.out.println(&quot;Ungültige Eingabe.&quot;);</span>
+<span class="nc" id="L189">            }</span>
+<span class="nc" id="L190">        }</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (!emotionseintraege.isEmpty()) {</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (repository instanceof StimmungskalenderSpeicher speicher) {</span>
+<span class="nc" id="L194">                speicher.speichernEmotionen(emotionseintraege);</span>
+<span class="nc" id="L195">                System.out.println(&quot;Emotionen gespeichert.&quot;);</span>
+            }
+        }
+<span class="nc" id="L198">    }</span>
+
+    /**
+     * Liest die Beschreibung der Intensität zu einer bestimmten Emotion aus der EmotionenListe.
+     * @param emotionName Name der gewählten Emotion
+     * @param emotionenListe Liste mit allen Emotionen inkl. Beschreibung
+     * @return Intensitätsbeschreibung (Text)
+     */
+    public String getIntensitaetsbeschreibungZuEmotion(String emotionName, List&lt;String&gt; emotionenListe) {
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        for (String zeile : emotionenListe) {</span>
+<span class="nc bnc" id="L208" title="All 4 branches missed.">            if (zeile.startsWith(&quot;Emotion:&quot;) &amp;&amp; zeile.contains(emotionName)) {</span>
+<span class="nc" id="L209">                String[] teile = zeile.split(&quot;Intensität:&quot;);</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                if (teile.length &gt; 1) {</span>
+<span class="nc" id="L211">                    return teile[1].replace(&quot;;&quot;, &quot;&quot;).trim();</span>
+                }
+            }
+<span class="nc" id="L214">        }</span>
+<span class="nc" id="L215">        return &quot;keine Beschreibung gefunden&quot;;</span>
+    }
+
+    /**
+     * Zeigt alle Stimmungseinträge und Emotionen pro Tag in textueller Form an.
+     * Bei mehreren Einträgen pro Tag wird nur das Datum einmal als Überschrift angezeigt.
+     */
+    public void eintraegeTextuellAnzeigen() {
+<span class="nc" id="L223">        List&lt;String&gt; eintraege = repository.lesenAlle();</span>
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (eintraege.isEmpty()) {</span>
+<span class="nc" id="L226">            System.out.println(&quot;Keine Einträge vorhanden.&quot;);</span>
+<span class="nc" id="L227">            return;</span>
+        }
+
+<span class="nc" id="L230">        System.out.println(&quot;\nDein Stimmungskalender:&quot;);</span>
+
+<span class="nc" id="L232">        String letztesDatum = &quot;&quot;;</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        for (String zeile : eintraege) {</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">            if (zeile.contains(&quot;- Stimmung:&quot;)) {</span>
+<span class="nc" id="L235">                String[] teile = zeile.split(&quot; - Stimmung:&quot;);</span>
+<span class="nc" id="L236">                String datumUhrzeit = teile[0].trim();</span>
+<span class="nc" id="L237">                String stimmung = teile[1].trim();</span>
+
+<span class="nc" id="L239">                String aktuellesDatum = &quot;&quot;;</span>
+<span class="nc" id="L240">                String uhrzeit = datumUhrzeit;</span>
+
+<span class="nc bnc" id="L242" title="All 2 branches missed.">                if (datumUhrzeit.length() &gt;= 10) {</span>
+<span class="nc" id="L243">                    aktuellesDatum = datumUhrzeit.substring(0, 10);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                    if (datumUhrzeit.length() &gt; 11) {</span>
+<span class="nc" id="L245">                        uhrzeit = datumUhrzeit.substring(11);</span>
+                    }
+                }
+
+<span class="nc bnc" id="L249" title="All 2 branches missed.">                if (!aktuellesDatum.equals(letztesDatum)) {</span>
+<span class="nc" id="L250">                    System.out.println(&quot;\n===== &quot; + aktuellesDatum + &quot; =====&quot;);</span>
+<span class="nc" id="L251">                    System.out.println(uhrzeit + &quot; - Stimmung: &quot; + stimmung);</span>
+<span class="nc" id="L252">                    letztesDatum = aktuellesDatum;</span>
+                } else {
+<span class="nc" id="L254">                    System.out.println(uhrzeit + &quot; - Stimmung: &quot; + stimmung);</span>
+                }
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">            } else if (zeile.startsWith(&quot;- Emotion:&quot;)) {</span>
+<span class="nc" id="L258">                System.out.println(zeile);</span>
+            }
+<span class="nc" id="L260">        }</span>
+<span class="nc" id="L261">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: zielverwaltung_logik_tests.ZielVerwaltungTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in zielverwaltung_logik_tests.ZielVerwaltungTest

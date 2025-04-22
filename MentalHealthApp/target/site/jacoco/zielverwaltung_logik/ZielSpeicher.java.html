@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ZielSpeicher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">zielverwaltung_logik</a> &gt; <span class="el_source">ZielSpeicher.java</span></div><h1>ZielSpeicher.java</h1><pre class="source lang-java linenums">package zielverwaltung_logik;
+
+import utility.VerzeichnisHelfer;
+
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Datei-basierte Implementierung des {@link ZielRepository}-Interfaces.
+ * Alle Ziele werden zeilenweise in einer zentralen Textdatei gespeichert („ziele.txt“ im Verzeichnis „Ziele/“).
+ * Jedes Ziel besteht aus 7 aufeinanderfolgenden Zeilen, die bei Bedarf wieder eingelesen und geparst werden.
+ * Für die Verzeichnisstruktur wird {@link VerzeichnisHelfer} verwendet.
+ */
+public class ZielSpeicher implements ZielRepository {
+    private final String ordner;
+    private final String pfad;
+
+    /**
+     * Konstruktor – stellt sicher, dass das Verzeichnis „Ziele/“ existiert.
+     * Falls nicht vorhanden, wird es automatisch erstellt.
+     */
+<span class="nc" id="L24">    public ZielSpeicher() {</span>
+<span class="nc" id="L25">        this.ordner = &quot;Ziele/&quot;;</span>
+<span class="nc" id="L26">        this.pfad = ordner + &quot;ziele.txt&quot;;</span>
+<span class="nc" id="L27">        new VerzeichnisHelfer().sicherstellen(ordner);</span>
+<span class="nc" id="L28">    }</span>
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L31">    public ZielSpeicher(String ordnerPfad) {</span>
+<span class="fc" id="L32">        this.ordner = ordnerPfad;</span>
+<span class="fc" id="L33">        this.pfad = ordner + &quot;ziele.txt&quot;;</span>
+<span class="fc" id="L34">        new VerzeichnisHelfer().sicherstellen(ordner);</span>
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Überschreibt die bestehende Zieldatei mit einer neuen Liste von Zielen.
+     * Jedes Ziel wird in 7 aufeinanderfolgenden Zeilen gespeichert:
+     * Kategorie, Beschreibung, Priorität, Erledigt (true/false), Fälligkeitsdatum, Wiederholungstyp, Motivationsnotiz.
+     * @param ziele Liste der zu speichernden {@link Ziel}-Objekte
+     */
+    @Override
+    public void speichern(List&lt;Ziel&gt; ziele) {
+<span class="fc" id="L45">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pfad))) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            for (Ziel ziel : ziele) {</span>
+<span class="fc" id="L47">                writer.write(ziel.getKategorie().name()); writer.newLine();</span>
+<span class="fc" id="L48">                writer.write(ziel.getBeschreibung()); writer.newLine();</span>
+<span class="fc" id="L49">                writer.write(String.valueOf(ziel.getPrioritaet())); writer.newLine();</span>
+<span class="fc" id="L50">                writer.write(String.valueOf(ziel.isErledigt())); writer.newLine();</span>
+<span class="fc" id="L51">                writer.write(ziel.getFaelligkeit().toString()); writer.newLine();</span>
+<span class="fc" id="L52">                writer.write(ziel.getWiederholung().name()); writer.newLine();</span>
+<span class="fc" id="L53">                writer.write(ziel.getMotivationsnotiz()); writer.newLine();</span>
+<span class="fc" id="L54">            }</span>
+<span class="nc" id="L55">        } catch (IOException e) {</span>
+<span class="nc" id="L56">            System.err.println(&quot;Fehler beim Speichern der Ziele: &quot; + e.getMessage());</span>
+<span class="fc" id="L57">        }</span>
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * Lädt alle in der Datei gespeicherten Ziele und gibt sie als Liste zurück.
+     * Falls die Datei nicht existiert, wird eine leere Liste zurückgegeben.
+     * @return Liste aller gespeicherten {@link Ziel}-Objekte
+     */
+    @Override
+    public List&lt;Ziel&gt; laden() {
+<span class="fc" id="L67">        List&lt;Ziel&gt; ziele = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L68">        File file = new File(pfad);</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (!file.exists()) {</span>
+<span class="fc" id="L71">            System.out.println(&quot;Noch keine Ziele vorhanden&quot;);</span>
+<span class="fc" id="L72">            return ziele;</span>
+        }
+
+<span class="fc" id="L75">        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            while (reader.ready()) {</span>
+<span class="fc" id="L77">                ziele.add(parseZielAusReader(reader));</span>
+            }
+<span class="fc" id="L79">        } catch (IOException | NumberFormatException e) {</span>
+<span class="fc" id="L80">            System.err.println(&quot;Fehler beim Laden der Ziele: &quot; + e.getMessage());</span>
+<span class="fc" id="L81">        }</span>
+
+<span class="fc" id="L83">        return ziele;</span>
+    }
+
+    /**
+     * Parst ein vollständiges Ziel aus sieben aufeinanderfolgenden Zeilen im Reader.
+     * Diese Methode wird während des Ladevorgangs verwendet.
+     * @param reader BufferedReader, positioniert auf der ersten Zeile eines Ziels
+     * @return das rekonstruierte {@link Ziel}-Objekt
+     * @throws IOException bei Problemen mit dem Datei- oder Lesefluss
+     */
+    private Ziel parseZielAusReader(BufferedReader reader) throws IOException {
+<span class="fc" id="L94">        ZielKategorie kategorie = ZielKategorie.valueOf(reader.readLine());</span>
+<span class="fc" id="L95">        String beschreibung = reader.readLine();</span>
+<span class="fc" id="L96">        int prioritaet = Integer.parseInt(reader.readLine());</span>
+<span class="fc" id="L97">        boolean erledigt = Boolean.parseBoolean(reader.readLine());</span>
+<span class="fc" id="L98">        LocalDate faelligkeit = LocalDate.parse(reader.readLine());</span>
+<span class="fc" id="L99">        Wiederholungstyp wiederholung = Wiederholungstyp.valueOf(reader.readLine());</span>
+<span class="fc" id="L100">        String motivationsnotiz = reader.readLine();</span>
+
+<span class="fc" id="L102">        Ziel ziel = new Ziel(kategorie, beschreibung, prioritaet, faelligkeit, wiederholung);</span>
+<span class="fc" id="L103">        ziel.setErledigt(erledigt);</span>
+<span class="fc" id="L104">        ziel.setMotivationsnotiz(motivationsnotiz);</span>
+<span class="fc" id="L105">        return ziel;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

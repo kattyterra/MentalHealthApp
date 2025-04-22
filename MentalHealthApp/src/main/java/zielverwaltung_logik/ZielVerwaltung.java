@@ -11,6 +11,12 @@ public class ZielVerwaltung {
         this.ziele = repository.laden();
     }
 
+    /** Injektion-Konstruktor */
+    public ZielVerwaltung(ZielRepository repo) {
+        this.repository = repo;
+        this.ziele = repository.laden();
+    }
+
     public void hinzufuegen(Ziel ziel) {
         ziele.add(ziel);
         speichern();

@@ -8,10 +8,9 @@ public class DateiSchreibHelfer {
 
     /**
      * Hängt beliebige Zeilen (einzeln oder mehrfach) an eine Datei an.
-     *
      * @param ordner    Verzeichnis
      * @param dateiname Dateiname (inkl. ".txt")
-     * @param inhalte   Iterable von Zeilen (z. B. List<String> oder List<Emotionseintrag>.map(...))
+     * @param inhalte   Iterable von Zeilen (z.B. List<String> oder List<Emotionseintrag>.map(...))
      */
     public void anhaengen(String ordner, String dateiname, Iterable<? extends CharSequence> inhalte) {
         String pfad = ordner + dateiname;
@@ -27,7 +26,6 @@ public class DateiSchreibHelfer {
     /**
      * Hängt einen Text an das Ende einer Datei an.
      * Falls die Datei bereits existiert und nicht leer ist, wird vorher ein Zeilenumbruch eingefügt.
-     *
      * @param pfad Der Pfad zur Datei, an die der Text angehängt werden soll.
      * @param text Der Text, der ans Ende der Datei geschrieben werden soll.
      */

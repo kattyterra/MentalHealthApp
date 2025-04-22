@@ -12,23 +12,25 @@ public class ZielStatistikVerwaltung {
     /**
      * Zeigt eine Auswertung der Zielerreichung an.
      * Enthält Gesamtanzahl, erledigte Ziele und Anzahl pro Kategorie.
-     *
      * @param ziele Liste aller Ziele
      */
     public void zeigeStatistik(List<Ziel> ziele) {
-        long erledigt = ziele.stream()
-                .filter(Ziel::isErledigt)
-                .count();
+        System.out.println(generiereStatistikText(ziele));
+    }
 
-        System.out.println("\n✅ Erledigte Ziele: " + erledigt + " von " + ziele.size());
+    public String generiereStatistikText(List<Ziel> ziele) {
+        long erledigt = ziele.stream().filter(Ziel::isErledigt).count();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n✅ Erledigte Ziele: ").append(erledigt).append(" von ").append(ziele.size());
 
         Map<ZielKategorie, Long> proKategorie = ziele.stream()
                 .filter(Ziel::isErledigt)
                 .collect(Collectors.groupingBy(Ziel::getKategorie, Collectors.counting()));
 
-        System.out.println("\n📊 Zielerreichung nach Kategorien:");
+        sb.append("\n📊 Zielerreichung nach Kategorien:");
         for (Map.Entry<ZielKategorie, Long> entry : proKategorie.entrySet()) {
-            System.out.println(" - " + entry.getKey().name() + ": " + entry.getValue() + " erledigt");
+            sb.append("\n - ").append(entry.getKey().name()).append(": ").append(entry.getValue()).append(" erledigt");
         }
+        return sb.toString();
     }
 }

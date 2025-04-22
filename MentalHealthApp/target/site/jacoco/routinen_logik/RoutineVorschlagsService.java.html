@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoutineVorschlagsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">routinen_logik</a> &gt; <span class="el_source">RoutineVorschlagsService.java</span></div><h1>RoutineVorschlagsService.java</h1><pre class="source lang-java linenums">package routinen_logik;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
+/**
+ * Der {@code RoutineVorschlagsService} lädt vordefinierte Routinen-Vorschläge
+ * aus einer externen Textdatei und stellt sie nach RoutinenArt sortiert bereit.
+ * Ziel ist es, dem Benutzer beim Erstellen oder Bearbeiten von Routinen passende
+ * Vorschläge anzuzeigen, um die Auswahl zu erleichtern.
+ */
+public class RoutineVorschlagsService {
+
+    /** Map mit RoutinenArt → Liste von Vorschlägen */
+<span class="fc" id="L17">    private final Map&lt;RoutinenArt, List&lt;String&gt;&gt; vorschlaege = new HashMap&lt;&gt;();</span>
+
+    /**
+     * Konstruktor – lädt Vorschläge aus der übergebenen Datei.
+     * @param dateipfad Pfad zur Textdatei mit Vorschlägen
+     */
+<span class="fc" id="L23">    public RoutineVorschlagsService(String dateipfad) {</span>
+<span class="fc" id="L24">        ladeVorschlaege(dateipfad);</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Lädt alle Routinen-Vorschläge aus einer Textdatei.
+     * Das Dateiformat muss zeilenweise aufgebaut sein:
+     *   MORGEN
+     *   Trinken eines Glases Wasser
+     *   ABEND
+     *   Tagebucheintrag schreiben
+     *   ...
+     * @param dateipfad Pfad zur Datei
+     */
+    private void ladeVorschlaege(String dateipfad) {
+<span class="fc" id="L38">        try (BufferedReader reader = new BufferedReader(new FileReader(dateipfad))) {</span>
+            String artZeile;
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            while ((artZeile = reader.readLine()) != null) {</span>
+<span class="fc" id="L41">                String beschreibung = reader.readLine();</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                if (beschreibung != null) {</span>
+                    try {
+<span class="fc" id="L44">                        RoutinenArt art = RoutinenArt.fromText(artZeile.trim());</span>
+<span class="fc" id="L45">                        vorschlaege.putIfAbsent(art, new ArrayList&lt;&gt;());</span>
+<span class="fc" id="L46">                        vorschlaege.get(art).add(beschreibung.trim());</span>
+<span class="fc" id="L47">                    } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L48">                        System.out.println(&quot;⚠ Ungültiger RoutinenArt-Eintrag in Datei: &quot; + artZeile);</span>
+<span class="fc" id="L49">                    }</span>
+                }
+<span class="fc" id="L51">            }</span>
+<span class="fc" id="L52">        } catch (IOException e) {</span>
+<span class="fc" id="L53">            System.out.println(&quot;⚠ Fehler beim Laden der Routinenvorschläge: &quot; + e.getMessage());</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Gibt alle Vorschläge zurück, die zu einer bestimmten {@link RoutinenArt} passen.
+     * @param art die Routinenart
+     * @return Liste der Vorschläge (kann leer sein)
+     */
+    public List&lt;String&gt; getVorschlaegeZuArt(RoutinenArt art) {
+<span class="fc" id="L63">        return vorschlaege.getOrDefault(art, new ArrayList&lt;&gt;());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -14,7 +14,17 @@ import java.util.Scanner;
 public class GedankenReflexionVerwaltung {
 
     /** Repository zur Speicherung und Verwaltung der Einträge */
-    private final GedankenReflexionRepository repository = new GedankenReflexionSpeicher();
+    private final GedankenReflexionRepository repository;
+
+    /** Konstruktor */
+    public GedankenReflexionVerwaltung() {
+        this.repository = new GedankenReflexionSpeicher();
+    }
+
+    /** Injektion-Konstruktor */
+    public GedankenReflexionVerwaltung(GedankenReflexionRepository repository) {
+        this.repository = repository;
+    }
 
 
     /**

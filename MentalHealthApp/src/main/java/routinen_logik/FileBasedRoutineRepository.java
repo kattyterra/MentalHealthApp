@@ -9,10 +9,8 @@ import java.util.*;
 /**
  * Konkrete Implementierung des {@link RoutineRepository} zur Verwaltung von Routinen über Textdateien.
  * Die Routinen werden in zwei Dateien gespeichert:
- * <ul>
- *     <li>stammliste.txt – langfristige Stammliste aller Routinen</li>
- *     <li>yyyy-MM-dd.txt – Tagesdatei mit aktuellem Erfüllungsstatus</li>
- * </ul>
+ *     -stammliste.txt – langfristige Stammliste aller Routinen
+ *     -yyyy-MM-dd.txt – Tagesdatei mit aktuellem Erfüllungsstatus
  * Diese Klasse sorgt für das Laden, Speichern, Hinzufügen, Bearbeiten und Löschen der Routinen.
  */
 public class FileBasedRoutineRepository implements RoutineRepository {
@@ -31,11 +29,8 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Konstruktor – initialisiert das Repository:
-     * <ul>
-     *     <li>legt Speicherverzeichnis und Dateien an (falls nicht vorhanden)</li>
-     *     <li>lädt entweder Tagesdatei oder Stammliste</li>
-     * </ul>
-     *
+     *     -legt Speicherverzeichnis und Dateien an (falls nicht vorhanden)
+     *     -lädt entweder Tagesdatei oder Stammliste
      * @throws RoutineException bei Fehlern während der Initialisierung
      */
     public FileBasedRoutineRepository() throws RoutineException {
@@ -69,7 +64,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Lädt alle Routinen aus der Stammliste (ohne Erledigt-Status).
-     *
      * @throws RoutineException bei Ladefehlern
      */
     private void ladeStammliste() throws RoutineException {
@@ -88,7 +82,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Lädt alle Routinen aus der Tagesdatei inklusive Erledigt-Status.
-     *
      * @throws RoutineException bei Ladefehlern
      */
     private void ladeTagesdatei() throws RoutineException {
@@ -110,7 +103,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Gibt die aktuell verwalteten Routinen zurück.
-     *
      * @return Liste der Routinen
      */
     @Override
@@ -120,7 +112,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Fügt eine neue Routine hinzu und speichert sie sowohl in der Tagesdatei als auch in der Stammliste.
-     *
      * @param routine die neue Routine
      * @throws RoutineException bei Speicherfehlern
      */
@@ -140,7 +131,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Bearbeitet eine bestehende Routine anhand ihres Indexes.
-     *
      * @param index Index der zu bearbeitenden Routine
      * @param neueArt neue Routinenart
      * @param neueBeschreibung neue Beschreibung
@@ -157,7 +147,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Löscht eine Routine anhand ihres Indexes.
-     *
      * @param index Index der zu löschenden Routine
      * @throws RoutineException bei ungültigem Index oder Speicherfehler
      */
@@ -170,7 +159,6 @@ public class FileBasedRoutineRepository implements RoutineRepository {
 
     /**
      * Speichert den aktuellen Zustand aller Routinen in der Tagesdatei.
-     *
      * @throws RoutineException bei Schreibfehlern
      */
     @Override
