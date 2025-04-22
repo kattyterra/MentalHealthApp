@@ -25,8 +25,9 @@ jobs:
       run: mvn clean verify
       working-directory: ./MentalHealthApp
 
-    - name: 📊 JaCoCo Coverage Report speichern
+    - name: JaCoCo-Report hochladen
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
-        path: target/site/jacoco/
+        path: MentalHealthApp/target/site/jacoco/
+        if-no-files-found: warn
