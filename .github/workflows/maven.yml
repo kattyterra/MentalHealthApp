@@ -1,0 +1,31 @@
+name: Java CI mit Maven + JaCoCo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Repository auschecken
+      uses: actions/checkout@v3
+
+    - name: ☕️ Java einrichten
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: 🔧 Abhängigkeiten installieren & Tests ausführen
+      run: mvn clean verify
+
+    - name: 📊 JaCoCo Coverage Report speichern
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: target/site/jacoco/
