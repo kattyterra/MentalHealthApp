@@ -22,6 +22,7 @@ jobs:
 
     - name: ⚙️ Build with Maven & generate JaCoCo report
       run: mvn clean verify
+      working-directory: ./MentalHealthApp
 
     - name: 📦 Upload JaCoCo HTML Report as artifact
       uses: actions/upload-artifact@v4
