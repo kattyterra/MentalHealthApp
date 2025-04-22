@@ -23,6 +23,7 @@ jobs:
 
     - name: 🔧 Abhängigkeiten installieren & Tests ausführen
       run: mvn clean verify
+      working-directory: ./MentalHealthApp
 
     - name: 📊 JaCoCo Coverage Report speichern
       uses: actions/upload-artifact@v4
