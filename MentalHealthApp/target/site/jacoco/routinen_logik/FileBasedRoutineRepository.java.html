@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileBasedRoutineRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">routinen_logik</a> &gt; <span class="el_source">FileBasedRoutineRepository.java</span></div><h1>FileBasedRoutineRepository.java</h1><pre class="source lang-java linenums">package routinen_logik;
+
+import utility.VerzeichnisHelfer;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/**
+ * Konkrete Implementierung des {@link RoutineRepository} zur Verwaltung von Routinen über Textdateien.
+ * Die Routinen werden in zwei Dateien gespeichert:
+ *     -stammliste.txt – langfristige Stammliste aller Routinen
+ *     -yyyy-MM-dd.txt – Tagesdatei mit aktuellem Erfüllungsstatus
+ * Diese Klasse sorgt für das Laden, Speichern, Hinzufügen, Bearbeiten und Löschen der Routinen.
+ */
+public class FileBasedRoutineRepository implements RoutineRepository {
+
+    /** Verzeichnis für Routinen-Dateien */
+<span class="fc" id="L19">    private final String ordner = &quot;Routinen&quot;;</span>
+
+    /** Stammliste-Datei mit Basisinformationen zu allen Routinen */
+<span class="fc" id="L22">    private final String stammliste = ordner + &quot;/stammliste.txt&quot;;</span>
+
+    /** Tagesdatei für den heutigen Tag (Datum-basiert) */
+    private final String tagesdatei;
+
+    /** Interner Zwischenspeicher der geladenen Routinen */
+<span class="fc" id="L28">    private final List&lt;Routine&gt; routinen = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Konstruktor – initialisiert das Repository:
+     *     -legt Speicherverzeichnis und Dateien an (falls nicht vorhanden)
+     *     -lädt entweder Tagesdatei oder Stammliste
+     * @throws RoutineException bei Fehlern während der Initialisierung
+     */
+<span class="fc" id="L36">    public FileBasedRoutineRepository() throws RoutineException {</span>
+        try {
+<span class="fc" id="L38">            VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();</span>
+<span class="fc" id="L39">            verzeichnisHelfer.sicherstellen(ordner);</span>
+
+<span class="fc" id="L41">            File stamm = new File(stammliste);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (!stamm.exists()) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                if (stamm.createNewFile()) {</span>
+<span class="nc" id="L44">                    System.out.println(&quot;✅ Stammliste wurde neu erstellt.&quot;);</span>
+                } else {
+<span class="nc" id="L46">                    System.out.println(&quot;⚠ Stammliste konnte nicht erstellt werden.&quot;);</span>
+                }
+            }
+
+<span class="fc" id="L50">            String datum = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(new Date());</span>
+<span class="fc" id="L51">            tagesdatei = ordner + &quot;/&quot; + datum + &quot;.txt&quot;;</span>
+
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            if (new File(tagesdatei).exists()) {</span>
+<span class="fc" id="L54">                ladeTagesdatei();</span>
+            } else {
+<span class="nc" id="L56">                ladeStammliste();</span>
+<span class="nc" id="L57">                speichern();</span>
+            }
+
+<span class="nc" id="L60">        } catch (IOException e) {</span>
+<span class="nc" id="L61">            throw new RoutineException(&quot;Fehler bei Initialisierung: &quot; + e.getMessage());</span>
+<span class="fc" id="L62">        }</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Lädt alle Routinen aus der Stammliste (ohne Erledigt-Status).
+     * @throws RoutineException bei Ladefehlern
+     */
+    private void ladeStammliste() throws RoutineException {
+<span class="fc" id="L70">        routinen.clear();</span>
+<span class="fc" id="L71">        try (BufferedReader r = new BufferedReader(new FileReader(stammliste))) {</span>
+            String zeile;
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            while ((zeile = r.readLine()) != null) {</span>
+<span class="fc" id="L74">                RoutinenArt art = RoutinenArt.fromText(zeile.trim());</span>
+<span class="fc" id="L75">                String beschreibung = r.readLine();</span>
+<span class="fc" id="L76">                routinen.add(new Routine(art, beschreibung));</span>
+<span class="fc" id="L77">            }</span>
+<span class="nc" id="L78">        } catch (IOException e) {</span>
+<span class="nc" id="L79">            throw new RoutineException(&quot;Fehler beim Laden der Stammliste: &quot; + e.getMessage());</span>
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * Lädt alle Routinen aus der Tagesdatei inklusive Erledigt-Status.
+     * @throws RoutineException bei Ladefehlern
+     */
+    private void ladeTagesdatei() throws RoutineException {
+<span class="fc" id="L88">        routinen.clear();</span>
+<span class="fc" id="L89">        try (BufferedReader r = new BufferedReader(new FileReader(tagesdatei))) {</span>
+            String zeile;
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            while ((zeile = r.readLine()) != null) {</span>
+<span class="fc" id="L92">                RoutinenArt art = RoutinenArt.fromText(zeile.trim());</span>
+<span class="fc" id="L93">                String beschreibung = r.readLine();</span>
+<span class="fc" id="L94">                boolean erledigt = Boolean.parseBoolean(r.readLine());</span>
+<span class="fc" id="L95">                Routine routine = new Routine(art, beschreibung);</span>
+<span class="fc" id="L96">                routine.setErledigt(erledigt);</span>
+<span class="fc" id="L97">                routinen.add(routine);</span>
+<span class="fc" id="L98">            }</span>
+<span class="nc" id="L99">        } catch (IOException e) {</span>
+<span class="nc" id="L100">            throw new RoutineException(&quot;Fehler beim Laden der Tagesdatei: &quot; + e.getMessage());</span>
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">    }</span>
+
+    /**
+     * Gibt die aktuell verwalteten Routinen zurück.
+     * @return Liste der Routinen
+     */
+    @Override
+    public List&lt;Routine&gt; getRoutinen() {
+<span class="fc" id="L110">        return routinen;</span>
+    }
+
+    /**
+     * Fügt eine neue Routine hinzu und speichert sie sowohl in der Tagesdatei als auch in der Stammliste.
+     * @param routine die neue Routine
+     * @throws RoutineException bei Speicherfehlern
+     */
+    @Override
+    public void hinzufuegen(Routine routine) throws RoutineException {
+<span class="fc" id="L120">        routinen.add(routine);</span>
+<span class="fc" id="L121">        speichern();</span>
+<span class="fc" id="L122">        try (BufferedWriter w = new BufferedWriter(new FileWriter(stammliste, true))) {</span>
+<span class="fc" id="L123">            w.write(routine.getArt().name());</span>
+<span class="fc" id="L124">            w.newLine();</span>
+<span class="fc" id="L125">            w.write(routine.getBeschreibung());</span>
+<span class="fc" id="L126">            w.newLine();</span>
+<span class="nc" id="L127">        } catch (IOException e) {</span>
+<span class="nc" id="L128">            throw new RoutineException(&quot;Fehler beim Speichern in Stammliste: &quot; + e.getMessage());</span>
+<span class="fc" id="L129">        }</span>
+<span class="fc" id="L130">    }</span>
+
+    /**
+     * Bearbeitet eine bestehende Routine anhand ihres Indexes.
+     * @param index Index der zu bearbeitenden Routine
+     * @param neueArt neue Routinenart
+     * @param neueBeschreibung neue Beschreibung
+     * @throws RoutineException bei ungültigem Index oder Speicherfehler
+     */
+    @Override
+    public void bearbeiten(int index, RoutinenArt neueArt, String neueBeschreibung) throws RoutineException {
+<span class="pc bpc" id="L141" title="2 of 4 branches missed.">        if (index &lt; 0 || index &gt;= routinen.size()) throw new RoutineException(&quot;Ungültiger Index.&quot;);</span>
+<span class="fc" id="L142">        Routine r = routinen.get(index);</span>
+<span class="fc" id="L143">        r.setArt(neueArt);</span>
+<span class="fc" id="L144">        r.setBeschreibung(neueBeschreibung);</span>
+<span class="fc" id="L145">        speichern();</span>
+<span class="fc" id="L146">    }</span>
+
+    /**
+     * Löscht eine Routine anhand ihres Indexes.
+     * @param index Index der zu löschenden Routine
+     * @throws RoutineException bei ungültigem Index oder Speicherfehler
+     */
+    @Override
+    public void loeschen(int index) throws RoutineException {
+<span class="pc bpc" id="L155" title="2 of 4 branches missed.">        if (index &lt; 0 || index &gt;= routinen.size()) throw new RoutineException(&quot;Ungültiger Index.&quot;);</span>
+<span class="fc" id="L156">        routinen.remove(index);</span>
+<span class="fc" id="L157">        speichern();</span>
+<span class="fc" id="L158">    }</span>
+
+    /**
+     * Speichert den aktuellen Zustand aller Routinen in der Tagesdatei.
+     * @throws RoutineException bei Schreibfehlern
+     */
+    @Override
+    public void speichern() throws RoutineException {
+<span class="fc" id="L166">        try (BufferedWriter w = new BufferedWriter(new FileWriter(tagesdatei))) {</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            for (Routine r : routinen) {</span>
+<span class="fc" id="L168">                w.write(r.getArt().name());</span>
+<span class="fc" id="L169">                w.newLine();</span>
+<span class="fc" id="L170">                w.write(r.getBeschreibung());</span>
+<span class="fc" id="L171">                w.newLine();</span>
+<span class="fc" id="L172">                w.write(Boolean.toString(r.isErledigt()));</span>
+<span class="fc" id="L173">                w.newLine();</span>
+<span class="fc" id="L174">            }</span>
+<span class="nc" id="L175">        } catch (IOException e) {</span>
+<span class="nc" id="L176">            throw new RoutineException(&quot;Fehler beim Speichern der Tagesdatei: &quot; + e.getMessage());</span>
+<span class="fc" id="L177">        }</span>
+<span class="fc" id="L178">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

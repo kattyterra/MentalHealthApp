@@ -26,6 +26,13 @@ public class TagebuchVerwaltung {
         this.abfrage = new BenutzerAbfrageDateiLoeschen();
     }
 
+    /** Injektion-Konstruktor */
+    public TagebuchVerwaltung(TagebuchRepository repository, BenutzerEingabe eingabe, BenutzerAbfrageDateiLoeschen abfrage) {
+        this.repository = repository;
+        this.eingabe = eingabe;
+        this.abfrage = abfrage;
+    }
+
     /**
      * Erstellt einen neuen Tagebucheintrag mit aktuellem Datum und Uhrzeit.
      * Der Text wird vom Benutzer eingegeben.

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FortschrittsberichtService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">fortschrittsbericht_logik</a> &gt; <span class="el_source">FortschrittsberichtService.java</span></div><h1>FortschrittsberichtService.java</h1><pre class="source lang-java linenums">package fortschrittsbericht_logik;
+
+import zielverwaltung_logik.*;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * Diese Klasse erzeugt einen persönlichen Fortschrittsbericht (Monatsrückblick)
+ * auf Grundlage der gespeicherten Daten in den Modulen Stimmung, Tagebuch,
+ * Routinen, Emotionen und Gedankenreflexion.
+ */
+<span class="nc" id="L13">public class FortschrittsberichtService {</span>
+
+    /**
+     * Hauptmethode zur Anzeige des Monatsberichts mit allen Teilstatistiken.
+     * Ruft die einzelnen Auswertungsmethoden auf.
+     */
+    public void monatsberichtAnzeigen() {
+<span class="nc" id="L20">        String monat = java.time.LocalDate.now().getMonth().toString();</span>
+<span class="nc" id="L21">        System.out.println(&quot;\n📊 Persönlicher Monatsrückblick – &quot; + monat);</span>
+<span class="nc" id="L22">        System.out.println(&quot;────────────────────────────────&quot;);</span>
+
+<span class="nc" id="L24">        zeigeStimmungsauswertung();</span>
+<span class="nc" id="L25">        zeigeTagebuchEintraege();</span>
+<span class="nc" id="L26">        zeigeRoutineStatistik();</span>
+<span class="nc" id="L27">        zeigeEmotionenStatistik();</span>
+<span class="nc" id="L28">        zeigeGedankenReflexionEintraege();</span>
+<span class="nc" id="L29">        zeigeZielauswertung();</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * Ermittelt den Durchschnitt aller Stimmungseinträge.
+     * Grundlage sind alle Textdateien im Verzeichnis &quot;Stimmungskalender&quot;.
+     */
+    private void zeigeStimmungsauswertung() {
+<span class="nc" id="L37">        File ordner = new File(&quot;Stimmungskalender&quot;);</span>
+<span class="nc" id="L38">        File[] dateien = ordner.listFiles((d, name) -&gt; name.endsWith(&quot;.txt&quot;));</span>
+<span class="nc" id="L39">        int summe = 0, count = 0;</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (dateien != null) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for (File f : dateien) {</span>
+<span class="nc" id="L43">                try (BufferedReader r = new BufferedReader(new FileReader(f))) {</span>
+                    String z;
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                    while ((z = r.readLine()) != null) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                        if (z.contains(&quot;Stimmung:&quot;)) {</span>
+<span class="nc" id="L47">                            int s = Integer.parseInt(z.split(&quot;Stimmung:&quot;)[1].trim());</span>
+<span class="nc" id="L48">                            summe += s;</span>
+<span class="nc" id="L49">                            count++;</span>
+<span class="nc" id="L50">                        }</span>
+                    }
+<span class="nc" id="L52">                } catch (Exception ignored) {}</span>
+            }
+        }
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        double avg = (count &gt; 0) ? (double) summe / count : 0.0;</span>
+<span class="nc" id="L57">        System.out.printf(&quot;• Stimmung Ø: %.1f (%d Einträge)\n&quot;, avg, count);</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Zählt die Anzahl vorhandener Tagebuchdateien.
+     * Grundlage sind alle Textdateien im Verzeichnis &quot;Tagebuch&quot;.
+     */
+    private void zeigeTagebuchEintraege() {
+<span class="nc" id="L65">        File ordner = new File(&quot;Tagebuch&quot;);</span>
+<span class="nc" id="L66">        String[] files = ordner.list((d, n) -&gt; n.endsWith(&quot;.txt&quot;));</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        int anzahl = (files != null) ? files.length : 0;</span>
+<span class="nc" id="L68">        System.out.println(&quot;• Einträge im Tagebuch: &quot; + anzahl);</span>
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * Analysiert die Routineerfüllung über alle Routinen-Tagesdateien hinweg.
+     * Grundlage ist jede 3. Zeile der Tagesdateien, welche den Erledigungsstatus enthält.
+     */
+    private void zeigeRoutineStatistik() {
+<span class="nc" id="L76">        File ordner = new File(&quot;Routinen&quot;);</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">        File[] files = ordner.listFiles((d, n) -&gt; n.endsWith(&quot;.txt&quot;) &amp;&amp; !n.equals(&quot;stammliste.txt&quot;));</span>
+<span class="nc" id="L78">        int gesamt = 0, erledigt = 0;</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (files != null) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            for (File f : files) {</span>
+<span class="nc" id="L82">                try (BufferedReader r = new BufferedReader(new FileReader(f))) {</span>
+                    String zeile;
+<span class="nc" id="L84">                    int zeilenzähler = 0;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                    while ((zeile = r.readLine()) != null) {</span>
+<span class="nc" id="L86">                        zeilenzähler++;</span>
+                        // Jede 3. Zeile in Routine-Dateien = Status true/false
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                        if (zeilenzähler % 3 == 0) {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                            if (Boolean.parseBoolean(zeile.trim())) erledigt++;</span>
+<span class="nc" id="L90">                            gesamt++;</span>
+                        }
+                    }
+<span class="nc" id="L93">                } catch (IOException ignored) {}</span>
+            }
+        }
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        double prozent = (gesamt &gt; 0) ? (100.0 * erledigt / gesamt) : 0;</span>
+<span class="nc" id="L98">        System.out.printf(&quot;• Routinen erfüllt: %.1f%% (%d von %d)\n&quot;, prozent, erledigt, gesamt);</span>
+<span class="nc" id="L99">    }</span>
+
+    /**
+     * Analysiert alle Emotionseinträge aus den Stimmungskalender-Dateien.
+     * Pro Emotion werden Ø-Intensität und Häufigkeit berechnet.
+     */
+    private void zeigeEmotionenStatistik() {
+<span class="nc" id="L106">        File ordner = new File(&quot;Stimmungskalender&quot;);</span>
+<span class="nc" id="L107">        File[] dateien = ordner.listFiles((d, name) -&gt; name.endsWith(&quot;.txt&quot;));</span>
+<span class="nc" id="L108">        Map&lt;String, List&lt;Integer&gt;&gt; emotionMap = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (dateien != null) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (File f : dateien) {</span>
+<span class="nc" id="L112">                try (BufferedReader reader = new BufferedReader(new FileReader(f))) {</span>
+                    String zeile;
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                    while ((zeile = reader.readLine()) != null) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                        if (zeile.startsWith(&quot;- Emotion:&quot;)) {</span>
+                            // Zeilenformat: &quot;- Emotion: Name | Intensität: Zahl&quot;
+<span class="nc" id="L117">                            String[] teile = zeile.split(&quot;\\|&quot;);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                            if (teile.length &gt;= 2) {</span>
+<span class="nc" id="L119">                                String name = teile[0].split(&quot;:&quot;)[1].trim();</span>
+<span class="nc" id="L120">                                String intensitaetStr = teile[1].replace(&quot;Intensität:&quot;, &quot;&quot;).trim();</span>
+                                try {
+<span class="nc" id="L122">                                    int intensitaet = Integer.parseInt(intensitaetStr);</span>
+<span class="nc" id="L123">                                    emotionMap.computeIfAbsent(name, k -&gt; new ArrayList&lt;&gt;()).add(intensitaet);</span>
+<span class="nc" id="L124">                                } catch (NumberFormatException ignored) {}</span>
+                            }
+<span class="nc" id="L126">                        }</span>
+                    }
+<span class="nc" id="L128">                } catch (IOException ignored) {}</span>
+            }
+        }
+
+<span class="nc" id="L132">        System.out.println(&quot;• Emotionen-Statistik:&quot;);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        for (Map.Entry&lt;String, List&lt;Integer&gt;&gt; entry : emotionMap.entrySet()) {</span>
+<span class="nc" id="L134">            double avg = entry.getValue().stream().mapToInt(i -&gt; i).average().orElse(0);</span>
+<span class="nc" id="L135">            System.out.printf(&quot;  - %s (Ø Intensität: %.1f | Vorkommen: %d)\n&quot;, entry.getKey(), avg, entry.getValue().size());</span>
+<span class="nc" id="L136">        }</span>
+<span class="nc" id="L137">    }</span>
+
+    /**
+     * Zählt die Anzahl an gespeicherten Gedankenreflexionseinträgen
+     * (aus dem Modul „Gedankenkarussell stoppen“).
+     */
+    private void zeigeGedankenReflexionEintraege() {
+<span class="nc" id="L144">        File ordner = new File(&quot;Reflexionen&quot;);</span>
+<span class="nc" id="L145">        File[] files = ordner.listFiles((d, n) -&gt; n.endsWith(&quot;.txt&quot;));</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        int anzahl = (files != null) ? files.length : 0;</span>
+<span class="nc" id="L147">        System.out.println(&quot;• Gedankenreflexionen (Einträge): &quot; + anzahl);</span>
+<span class="nc" id="L148">    }</span>
+
+    /**
+     * Berechnet die Auswertung von Zielen: Wie viel Ziele gab es insgesamt,
+     * wie viele davon wurden erledigt und die Zielerreichungsquote
+     */
+    private void zeigeZielauswertung() {
+<span class="nc" id="L155">        ZielRepository zielRepo = new ZielSpeicher();</span>
+<span class="nc" id="L156">        List&lt;Ziel&gt; ziele = zielRepo.laden();</span>
+<span class="nc" id="L157">        long erledigt = ziele.stream().filter(Ziel::isErledigt).count();</span>
+
+<span class="nc" id="L159">        System.out.println(&quot;• Ziele insgesamt: &quot; + ziele.size());</span>
+<span class="nc" id="L160">        System.out.println(&quot;• Davon erledigt: &quot; + erledigt);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (!ziele.isEmpty()) {</span>
+<span class="nc" id="L162">            double prozent = (100.0 * erledigt / ziele.size());</span>
+<span class="nc" id="L163">            System.out.printf(&quot;• Zielerreichungsquote: %.1f%%\n&quot;, prozent);</span>
+        }
+<span class="nc" id="L165">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

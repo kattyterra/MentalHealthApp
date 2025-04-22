@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UebungMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">menus</a> &gt; <span class="el_source">UebungMenu.java</span></div><h1>UebungMenu.java</h1><pre class="source lang-java linenums">package menus;
+
+import uebungen.*;
+import utility.AnswerParser;
+
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * Diese Klasse stellt ein Menü für die Verwaltung und Anzeige von Übungen bereit.
+ * Der Benutzer kann aus einer Liste von Übungen wählen und sich deren Details anzeigen lassen.
+ */
+public class UebungMenu {
+
+    private final List&lt;Uebung&gt; uebungen;
+    private final String titel;
+
+    /**
+     * Konstruktor – initialisiert das Menü mit einer Liste von Übungen und einem Titel.
+     * @param uebungen Liste der verfügbaren Übungen
+     * @param titel    Titel des Menüs (z.B. „Deine Atemübungen“)
+     */
+<span class="nc" id="L23">    public UebungMenu(List&lt;Uebung&gt; uebungen, String titel) {</span>
+<span class="nc" id="L24">        this.uebungen = uebungen;</span>
+<span class="nc" id="L25">        this.titel = titel;</span>
+<span class="nc" id="L26">    }</span>
+
+    /**
+     * Zeigt das Übungsmenü an und verarbeitet Benutzereingaben.
+     * @param scanner Scanner-Objekt für Benutzereingaben
+     */
+    public void showMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L34">            System.out.println(&quot;\n📋 &quot; + titel);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            for (int i = 0; i &lt; uebungen.size(); i++) {</span>
+<span class="nc" id="L36">                System.out.println((i + 1) + &quot; - &quot; + uebungen.get(i).name());</span>
+            }
+<span class="nc" id="L38">            System.out.println((uebungen.size() + 1) + &quot; - 🔙 Zurück zum Hauptmenü&quot;);</span>
+<span class="nc" id="L39">            System.out.print(&quot;Deine Wahl: &quot;);</span>
+
+<span class="nc" id="L41">            AnswerParser answerParser = new AnswerParser();</span>
+<span class="nc" id="L42">            int choice = answerParser.parsen(scanner);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (choice == 99){</span>
+<span class="nc" id="L44">                continue;</span>
+            }
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (choice == uebungen.size() + 1) return;</span>
+
+<span class="nc bnc" id="L49" title="All 4 branches missed.">            if (choice &gt; 0 &amp;&amp; choice &lt;= uebungen.size()) {</span>
+<span class="nc" id="L50">                zeigeUebung(uebungen.get(choice - 1), scanner);</span>
+            } else {
+<span class="nc" id="L52">                System.out.println(&quot;😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!&quot;);</span>
+            }
+<span class="nc" id="L54">        }</span>
+    }
+
+    /**
+     * Zeigt die Details der gewählten Übung an (Name, Ziel, Anleitung).
+     * @param uebung   Die ausgewählte Übung
+     * @param scanner  Scanner-Objekt für Benutzereingaben
+     */
+    private void zeigeUebung(Uebung uebung, Scanner scanner) {
+<span class="nc" id="L63">        System.out.println(&quot;\n🌿 &quot; + uebung.name());</span>
+<span class="nc" id="L64">        System.out.println(&quot;🎯 Ziel: &quot; + uebung.ziel());</span>
+<span class="nc" id="L65">        System.out.println(&quot;\n📖 Anleitung:&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (String s : uebung.anleitung()) {</span>
+<span class="nc" id="L67">            System.out.println(&quot;• &quot; + s);</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">        System.out.println(&quot;\n🔙 Drücke Enter, um zurückzukehren.&quot;);</span>
+<span class="nc" id="L70">        scanner.nextLine();</span>
+<span class="nc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -20,7 +20,7 @@ public class StimmungskalenderVerwaltung {
 
     /**
      * Konstruktor zur Initialisierung mit einer konkreten Repository-Implementierung.
-     * @param repository die Speicherstrategie für Stimmungseinträge (z. B. Datei)
+     * @param repository die Speicherstrategie für Stimmungseinträge (z.B. Datei)
      */
     public StimmungskalenderVerwaltung(StimmungskalenderRepository repository) {
         this.repository = repository;
@@ -54,8 +54,7 @@ public class StimmungskalenderVerwaltung {
     }
 
     /**
-     * Zeigt alle Stimmungseinträge als Balkendiagramm auf der Konsole.
-     * Je besser die Stimmung, desto länger der Balken.
+     * Zeigt alle Stimmungseinträge als Balkendiagramm auf der Konsole. Je besser die Stimmung, desto länger der Balken.
      */
     public void eintraegeAlsGraphAnzeigen() {
         List<String> eintraege = repository.lesenAlle();
@@ -204,7 +203,7 @@ public class StimmungskalenderVerwaltung {
      * @param emotionenListe Liste mit allen Emotionen inkl. Beschreibung
      * @return Intensitätsbeschreibung (Text)
      */
-    private String getIntensitaetsbeschreibungZuEmotion(String emotionName, List<String> emotionenListe) {
+    public String getIntensitaetsbeschreibungZuEmotion(String emotionName, List<String> emotionenListe) {
         for (String zeile : emotionenListe) {
             if (zeile.startsWith("Emotion:") && zeile.contains(emotionName)) {
                 String[] teile = zeile.split("Intensität:");

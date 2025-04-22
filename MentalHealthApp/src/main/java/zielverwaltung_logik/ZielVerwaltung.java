@@ -6,8 +6,14 @@ public class ZielVerwaltung {
     private final List<Ziel> ziele;
     private final ZielRepository repository;
 
-    public ZielVerwaltung(ZielRepository repository) {
-        this.repository = repository;
+    public ZielVerwaltung() {
+        this.repository = new ZielSpeicher();
+        this.ziele = repository.laden();
+    }
+
+    /** Injektion-Konstruktor */
+    public ZielVerwaltung(ZielRepository repo) {
+        this.repository = repo;
         this.ziele = repository.laden();
     }
 

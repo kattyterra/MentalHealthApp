@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UebungLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">uebungen</a> &gt; <span class="el_source">UebungLoader.java</span></div><h1>UebungLoader.java</h1><pre class="source lang-java linenums">package uebungen;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * Diese Klasse dient zum Einlesen von Übungstexten aus einer externen Textdatei.
+ * Das Dateiformat folgt einer klaren Struktur pro Übung:
+ * 1. Name der Übung
+ * Ziel: Zielbeschreibung
+ * Schritt 1 der Anleitung
+ * Schritt 2 der Anleitung
+ * Jede Übung besteht aus:
+ *     -einem Namen (Beginn mit „1. “, „2. “, …)
+ *     -einem Ziel (beginnend mit „Ziel: “)
+ *     -mehreren Anleitungsschritten
+ */
+<span class="fc" id="L18">public class UebungLoader {</span>
+
+    /**
+     * Liest eine Liste von Übungen aus einer gegebenen Textdatei ein.
+     * Die Datei muss im beschriebenen Format aufgebaut sein.
+     * @param dateipfad Pfad zur Datei mit Übungsvorlagen
+     * @return Liste aller eingelesenen {@link Uebung}-Objekte
+     */
+    public List&lt;Uebung&gt; ladeUebungen(String dateipfad) {
+<span class="fc" id="L27">        List&lt;Uebung&gt; uebungen = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L29">        try (BufferedReader reader = new BufferedReader(new FileReader(dateipfad))) {</span>
+            String zeile;
+<span class="fc" id="L31">            String name = null;</span>
+<span class="fc" id="L32">            String ziel = null;</span>
+<span class="fc" id="L33">            List&lt;String&gt; anleitung = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">            boolean leseAnleitung = false;</span>
+
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            while ((zeile = reader.readLine()) != null) {</span>
+                // Neue Übung beginnt mit &quot;1. &quot;, &quot;2. &quot;, etc.
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                if (zeile.matches(&quot;^\\d+\\.\\s.*&quot;)) {</span>
+                    // Vorherige Übung hinzufügen (falls vorhanden)
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                    if (name != null) {</span>
+<span class="fc" id="L41">                        uebungen.add(new Uebung(name, ziel, new ArrayList&lt;&gt;(anleitung)));</span>
+<span class="fc" id="L42">                        anleitung.clear();</span>
+                    }
+<span class="fc" id="L44">                    name = zeile.substring(3).trim(); // Name extrahieren</span>
+<span class="fc" id="L45">                    ziel = null;</span>
+<span class="fc" id="L46">                    leseAnleitung = false;</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">                } else if (zeile.startsWith(&quot;Ziel:&quot;)) {</span>
+<span class="fc" id="L48">                    ziel = zeile.substring(5).trim(); // Ziel extrahieren</span>
+<span class="fc" id="L49">                    leseAnleitung = true;</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">                } else if (leseAnleitung &amp;&amp; !zeile.isBlank()) {</span>
+                    // Anleitungsschritte sammeln
+<span class="fc" id="L52">                    anleitung.add(zeile);</span>
+                }
+            }
+
+            // Letzte Übung hinzufügen (nach Dateiende)
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (name != null) {</span>
+<span class="fc" id="L58">                uebungen.add(new Uebung(name, ziel, anleitung));</span>
+            }
+
+<span class="fc" id="L61">        } catch (IOException e) {</span>
+<span class="fc" id="L62">            System.out.println(&quot;Fehler beim Laden der Übungen: &quot; + e.getMessage());</span>
+<span class="fc" id="L63">        }</span>
+
+<span class="fc" id="L65">        return uebungen;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

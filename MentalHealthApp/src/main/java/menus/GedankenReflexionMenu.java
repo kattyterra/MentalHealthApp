@@ -1,6 +1,7 @@
 package menus;
 
 import gedanken_reflexion_logik.*;
+import utility.AnswerParser;
 
 import java.util.Scanner;
 
@@ -14,19 +15,10 @@ import java.util.Scanner;
 public class GedankenReflexionMenu {
 
     /** Verwaltungsklasse für die Gedankenreflexion (steuert Logik & Speicherung) */
-    private final GedankenReflexionVerwaltung verwaltung;
+    private final GedankenReflexionVerwaltung verwaltung = new GedankenReflexionVerwaltung();
 
     /**
-     * Konstruktor – initialisiert die Verwaltungslogik mit einer konkreten Speicherstrategie.
-     */
-    public GedankenReflexionMenu() {
-        this.verwaltung = new GedankenReflexionVerwaltung(new GedankenReflexionSpeicher());
-    }
-
-    /**
-     * Zeigt das Menü zur Gedankenreflexion in einer Schleife,
-     * bis der Benutzer den Menüpunkt „Zurück“ wählt.
-     *
+     * Zeigt das Menü zur Gedankenreflexion in einer Schleife, bis der Benutzer den Menüpunkt „Zurück“ wählt.
      * @param scanner Scanner zur Benutzereingabe
      */
     public void showMenu(Scanner scanner) {
@@ -39,12 +31,9 @@ public class GedankenReflexionMenu {
             System.out.println("──────────────────────────────────────────────────────────────");
             System.out.print("👉 Deine Auswahl: ");
 
-
-            int choice;
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 

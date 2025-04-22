@@ -5,29 +5,21 @@ import java.util.*;
 
 /**
  * Diese Klasse dient zum Einlesen von Übungstexten aus einer externen Textdatei.
- * <p>
  * Das Dateiformat folgt einer klaren Struktur pro Übung:
- * <pre>
  * 1. Name der Übung
  * Ziel: Zielbeschreibung
  * Schritt 1 der Anleitung
  * Schritt 2 der Anleitung
- * ...
- * </pre>
- * <p>
  * Jede Übung besteht aus:
- * <ul>
- *     <li>einem Namen (Beginn mit „1. “, „2. “, …)</li>
- *     <li>einem Ziel (beginnend mit „Ziel: “)</li>
- *     <li>mehreren Anleitungsschritten</li>
- * </ul>
+ *     -einem Namen (Beginn mit „1. “, „2. “, …)
+ *     -einem Ziel (beginnend mit „Ziel: “)
+ *     -mehreren Anleitungsschritten
  */
 public class UebungLoader {
 
     /**
      * Liest eine Liste von Übungen aus einer gegebenen Textdatei ein.
      * Die Datei muss im beschriebenen Format aufgebaut sein.
-     *
      * @param dateipfad Pfad zur Datei mit Übungsvorlagen
      * @return Liste aller eingelesenen {@link Uebung}-Objekte
      */

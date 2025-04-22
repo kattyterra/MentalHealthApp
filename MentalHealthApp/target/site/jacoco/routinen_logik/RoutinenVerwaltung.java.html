@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoutinenVerwaltung.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">routinen_logik</a> &gt; <span class="el_source">RoutinenVerwaltung.java</span></div><h1>RoutinenVerwaltung.java</h1><pre class="source lang-java linenums">package routinen_logik;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * Die Klasse {@code RoutinenVerwaltung} stellt die zentrale Logik zur Verwaltung von täglichen Routinen dar.
+ * Sie erlaubt das Hinzufügen, Bearbeiten, Löschen und Abhaken von Routinen, sowie die Anzeige von Statistiken
+ * und der Historie. Dabei wird das Prinzip der Trennung von Verantwortung durch externe Services wie das
+ * {@code RoutineRepository} und den {@code RoutineVorschlagsService} unterstützt.
+ */
+
+public class RoutinenVerwaltung {
+
+    private final RoutineRepository repository;
+    private final RoutineVorschlagsService vorschlagsService;
+
+    /** Konstruktor */
+<span class="nc" id="L19">    public RoutinenVerwaltung() throws RoutineException {</span>
+<span class="nc" id="L20">        this.repository = new FileBasedRoutineRepository();</span>
+<span class="nc" id="L21">        this.vorschlagsService = new RoutineVorschlagsService(&quot;Textvorlagen(nicht_ändern!)/RoutinenVollVorschlaege.txt&quot;);</span>
+<span class="nc" id="L22">    }</span>
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L25">    public RoutinenVerwaltung(RoutineRepository repository, RoutineVorschlagsService vorschlagsService) {</span>
+<span class="fc" id="L26">        this.repository = repository;</span>
+<span class="fc" id="L27">        this.vorschlagsService = vorschlagsService;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Fügt eine neue Routine hinzu. Der Benutzer kann eine Routinenart auswählen und eine Beschreibung
+     * entweder selbst eingeben oder aus Vorschlägen auswählen.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Hinzufügen ein Fehler auftritt
+     */
+    public void routineHinzufuegen(Scanner scanner) throws RoutineException {
+<span class="fc" id="L37">        RoutinenArt art = waehleRoutinenArt(scanner);</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (art == null) return;</span>
+
+<span class="fc" id="L40">        System.out.println(&quot;\n1 - Eigene Beschreibung eingeben&quot;);</span>
+<span class="fc" id="L41">        System.out.println(&quot;2 - Vorschlag aus Liste wählen&quot;);</span>
+        int auswahl;
+        while (true) {
+<span class="fc" id="L44">            System.out.print(&quot;Deine Wahl: &quot;);</span>
+            try {
+<span class="fc" id="L46">                auswahl = Integer.parseInt(scanner.nextLine());</span>
+<span class="fc" id="L47">                break;</span>
+<span class="nc" id="L48">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L49">                System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L50">            }</span>
+        }
+
+        String beschreibung;
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (auswahl == 2) {</span>
+<span class="fc" id="L55">            List&lt;String&gt; vorschlaege = vorschlagsService.getVorschlaegeZuArt(art);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">            if (vorschlaege.isEmpty()) {</span>
+<span class="nc" id="L57">                System.out.println(&quot;⚠ Keine Vorschläge verfügbar. Bitte manuell eingeben.&quot;);</span>
+<span class="nc" id="L58">                System.out.print(&quot;📝 Beschreibung: &quot;);</span>
+<span class="nc" id="L59">                beschreibung = scanner.nextLine();</span>
+            } else {
+<span class="fc" id="L61">                System.out.println(&quot;\nVorschläge für &quot; + art.getAnzeigeName() + &quot;:&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                for (int i = 0; i &lt; vorschlaege.size(); i++) {</span>
+<span class="fc" id="L63">                    System.out.println((i + 1) + &quot;. &quot; + vorschlaege.get(i));</span>
+                }
+                int index;
+                while (true) {
+<span class="fc" id="L67">                    System.out.print(&quot;Welchen Vorschlag möchtest du übernehmen? (0 = Abbrechen): &quot;);</span>
+                    try {
+<span class="fc" id="L69">                        index = Integer.parseInt(scanner.nextLine());</span>
+<span class="fc" id="L70">                        break;</span>
+<span class="nc" id="L71">                    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L72">                        System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L73">                    }</span>
+                }
+<span class="pc bpc" id="L75" title="2 of 4 branches missed.">                if (index &lt;= 0 || index &gt; vorschlaege.size()) {</span>
+<span class="nc" id="L76">                    System.out.println(&quot;❌ Abbruch oder ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L77">                    return;</span>
+                }
+<span class="fc" id="L79">                beschreibung = vorschlaege.get(index - 1);</span>
+            }
+<span class="fc" id="L81">        } else {</span>
+<span class="fc" id="L82">            System.out.print(&quot;📝 Beschreibung: &quot;);</span>
+<span class="fc" id="L83">            beschreibung = scanner.nextLine();</span>
+        }
+
+<span class="fc" id="L86">        repository.hinzufuegen(new Routine(art, beschreibung));</span>
+<span class="fc" id="L87">        System.out.println(&quot;✅ Routine hinzugefügt.&quot;);</span>
+<span class="fc" id="L88">    }</span>
+
+    /**
+     * Zeigt eine Checkliste aller Routinen an, sortiert nach Routinenart.
+     * Der Benutzer kann einzelne Routinen als erledigt oder nicht erledigt markieren.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Speichern ein Fehler auftritt
+     */
+    public void checklisteVerwalten(Scanner scanner) throws RoutineException {
+<span class="nc" id="L97">        List&lt;Routine&gt; checklist = repository.getRoutinen();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (checklist.isEmpty()) {</span>
+<span class="nc" id="L99">            System.out.println(&quot;\nKeine Routinen vorhanden.&quot;);</span>
+<span class="nc" id="L100">            return;</span>
+        }
+
+<span class="nc" id="L103">        checklist.sort(Comparator.comparingInt(r -&gt; r.getArt().ordinal()));</span>
+
+<span class="nc" id="L105">        boolean back = false;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        while (!back) {</span>
+<span class="nc" id="L107">            System.out.println(&quot;\nRoutinen ansehen/abhaken:&quot;);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            for (int i = 0; i &lt; checklist.size(); i++) {</span>
+<span class="nc" id="L109">                Routine r = checklist.get(i);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                String status = r.isErledigt() ? &quot;[✓]&quot; : &quot;[ ]&quot;;</span>
+<span class="nc" id="L111">                System.out.println((i + 1) + &quot;. &quot; + status + &quot; [&quot; + r.getArt().getAnzeigeName() + &quot;] – &quot; + r.getBeschreibung());</span>
+            }
+
+            int eingabe;
+            while (true) {
+<span class="nc" id="L116">                System.out.print(&quot;Nummer zum Abhaken/Umschalten (0 = zurück): &quot;);</span>
+                try {
+<span class="nc" id="L118">                    eingabe = Integer.parseInt(scanner.nextLine());</span>
+<span class="nc" id="L119">                    break;</span>
+<span class="nc" id="L120">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L121">                    System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L122">                }</span>
+            }
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (eingabe == 0) {</span>
+<span class="nc" id="L126">                back = true;</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">            } else if (eingabe &gt; 0 &amp;&amp; eingabe &lt;= checklist.size()) {</span>
+<span class="nc" id="L128">                Routine r = checklist.get(eingabe - 1);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">                r.setErledigt(!r.isErledigt());</span>
+<span class="nc" id="L130">                repository.speichern();</span>
+<span class="nc" id="L131">            } else {</span>
+<span class="nc" id="L132">                System.out.println(&quot;❌ Ungültige Auswahl.&quot;);</span>
+            }
+<span class="nc" id="L134">        }</span>
+<span class="nc" id="L135">    }</span>
+
+    /**
+     * Ermöglicht dem Benutzer, eine bestehende Routine zu bearbeiten.
+     * Sowohl die Routinenart als auch die Beschreibung können geändert werden.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Bearbeiten ein Fehler auftritt
+     */
+    public void routineBearbeiten(Scanner scanner) throws RoutineException {
+<span class="fc" id="L144">        List&lt;Routine&gt; routinen = repository.getRoutinen();</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if (routinen.isEmpty()) {</span>
+<span class="nc" id="L146">            System.out.println(&quot;Keine Routinen vorhanden.&quot;);</span>
+<span class="nc" id="L147">            return;</span>
+        }
+
+<span class="fc" id="L150">        zeigeRoutineAuswahl(routinen);</span>
+        int index;
+        while (true) {
+<span class="fc" id="L153">            System.out.print(&quot;Welche Routine bearbeiten? (0 = Abbrechen): &quot;);</span>
+            try {
+<span class="fc" id="L155">                index = Integer.parseInt(scanner.nextLine()) - 1;</span>
+<span class="fc" id="L156">                break;</span>
+<span class="nc" id="L157">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L158">                System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L159">            }</span>
+        }
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        if (index == -1) {</span>
+<span class="nc" id="L162">            System.out.println(&quot;Bearbeiten abgebrochen.&quot;);</span>
+<span class="nc" id="L163">            return;</span>
+        }
+
+<span class="pc bpc" id="L166" title="2 of 4 branches missed.">        if (index &lt; 0 || index &gt;= routinen.size()) {</span>
+<span class="nc" id="L167">            System.out.println(&quot;❌ Ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L168">            return;</span>
+        }
+
+<span class="fc" id="L171">        RoutinenArt neueArt = waehleRoutinenArt(scanner);</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        if (neueArt == null) return;</span>
+
+<span class="fc" id="L174">        System.out.println(&quot;\n1 - Eigene Beschreibung eingeben&quot;);</span>
+<span class="fc" id="L175">        System.out.println(&quot;2 - Vorschlag aus Liste wählen&quot;);</span>
+        int auswahl;
+        while (true) {
+<span class="fc" id="L178">            System.out.print(&quot;Deine Wahl: &quot;);</span>
+            try {
+<span class="fc" id="L180">                auswahl = Integer.parseInt(scanner.nextLine());</span>
+<span class="fc" id="L181">                break;</span>
+<span class="nc" id="L182">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L183">                System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L184">            }</span>
+        }
+
+        String neueBeschreibung;
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (auswahl == 2) {</span>
+<span class="fc" id="L189">            List&lt;String&gt; vorschlaege = vorschlagsService.getVorschlaegeZuArt(neueArt);</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">            if (vorschlaege.isEmpty()) {</span>
+<span class="nc" id="L191">                System.out.println(&quot;⚠ Keine Vorschläge verfügbar. Bitte manuell eingeben.&quot;);</span>
+<span class="nc" id="L192">                System.out.print(&quot;Neue Beschreibung: &quot;);</span>
+<span class="nc" id="L193">                neueBeschreibung = scanner.nextLine();</span>
+            } else {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">                for (int i = 0; i &lt; vorschlaege.size(); i++) {</span>
+<span class="fc" id="L196">                    System.out.println((i + 1) + &quot;. &quot; + vorschlaege.get(i));</span>
+                }
+                int vorschlagIndex;
+                while (true) {
+<span class="fc" id="L200">                    System.out.print(&quot;Vorschlag auswählen (0 = Abbrechen): &quot;);</span>
+                    try {
+<span class="fc" id="L202">                        vorschlagIndex = Integer.parseInt(scanner.nextLine());</span>
+<span class="fc" id="L203">                        break;</span>
+<span class="nc" id="L204">                    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L205">                        System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L206">                    }</span>
+                }
+<span class="pc bpc" id="L208" title="2 of 4 branches missed.">                if (vorschlagIndex &lt;= 0 || vorschlagIndex &gt; vorschlaege.size()) {</span>
+<span class="nc" id="L209">                    System.out.println(&quot;❌ Abbruch oder ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L210">                    return;</span>
+                }
+<span class="fc" id="L212">                neueBeschreibung = vorschlaege.get(vorschlagIndex - 1);</span>
+            }
+<span class="fc" id="L214">        } else {</span>
+<span class="nc" id="L215">            System.out.print(&quot;Neue Beschreibung: &quot;);</span>
+<span class="nc" id="L216">            neueBeschreibung = scanner.nextLine();</span>
+        }
+
+<span class="fc" id="L219">        repository.bearbeiten(index, neueArt, neueBeschreibung);</span>
+<span class="fc" id="L220">        System.out.println(&quot;✅ Routine aktualisiert.&quot;);</span>
+<span class="fc" id="L221">    }</span>
+
+    /**
+     * Löscht eine bestehende Routine basierend auf der Auswahl des Benutzers.
+     * @param scanner Scanner zur Benutzereingabe
+     * @throws RoutineException falls beim Löschen ein Fehler auftritt
+     */
+    public void routineLoeschen(Scanner scanner) throws RoutineException {
+<span class="fc" id="L229">        List&lt;Routine&gt; routinen = repository.getRoutinen();</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        if (routinen.isEmpty()) {</span>
+<span class="nc" id="L231">            System.out.println(&quot;Keine Routinen vorhanden.&quot;);</span>
+<span class="nc" id="L232">            return;</span>
+        }
+
+<span class="fc" id="L235">        zeigeRoutineAuswahl(routinen);</span>
+        int index;
+        while (true) {
+<span class="fc" id="L238">            System.out.print(&quot;Welche Routine löschen? (0 = Abbrechen): &quot;);</span>
+            try {
+<span class="fc" id="L240">                index = Integer.parseInt(scanner.nextLine()) - 1;</span>
+<span class="fc" id="L241">                break;</span>
+<span class="nc" id="L242">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L243">                System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L244">            }</span>
+        }
+
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">        if (index == -1) {</span>
+<span class="nc" id="L248">            System.out.println(&quot;Löschen abgebrochen.&quot;);</span>
+<span class="nc" id="L249">            return;</span>
+        }
+
+<span class="pc bpc" id="L252" title="2 of 4 branches missed.">        if (index &lt; 0 || index &gt;= routinen.size()) {</span>
+<span class="nc" id="L253">            System.out.println(&quot;❌ Ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L254">            return;</span>
+        }
+
+<span class="fc" id="L257">        repository.loeschen(index);</span>
+<span class="fc" id="L258">        System.out.println(&quot;✅ Routine gelöscht.&quot;);</span>
+<span class="fc" id="L259">    }</span>
+
+    /**
+     * Zeigt eine Erfolgsstatistik aller aktuellen Routinen an.
+     * Die Statistik basiert auf den täglichen Routinen-Dateien im Routinen-Verzeichnis.
+     * Nur aktuell noch existierende Routinen werden berücksichtigt.
+     * @throws RoutineException falls beim Zugriff auf das Repository ein Fehler auftritt
+     */
+    public void routinenStatistikAnzeigen() throws RoutineException {
+<span class="nc" id="L268">        File ordner = new File(&quot;Routinen&quot;);</span>
+<span class="nc bnc" id="L269" title="All 4 branches missed.">        File[] dateien = ordner.listFiles((dir, name) -&gt; name.endsWith(&quot;.txt&quot;) &amp;&amp; !name.equals(&quot;stammliste.txt&quot;));</span>
+
+<span class="nc bnc" id="L271" title="All 4 branches missed.">        if (dateien == null || dateien.length == 0) {</span>
+<span class="nc" id="L272">            System.out.println(&quot;❌ Keine Routinen-Statistik verfügbar.&quot;);</span>
+<span class="nc" id="L273">            return;</span>
+        }
+
+<span class="nc" id="L276">        List&lt;Routine&gt; aktuelleRoutinen = repository.getRoutinen();</span>
+<span class="nc" id="L277">        Map&lt;RoutinenArt, Map&lt;String, int[]&gt;&gt; statistik = new TreeMap&lt;&gt;(Comparator.comparingInt(Enum::ordinal));</span>
+<span class="nc" id="L278">        Arrays.sort(dateien);</span>
+
+<span class="nc bnc" id="L280" title="All 2 branches missed.">        for (File datei : dateien) {</span>
+<span class="nc" id="L281">            try (BufferedReader reader = new BufferedReader(new FileReader(datei))) {</span>
+                String artZeile;
+<span class="nc bnc" id="L283" title="All 2 branches missed.">                while ((artZeile = reader.readLine()) != null) {</span>
+<span class="nc" id="L284">                    String beschreibung = reader.readLine();</span>
+<span class="nc" id="L285">                    boolean erledigt = Boolean.parseBoolean(reader.readLine());</span>
+
+                    RoutinenArt art;
+                    try {
+<span class="nc" id="L289">                        art = RoutinenArt.fromText(artZeile.trim());</span>
+<span class="nc" id="L290">                    } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L291">                        continue;</span>
+<span class="nc" id="L292">                    }</span>
+
+<span class="nc" id="L294">                    boolean istAktuell = aktuelleRoutinen.stream()</span>
+<span class="nc bnc" id="L295" title="All 4 branches missed.">                            .anyMatch(r -&gt; r.getArt() == art &amp;&amp; r.getBeschreibung().equals(beschreibung));</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">                    if (!istAktuell) continue;</span>
+
+<span class="nc" id="L298">                    statistik.putIfAbsent(art, new LinkedHashMap&lt;&gt;());</span>
+<span class="nc" id="L299">                    Map&lt;String, int[]&gt; artMap = statistik.get(art);</span>
+<span class="nc" id="L300">                    artMap.putIfAbsent(beschreibung, new int[]{0, 0});</span>
+<span class="nc" id="L301">                    artMap.get(beschreibung)[1]++;</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">                    if (erledigt) artMap.get(beschreibung)[0]++;</span>
+<span class="nc" id="L303">                }</span>
+<span class="nc" id="L304">            } catch (IOException e) {</span>
+<span class="nc" id="L305">                System.out.println(&quot;⚠ Fehler beim Lesen von &quot; + datei.getName());</span>
+<span class="nc" id="L306">            }</span>
+        }
+
+<span class="nc" id="L309">        System.out.println(&quot;\n📊 Routinen-Erfolgsstatistik:&quot;);</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        for (RoutinenArt art : statistik.keySet()) {</span>
+<span class="nc" id="L311">            System.out.println(&quot;\n⏰ &quot; + art.getAnzeigeName() + &quot;:&quot;);</span>
+<span class="nc" id="L312">            Map&lt;String, int[]&gt; routines = statistik.get(art);</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">            for (Map.Entry&lt;String, int[]&gt; entry : routines.entrySet()) {</span>
+<span class="nc" id="L314">                int erledigt = entry.getValue()[0];</span>
+<span class="nc" id="L315">                int gesamt = entry.getValue()[1];</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">                String status = erledigt == gesamt ? &quot;[✓]&quot; : &quot;[ ]&quot;;</span>
+<span class="nc" id="L317">                System.out.println(&quot;  &quot; + status + &quot; &quot; + entry.getKey() + &quot; – &quot; + erledigt + &quot; von &quot; + gesamt + &quot; Tagen erledigt&quot;);</span>
+<span class="nc" id="L318">            }</span>
+<span class="nc" id="L319">        }</span>
+<span class="nc" id="L320">    }</span>
+
+    /**
+     * Zeigt die gesamte Routinenhistorie für vergangene Tage an.
+     * Dabei wird jeder Eintrag mit Datum, Routinenart, Beschreibung und Erledigt-Status aufgelistet.
+     */
+    public void routinenHistorieAnzeigen() {
+<span class="nc" id="L327">        File ordner = new File(&quot;Routinen&quot;);</span>
+<span class="nc bnc" id="L328" title="All 4 branches missed.">        File[] dateien = ordner.listFiles((dir, name) -&gt; name.endsWith(&quot;.txt&quot;) &amp;&amp; !name.equals(&quot;stammliste.txt&quot;));</span>
+
+<span class="nc bnc" id="L330" title="All 4 branches missed.">        if (dateien == null || dateien.length == 0) {</span>
+<span class="nc" id="L331">            System.out.println(&quot;❌ Keine Routinen-Historie verfügbar.&quot;);</span>
+<span class="nc" id="L332">            return;</span>
+        }
+
+<span class="nc" id="L335">        Arrays.sort(dateien);</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">        for (File datei : dateien) {</span>
+<span class="nc" id="L337">            System.out.println(&quot;\n📅 Rückblick – Routinen am &quot; + datei.getName().replace(&quot;.txt&quot;, &quot;&quot;) + &quot;:&quot;);</span>
+<span class="nc" id="L338">            try (BufferedReader reader = new BufferedReader(new FileReader(datei))) {</span>
+                String art;
+<span class="nc bnc" id="L340" title="All 2 branches missed.">                while ((art = reader.readLine()) != null) {</span>
+<span class="nc" id="L341">                    String beschreibung = reader.readLine();</span>
+<span class="nc" id="L342">                    boolean erledigt = Boolean.parseBoolean(reader.readLine());</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">                    String status = erledigt ? &quot;[✓]&quot; : &quot;[ ]&quot;;</span>
+<span class="nc" id="L344">                    System.out.println(status + &quot; &quot; + art + &quot; – &quot; + beschreibung);</span>
+<span class="nc" id="L345">                }</span>
+<span class="nc" id="L346">            } catch (IOException e) {</span>
+<span class="nc" id="L347">                System.out.println(&quot;⚠ Fehler beim Lesen der Datei: &quot; + datei.getName());</span>
+<span class="nc" id="L348">            }</span>
+        }
+<span class="nc" id="L350">    }</span>
+
+
+    /** private Hilfsmethoden */
+    private RoutinenArt waehleRoutinenArt(Scanner scanner) {
+<span class="fc" id="L355">        System.out.println(&quot;\nWähle die Routinenart:&quot;);</span>
+<span class="fc" id="L356">        System.out.println(&quot;1 - Morgen&quot;);</span>
+<span class="fc" id="L357">        System.out.println(&quot;2 - Mittag&quot;);</span>
+<span class="fc" id="L358">        System.out.println(&quot;3 - Abend&quot;);</span>
+<span class="fc" id="L359">        System.out.println(&quot;4 - Nacht&quot;);</span>
+
+        int eingabe;
+        while (true) {
+<span class="fc" id="L363">            System.out.print(&quot;Deine Wahl: &quot;);</span>
+            try {
+<span class="fc" id="L365">                eingabe = Integer.parseInt(scanner.nextLine());</span>
+<span class="fc" id="L366">                break;</span>
+<span class="nc" id="L367">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L368">                System.out.println(&quot;❌ Ungültige Eingabe. Bitte eine Zahl eingeben.&quot;);</span>
+<span class="nc" id="L369">            }</span>
+        }
+
+        try {
+<span class="fc" id="L373">            return RoutinenArt.fromInt(eingabe);</span>
+<span class="nc" id="L374">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L375">            System.out.println(&quot;❌ Ungültige Auswahl.&quot;);</span>
+<span class="nc" id="L376">            return null;</span>
+        }
+    }
+
+    private void zeigeRoutineAuswahl(List&lt;Routine&gt; routinen) {
+<span class="fc" id="L381">        System.out.println(&quot;\nHier sind alle deine Routinen:&quot;);</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">        for (int i = 0; i &lt; routinen.size(); i++) {</span>
+<span class="fc" id="L383">            Routine r = routinen.get(i);</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">            String status = r.isErledigt() ? &quot;[✓]&quot; : &quot;[ ]&quot;;</span>
+<span class="fc" id="L385">            System.out.println((i + 1) + &quot;. &quot; + status + &quot; [&quot; + r.getArt().getAnzeigeName() + &quot;] – &quot; + r.getBeschreibung());</span>
+        }
+<span class="fc" id="L387">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ziel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">zielverwaltung_logik</a> &gt; <span class="el_source">Ziel.java</span></div><h1>Ziel.java</h1><pre class="source lang-java linenums">package zielverwaltung_logik;
+
+import java.time.LocalDate;
+
+public class Ziel {
+    private ZielKategorie kategorie;
+    private String beschreibung;
+    private int prioritaet;
+    private boolean erledigt;
+    private LocalDate faelligkeit;
+    private Wiederholungstyp wiederholung;
+    private String motivationsnotiz;
+
+<span class="fc" id="L14">    public Ziel(ZielKategorie kategorie, String beschreibung, int prioritaet, LocalDate faelligkeit, Wiederholungstyp wiederholung) {</span>
+<span class="fc" id="L15">        this.kategorie = kategorie;</span>
+<span class="fc" id="L16">        this.beschreibung = beschreibung;</span>
+<span class="fc" id="L17">        this.prioritaet = prioritaet;</span>
+<span class="fc" id="L18">        this.faelligkeit = faelligkeit;</span>
+<span class="fc" id="L19">        this.wiederholung = wiederholung;</span>
+<span class="fc" id="L20">        this.erledigt = false;</span>
+<span class="fc" id="L21">        this.motivationsnotiz = &quot;&quot;;</span>
+<span class="fc" id="L22">    }</span>
+
+    public ZielKategorie getKategorie() {
+<span class="fc" id="L25">        return kategorie;</span>
+    }
+
+    public String getBeschreibung() {
+<span class="fc" id="L29">        return beschreibung;</span>
+    }
+
+    public int getPrioritaet() {
+<span class="fc" id="L33">        return prioritaet;</span>
+    }
+
+    public boolean isErledigt() {
+<span class="fc" id="L37">        return erledigt;</span>
+    }
+
+    public LocalDate getFaelligkeit() {
+<span class="fc" id="L41">        return faelligkeit;</span>
+    }
+
+    public Wiederholungstyp getWiederholung() {
+<span class="fc" id="L45">        return wiederholung;</span>
+    }
+
+    public String getMotivationsnotiz() {
+<span class="fc" id="L49">        return motivationsnotiz;</span>
+    }
+
+    public void setKategorie(ZielKategorie kategorie) {
+<span class="nc" id="L53">        this.kategorie = kategorie;</span>
+<span class="nc" id="L54">    }</span>
+
+    public void setBeschreibung(String beschreibung) {
+<span class="fc" id="L57">        this.beschreibung = beschreibung;</span>
+<span class="fc" id="L58">    }</span>
+
+    public void setPrioritaet(int prioritaet) {
+<span class="fc" id="L61">        this.prioritaet = prioritaet;</span>
+<span class="fc" id="L62">    }</span>
+
+    public void setErledigt(boolean erledigt) {
+<span class="fc" id="L65">        this.erledigt = erledigt;</span>
+<span class="fc" id="L66">    }</span>
+
+    public void setFaelligkeit(LocalDate faelligkeit) {
+<span class="fc" id="L69">        this.faelligkeit = faelligkeit;</span>
+<span class="fc" id="L70">    }</span>
+
+    public void setWiederholung(Wiederholungstyp wiederholung) {
+<span class="fc" id="L73">        this.wiederholung = wiederholung;</span>
+<span class="fc" id="L74">    }</span>
+
+    public void setMotivationsnotiz(String motivationsnotiz) {
+<span class="fc" id="L77">        this.motivationsnotiz = motivationsnotiz;</span>
+<span class="fc" id="L78">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        String status = erledigt ? &quot;✅ Erledigt&quot; : &quot;⏳ Offen&quot;;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">        String prioText = switch (prioritaet) {</span>
+<span class="nc" id="L84">            case 1 -&gt; &quot;❗ Hoch&quot;;</span>
+<span class="nc" id="L85">            case 2 -&gt; &quot;⚠\uFE0F Mittel&quot;;</span>
+<span class="nc" id="L86">            case 3 -&gt; &quot;❇\uFE0F Niedrig&quot;;</span>
+<span class="nc" id="L87">            default -&gt; &quot;❔ Unbekannt&quot;;</span>
+<span class="nc" id="L88">        };</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        String notizText = motivationsnotiz.isBlank() ? &quot;&quot; : &quot;\n💬 Notiz: &quot; + motivationsnotiz;</span>
+
+<span class="nc" id="L91">        return &quot;\n📌 Ziel: &quot; + beschreibung +</span>
+                &quot;\n   Status: &quot; + status +
+                &quot;\n   Kategorie: &quot; + kategorie +
+                &quot;\n   Priorität: &quot; + prioText +
+                &quot;\n   Fällig bis: &quot; + faelligkeit +
+                &quot;\n   Wiederholung: &quot; + wiederholung + notizText;
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

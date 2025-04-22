@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StimmungskalenderMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">menus</a> &gt; <span class="el_source">StimmungskalenderMenu.java</span></div><h1>StimmungskalenderMenu.java</h1><pre class="source lang-java linenums">package menus;
+
+import stimmungskalender_logik.StimmungskalenderSpeicher;
+import stimmungskalender_logik.StimmungskalenderVerwaltung;
+import utility.AnswerParser;
+
+import java.util.Scanner;
+
+/**
+ * Menüklasse zur Bedienung des Stimmungskalenders in der MentalHealthApp.
+ * Der Benutzer kann Stimmungsdaten erfassen, Stimmungsverlauf als Textgraph anzeigen
+ * oder alle bisherigen Einträge textuell ausgeben.
+ */
+public class StimmungskalenderMenu {
+
+    /** Zentrale Verwaltung des Stimmungskalenders */
+    private final StimmungskalenderVerwaltung verwaltung;
+
+    /** Konstruktor – initialisiert die Verwaltung mit einem konkreten Speicher */
+<span class="nc" id="L20">    public StimmungskalenderMenu() {</span>
+<span class="nc" id="L21">        this.verwaltung = new StimmungskalenderVerwaltung(new StimmungskalenderSpeicher());</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * Zeigt das Stimmungskalender-Menü und verarbeitet Benutzereingaben.
+     * Das Menü läuft in einer Schleife, bis der Benutzer „Zurück zum Hauptmenü“ auswählt.
+     * @param scanner Scanner zur Eingabe
+     */
+    public void showMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L31">            System.out.println(&quot;\n😊 Stimmungskalender – Deine emotionale Reise im Blick&quot;);</span>
+<span class="nc" id="L32">            System.out.println(&quot;────────────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L33">            System.out.println(&quot; 1 - 📝 Daten eintragen – dokumentiere deine Tagesstimmung &amp; Emotionen&quot;);</span>
+<span class="nc" id="L34">            System.out.println(&quot; 2 - 📈 Stimmungsverlauf als Graph anzeigen – erkenne deine Entwicklungen&quot;);</span>
+<span class="nc" id="L35">            System.out.println(&quot; 3 - 📖 Alle Einträge anzeigen – dein emotionales Protokoll&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot; 4 - 🔙 Zurück zum Hauptmenü&quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot;────────────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L38">            System.out.print(&quot;👉 Deine Wahl: &quot;);</span>
+
+<span class="nc" id="L40">            AnswerParser answerParser = new AnswerParser();</span>
+<span class="nc" id="L41">            int choice = answerParser.parsen(scanner);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (choice == 99){</span>
+<span class="nc" id="L43">                continue;</span>
+            }
+
+<span class="nc bnc" id="L46" title="All 5 branches missed.">            switch (choice) {</span>
+                case 1: {
+                    // Neue Stimmung und Emotionen erfassen
+<span class="nc" id="L49">                    verwaltung.eintragHinzufuegen(scanner);</span>
+<span class="nc" id="L50">                    verwaltung.emotionenErfassen(scanner);</span>
+<span class="nc" id="L51">                    break;</span>
+                }
+                case 2: {
+                    // Stimmungskurve als Textgraph anzeigen
+<span class="nc" id="L55">                    verwaltung.eintraegeAlsGraphAnzeigen();</span>
+<span class="nc" id="L56">                    break;</span>
+                }
+                case 3: {
+                    // Alle Einträge in Textform ausgeben
+<span class="nc" id="L60">                    verwaltung.eintraegeTextuellAnzeigen();</span>
+<span class="nc" id="L61">                    break;</span>
+                }
+                case 4: {
+                    // Zurück zum Hauptmenü
+<span class="nc" id="L65">                    return;</span>
+                }
+                default: {
+                    // Fehlerbehandlung bei ungültiger Eingabe
+<span class="nc" id="L69">                    System.out.println(&quot;😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!&quot;);</span>
+                    break;
+                }
+            }
+<span class="nc" id="L73">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

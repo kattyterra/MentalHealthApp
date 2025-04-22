@@ -1,6 +1,8 @@
 package menus;
 
 import uebungen.*;
+import utility.AnswerParser;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,9 +17,8 @@ public class UebungMenu {
 
     /**
      * Konstruktor – initialisiert das Menü mit einer Liste von Übungen und einem Titel.
-     *
      * @param uebungen Liste der verfügbaren Übungen
-     * @param titel    Titel des Menüs (z. B. „Deine Atemübungen“)
+     * @param titel    Titel des Menüs (z.B. „Deine Atemübungen“)
      */
     public UebungMenu(List<Uebung> uebungen, String titel) {
         this.uebungen = uebungen;
@@ -26,7 +27,6 @@ public class UebungMenu {
 
     /**
      * Zeigt das Übungsmenü an und verarbeitet Benutzereingaben.
-     *
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void showMenu(Scanner scanner) {
@@ -38,18 +38,16 @@ public class UebungMenu {
             System.out.println((uebungen.size() + 1) + " - 🔙 Zurück zum Hauptmenü");
             System.out.print("Deine Wahl: ");
 
-            int wahl;
-            try {
-                wahl = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("❗️Ups! Bitte gib eine Zahl ein, damit ich weiß, was du meinst. 😊");
+            AnswerParser answerParser = new AnswerParser();
+            int choice = answerParser.parsen(scanner);
+            if (choice == 99){
                 continue;
             }
 
-            if (wahl == uebungen.size() + 1) return;
+            if (choice == uebungen.size() + 1) return;
 
-            if (wahl > 0 && wahl <= uebungen.size()) {
-                zeigeUebung(uebungen.get(wahl - 1), scanner);
+            if (choice > 0 && choice <= uebungen.size()) {
+                zeigeUebung(uebungen.get(choice - 1), scanner);
             } else {
                 System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
@@ -58,7 +56,6 @@ public class UebungMenu {
 
     /**
      * Zeigt die Details der gewählten Übung an (Name, Ziel, Anleitung).
-     *
      * @param uebung   Die ausgewählte Übung
      * @param scanner  Scanner-Objekt für Benutzereingaben
      */

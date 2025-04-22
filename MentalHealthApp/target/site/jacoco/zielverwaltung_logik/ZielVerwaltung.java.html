@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ZielVerwaltung.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">zielverwaltung_logik</a> &gt; <span class="el_source">ZielVerwaltung.java</span></div><h1>ZielVerwaltung.java</h1><pre class="source lang-java linenums">package zielverwaltung_logik;
+
+import java.util.*;
+
+public class ZielVerwaltung {
+    private final List&lt;Ziel&gt; ziele;
+    private final ZielRepository repository;
+
+<span class="nc" id="L9">    public ZielVerwaltung() {</span>
+<span class="nc" id="L10">        this.repository = new ZielSpeicher();</span>
+<span class="nc" id="L11">        this.ziele = repository.laden();</span>
+<span class="nc" id="L12">    }</span>
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L15">    public ZielVerwaltung(ZielRepository repo) {</span>
+<span class="fc" id="L16">        this.repository = repo;</span>
+<span class="fc" id="L17">        this.ziele = repository.laden();</span>
+<span class="fc" id="L18">    }</span>
+
+    public void hinzufuegen(Ziel ziel) {
+<span class="fc" id="L21">        ziele.add(ziel);</span>
+<span class="fc" id="L22">        speichern();</span>
+<span class="fc" id="L23">    }</span>
+
+    public void abhaken(int index) {
+<span class="pc bpc" id="L26" title="2 of 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt; ziele.size()) {</span>
+<span class="fc" id="L27">            ziele.get(index).setErledigt(true);</span>
+<span class="fc" id="L28">            speichern();</span>
+        }
+<span class="fc" id="L30">    }</span>
+
+    public void bearbeiten(int index, Ziel aktualisiert) {
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt; ziele.size()) {</span>
+<span class="fc" id="L34">            Ziel ziel = ziele.get(index);</span>
+<span class="fc" id="L35">            ziel.setBeschreibung(aktualisiert.getBeschreibung());</span>
+<span class="fc" id="L36">            ziel.setPrioritaet(aktualisiert.getPrioritaet());</span>
+<span class="fc" id="L37">            ziel.setFaelligkeit(aktualisiert.getFaelligkeit());</span>
+<span class="fc" id="L38">            ziel.setWiederholung(aktualisiert.getWiederholung());</span>
+<span class="fc" id="L39">            ziel.setMotivationsnotiz(aktualisiert.getMotivationsnotiz());</span>
+<span class="fc" id="L40">            speichern();</span>
+        }
+<span class="fc" id="L42">    }</span>
+
+    public void loeschen(int index) {
+<span class="pc bpc" id="L45" title="2 of 4 branches missed.">        if (index &gt;= 0 &amp;&amp; index &lt; ziele.size()) {</span>
+<span class="fc" id="L46">            ziele.remove(index);</span>
+<span class="fc" id="L47">            speichern();</span>
+        }
+<span class="fc" id="L49">    }</span>
+
+    public List&lt;Ziel&gt; getZiele() {
+<span class="fc" id="L52">        return ziele;</span>
+    }
+
+    public List&lt;Ziel&gt; filterNachKategorie(String kategorie) {
+        try {
+<span class="fc" id="L57">            ZielKategorie filterKategorie = ZielKategorie.valueOf(kategorie.toUpperCase());</span>
+<span class="fc" id="L58">            return ziele.stream()</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                    .filter(z -&gt; z.getKategorie() == filterKategorie)</span>
+<span class="fc" id="L60">                    .toList();</span>
+<span class="fc" id="L61">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L62">            System.out.println(&quot;⚠ Ungültige Kategorie: &quot; + kategorie);</span>
+<span class="fc" id="L63">            return List.of(); // leere Liste zurückgeben</span>
+        }
+    }
+
+    public List&lt;Ziel&gt; filterNachStatus(boolean erledigt, boolean mitMeldung) {
+<span class="fc" id="L68">        List&lt;Ziel&gt; gefiltert = ziele.stream()</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                .filter(z -&gt; z.isErledigt() == erledigt)</span>
+<span class="fc" id="L70">                .toList();</span>
+
+<span class="pc bpc" id="L72" title="3 of 4 branches missed.">        if (mitMeldung &amp;&amp; gefiltert.isEmpty()) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            String statusText = erledigt ? &quot;erledigt&quot; : &quot;offen&quot;;</span>
+<span class="nc" id="L74">            System.out.println(&quot;⚠ Es wurden keine &quot; + statusText + &quot;en Ziele gefunden.&quot;);</span>
+        }
+
+<span class="fc" id="L77">        return gefiltert;</span>
+    }
+
+    private void speichern() {
+<span class="fc" id="L81">        repository.speichern(ziele);</span>
+<span class="fc" id="L82">    }</span>
+
+    public List&lt;Ziel&gt; filterNachKategorieMitAuswahl(Scanner scanner) {
+<span class="fc" id="L85">        ZielKategorie[] kategorien = ZielKategorie.values();</span>
+<span class="fc" id="L86">        System.out.println(&quot;\nWähle eine Zielkategorie:&quot;);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (int i = 0; i &lt; kategorien.length; i++) {</span>
+<span class="fc" id="L88">            System.out.println((i + 1) + &quot; - &quot; + kategorien[i]);</span>
+        }
+<span class="fc" id="L90">        System.out.print(&quot;Auswahl: &quot;);</span>
+        try {
+<span class="fc" id="L92">            int katIndex = Integer.parseInt(scanner.nextLine()) - 1;</span>
+<span class="fc" id="L93">            ZielKategorie gewaehlteKategorie = kategorien[Math.max(0, Math.min(katIndex, kategorien.length - 1))];</span>
+<span class="fc" id="L94">            List&lt;Ziel&gt; gefiltert = filterNachKategorie(gewaehlteKategorie.name());</span>
+
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (gefiltert.isEmpty()) {</span>
+<span class="nc" id="L97">                System.out.println(&quot;⚠ Es wurden keine Ziele in der Kategorie \&quot;&quot; + gewaehlteKategorie + &quot;\&quot; gefunden.&quot;);</span>
+            }
+
+<span class="fc" id="L100">            return gefiltert;</span>
+<span class="fc" id="L101">        } catch (Exception e) {</span>
+<span class="fc" id="L102">            System.out.println(&quot;⚠ Ungültige Kategorieauswahl.&quot;);</span>
+<span class="fc" id="L103">            return List.of();</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

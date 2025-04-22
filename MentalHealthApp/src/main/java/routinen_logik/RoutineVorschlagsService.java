@@ -8,7 +8,6 @@ import java.util.*;
 /**
  * Der {@code RoutineVorschlagsService} lädt vordefinierte Routinen-Vorschläge
  * aus einer externen Textdatei und stellt sie nach RoutinenArt sortiert bereit.
- * <p>
  * Ziel ist es, dem Benutzer beim Erstellen oder Bearbeiten von Routinen passende
  * Vorschläge anzuzeigen, um die Auswahl zu erleichtern.
  */
@@ -19,7 +18,6 @@ public class RoutineVorschlagsService {
 
     /**
      * Konstruktor – lädt Vorschläge aus der übergebenen Datei.
-     *
      * @param dateipfad Pfad zur Textdatei mit Vorschlägen
      */
     public RoutineVorschlagsService(String dateipfad) {
@@ -28,16 +26,12 @@ public class RoutineVorschlagsService {
 
     /**
      * Lädt alle Routinen-Vorschläge aus einer Textdatei.
-     * <p>
      * Das Dateiformat muss zeilenweise aufgebaut sein:
-     * <pre>
      *   MORGEN
      *   Trinken eines Glases Wasser
      *   ABEND
      *   Tagebucheintrag schreiben
      *   ...
-     * </pre>
-     *
      * @param dateipfad Pfad zur Datei
      */
     private void ladeVorschlaege(String dateipfad) {
@@ -62,7 +56,6 @@ public class RoutineVorschlagsService {
 
     /**
      * Gibt alle Vorschläge zurück, die zu einer bestimmten {@link RoutinenArt} passen.
-     *
      * @param art die Routinenart
      * @return Liste der Vorschläge (kann leer sein)
      */

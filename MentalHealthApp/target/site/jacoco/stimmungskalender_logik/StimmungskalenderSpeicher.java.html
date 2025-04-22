@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StimmungskalenderSpeicher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">stimmungskalender_logik</a> &gt; <span class="el_source">StimmungskalenderSpeicher.java</span></div><h1>StimmungskalenderSpeicher.java</h1><pre class="source lang-java linenums">package stimmungskalender_logik;
+
+import utility.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+/**
+ * Diese Klasse implementiert das StimmungskalenderRepository.
+ * Sie übernimmt die Datei-basierte Speicherung und das Einlesen
+ * von Stimmungseinträgen und Emotionen – jeweils in eine Tagesdatei.
+ */
+public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
+<span class="pc" id="L14">    private final String ordner = &quot;Stimmungskalender/&quot;;</span>
+    private final DateiSchreibHelfer schreiber;
+    private final DateiLeseHelfer leser;
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L19">    public StimmungskalenderSpeicher(DateiSchreibHelfer schreiber, DateiLeseHelfer leser) {</span>
+<span class="fc" id="L20">        this.schreiber = schreiber;</span>
+<span class="fc" id="L21">        this.leser = leser;</span>
+<span class="fc" id="L22">        new VerzeichnisHelfer().sicherstellen(ordner);</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Konstruktor: Erstellt den Ordner „Stimmungskalender“, falls er noch nicht existiert.
+     */
+<span class="nc" id="L28">    public StimmungskalenderSpeicher() {</span>
+<span class="nc" id="L29">        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();</span>
+<span class="nc" id="L30">        verzeichnisHelfer.sicherstellen(ordner);</span>
+<span class="nc" id="L31">        this.schreiber = new DateiSchreibHelfer();</span>
+<span class="nc" id="L32">        this.leser = new DateiLeseHelfer();</span>
+<span class="nc" id="L33">    }</span>
+
+    /**
+     * Speichert einen einzelnen Stimmungseintrag in der heutigen Tagesdatei.
+     * Falls die Datei bereits existiert, wird der Eintrag angehängt.
+     * @param eintrag Der zu speichernde Stimmungseintrag
+     */
+    @Override
+    public void speichern(Stimmungseintrag eintrag) {
+<span class="fc" id="L42">        schreiber.anhaengen(ordner, LocalDate.now() + &quot;.txt&quot;, List.of(eintrag.formatForFile()));</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Speichert eine Liste von Emotionseinträgen ebenfalls in der heutigen Tagesdatei.
+     * Wird typischerweise direkt nach dem Stimmungseintrag gespeichert.
+     * @param emotionen Liste von Emotionseinträgen
+     */
+    @Override
+    public void speichernEmotionen(List&lt;Emotionseintrag&gt; emotionen) {
+<span class="fc" id="L52">        List&lt;String&gt; zeilen = emotionen.stream()</span>
+<span class="fc" id="L53">                .map(Emotionseintrag::formatForFile)</span>
+<span class="fc" id="L54">                .toList();</span>
+
+<span class="fc" id="L56">        schreiber.anhaengen(&quot;Stimmungskalender/&quot;, &quot;2025-03-25.txt&quot;, zeilen);</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Liest alle Einträge aus allen Tagesdateien im Ordner „Stimmungskalender“ ein.
+     * Rückgabe erfolgt als Liste aller Zeilen über alle Dateien hinweg.
+     * @return Liste aller Einträge (Stimmungen + Emotionen) als Textzeilen
+     */
+    @Override
+    public List&lt;String&gt; lesenAlle() {
+<span class="fc" id="L66">        return leser.leseAlleZeilen(ordner);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

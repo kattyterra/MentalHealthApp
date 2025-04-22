@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ZielMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">menus</a> &gt; <span class="el_source">ZielMenu.java</span></div><h1>ZielMenu.java</h1><pre class="source lang-java linenums">package menus;
+
+import utility.AnswerParser;
+import zielverwaltung_logik.*;
+
+import java.util.List;
+import java.util.Scanner;
+
+public class ZielMenu {
+    private final ZielVerwaltung zielVerwaltung;
+    private final ZielStatistikVerwaltung statistikService;
+    private final ZielEingabeHelper eingabeHelper;
+
+<span class="nc" id="L14">    public ZielMenu() {</span>
+<span class="nc" id="L15">        this.zielVerwaltung = new ZielVerwaltung();</span>
+<span class="nc" id="L16">        this.statistikService = new ZielStatistikVerwaltung();</span>
+<span class="nc" id="L17">        this.eingabeHelper = new ZielEingabeHelper();</span>
+<span class="nc" id="L18">    }</span>
+
+    public void showMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L22">            System.out.println(&quot;\n🎯 Zielsetzungsmenü – Erreiche deine Ziele Schritt für Schritt!&quot;);</span>
+<span class="nc" id="L23">            System.out.println(&quot;────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L24">            System.out.println(&quot;1 - ➕ Neues Ziel hinzufügen&quot;);</span>
+<span class="nc" id="L25">            System.out.println(&quot;2 - ✅ Ziel abhaken (als erledigt markieren)&quot;);</span>
+<span class="nc" id="L26">            System.out.println(&quot;3 - ✏️ Ziel bearbeiten&quot;);</span>
+<span class="nc" id="L27">            System.out.println(&quot;4 - 🗑️ Ziel löschen&quot;);</span>
+<span class="nc" id="L28">            System.out.println(&quot;5 - 📋 Alle Ziele anzeigen&quot;);</span>
+<span class="nc" id="L29">            System.out.println(&quot;6 - 📈 Fortschrittsstatistik anzeigen&quot;);</span>
+<span class="nc" id="L30">            System.out.println(&quot;7 - 📂 Ziele nach Kategorie filtern&quot;);</span>
+<span class="nc" id="L31">            System.out.println(&quot;8 - 🔍 Ziele nach Status filtern&quot;);</span>
+<span class="nc" id="L32">            System.out.println(&quot;9 - 🔙 Zurück zum Hauptmenü&quot;);</span>
+<span class="nc" id="L33">            System.out.println(&quot;────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L34">            System.out.print(&quot;👉 Deine Auswahl: &quot;);</span>
+
+<span class="nc" id="L36">            AnswerParser answerParser = new AnswerParser();</span>
+<span class="nc" id="L37">            int choice = answerParser.parsen(scanner);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (choice == 99){</span>
+<span class="nc" id="L39">                continue;</span>
+            }
+
+<span class="nc bnc" id="L42" title="All 10 branches missed.">            switch (choice) {</span>
+                case 1:
+                {
+<span class="nc" id="L45">                    zielVerwaltung.hinzufuegen(eingabeHelper.erstelleZielVomBenutzer(scanner));</span>
+<span class="nc" id="L46">                    break;</span>
+                }
+                case 2:
+                {
+<span class="nc" id="L50">                    zielVerwaltung.abhaken(eingabeHelper.indexAbfragen(scanner));</span>
+<span class="nc" id="L51">                    break;</span>
+                }
+                case 3:
+                {
+<span class="nc" id="L55">                    zielVerwaltung.bearbeiten(eingabeHelper.indexAbfragen(scanner), eingabeHelper.erstelleZielVomBenutzer(scanner));</span>
+<span class="nc" id="L56">                    break;</span>
+                }
+                case 4:
+                {
+<span class="nc" id="L60">                    zielVerwaltung.loeschen(eingabeHelper.indexAbfragen(scanner));</span>
+<span class="nc" id="L61">                    break;</span>
+                }
+                case 5:
+                {
+<span class="nc" id="L65">                    List&lt;Ziel&gt; alleZiele = zielVerwaltung.getZiele();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                    if (alleZiele.isEmpty()) {</span>
+<span class="nc" id="L67">                        System.out.println(&quot;⚠️ Du hast momentan noch keine Ziele eingetragen.&quot;);</span>
+<span class="nc" id="L68">                        System.out.println(&quot;💡 Wie wäre es, wenn du dir ein neues Ziel setzt?&quot;);</span>
+                    } else {
+<span class="nc" id="L70">                        System.out.println(&quot;\n🎯 Deine aktuellen Ziele:&quot;);</span>
+<span class="nc" id="L71">                        alleZiele.forEach(System.out::println);</span>
+                    }
+<span class="nc" id="L73">                    break;</span>
+                }
+                case 6:
+                {
+<span class="nc" id="L77">                    System.out.println(&quot;\n📈 Deine Fortschritte auf einen Blick:&quot;);</span>
+<span class="nc" id="L78">                    statistikService.zeigeStatistik(zielVerwaltung.getZiele());</span>
+<span class="nc" id="L79">                    break;</span>
+                }
+                case 7:
+                {
+<span class="nc" id="L83">                    System.out.println(&quot;\n📂 Gefilterte Ziele nach Kategorie:&quot;);</span>
+<span class="nc" id="L84">                    zielVerwaltung.filterNachKategorieMitAuswahl(scanner).forEach(System.out::println);</span>
+<span class="nc" id="L85">                    break;</span>
+                }
+                case 8:
+                {
+<span class="nc" id="L89">                    System.out.println(&quot;\n📌 Wähle den Status, den du filtern möchtest:&quot;);</span>
+<span class="nc" id="L90">                    System.out.println(&quot;1 - ✅ Erledigte Ziele anzeigen&quot;);</span>
+<span class="nc" id="L91">                    System.out.println(&quot;2 - ⏳ Offene Ziele anzeigen&quot;);</span>
+<span class="nc" id="L92">                    System.out.print(&quot;👉 Deine Auswahl: &quot;);</span>
+                    try {
+<span class="nc" id="L94">                        int statusWahl = Integer.parseInt(scanner.nextLine());</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                        boolean erledigt = (statusWahl == 1);</span>
+<span class="nc" id="L96">                        List&lt;Ziel&gt; gefiltert = zielVerwaltung.filterNachStatus(erledigt, true);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                        if (gefiltert.isEmpty()) {</span>
+<span class="nc" id="L98">                            System.out.println(&quot;🔍 Keine Ziele mit diesem Status gefunden.&quot;);</span>
+                        } else {
+<span class="nc" id="L100">                            gefiltert.forEach(System.out::println);</span>
+                        }
+<span class="nc" id="L102">                    } catch (Exception e) {</span>
+<span class="nc" id="L103">                        System.out.println(&quot;⚠ Ungültige Statusauswahl.&quot;);</span>
+<span class="nc" id="L104">                    }</span>
+<span class="nc" id="L105">                    break;</span>
+                }
+                case 9:
+                {
+<span class="nc" id="L109">                    return;</span>
+                }
+                default:
+                {
+<span class="nc" id="L113">                    System.out.println(&quot;😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!&quot;);</span>
+                    break;
+                }
+            }
+<span class="nc" id="L117">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

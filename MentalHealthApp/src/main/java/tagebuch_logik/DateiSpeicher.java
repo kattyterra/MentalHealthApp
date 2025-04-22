@@ -14,26 +14,31 @@ import java.util.List;
 /**
  * Diese Klasse implementiert das {@link TagebuchRepository} und verwaltet das
  * Speichern, Lesen, Bearbeiten und Löschen von Tagebucheinträgen im Dateisystem.
- *
  * Pro Tag wird eine separate Datei im Verzeichnis „Tagebuch/“ angelegt.
- * Für Dateioperationen werden die Hilfsklassen {@link DateiSchreibHelfer},
- * {@link DateiLeseHelfer} und {@link VerzeichnisHelfer} verwendet.
  */
 
 public class DateiSpeicher implements TagebuchRepository {
-    private final String ordner = "Tagebuch/";
+    private final String ordner;
     private final DateiSchreibHelfer schreibHelfer;
     private final DateiLeseHelfer leseHelfer;
 
     /**
-     * Konstruktor – stellt sicher, dass der Tagebuchordner existiert,
-     * und initialisiert die Datei-Helferklassen.
+     * Konstruktor – stellt sicher, dass der Tagebuchordner existiert, und initialisiert die Datei-Helferklassen.
      */
     public DateiSpeicher() {
+        this.ordner = "Tagebuch/";
         VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
         verzeichnisHelfer.sicherstellen(ordner);
         this.schreibHelfer = new DateiSchreibHelfer();
         this.leseHelfer = new DateiLeseHelfer();
+    }
+
+    /** Injektion-Konstruktor */
+    public DateiSpeicher(String ordner, DateiSchreibHelfer schreibHelfer, DateiLeseHelfer leseHelfer) {
+        this.ordner = ordner.endsWith("/") || ordner.endsWith("\\") ? ordner : ordner + File.separator;
+        new VerzeichnisHelfer().sicherstellen(this.ordner);
+        this.schreibHelfer = schreibHelfer;
+        this.leseHelfer = leseHelfer;
     }
 
     /**
@@ -46,7 +51,6 @@ public class DateiSpeicher implements TagebuchRepository {
     /**
      * Speichert einen Tagebucheintrag in der entsprechenden Tagesdatei.
      * Falls bereits Einträge vorhanden sind, wird der neue Eintrag mit einer Leerzeile abgetrennt.
-     *
      * @param eintrag der zu speichernde {@link TagebuchEintrag}
      */
     @Override
@@ -58,7 +62,6 @@ public class DateiSpeicher implements TagebuchRepository {
 
     /**
      * Löscht die komplette Tagesdatei eines gegebenen Datums (inkl. aller Einträge darin).
-     *
      * @param datum das Datum der zu löschenden Datei (Format: yyyy-MM-dd)
      */
     @Override
@@ -74,7 +77,6 @@ public class DateiSpeicher implements TagebuchRepository {
     /**
      * Löscht einen bestimmten Eintrag innerhalb einer Tagesdatei basierend auf der Uhrzeit.
      * Wenn dies der letzte Eintrag ist, wird die Datei ggf. komplett entfernt.
-     *
      * @param datum das Datum der Datei
      * @param uhrzeit die Uhrzeit des zu löschenden Eintrags
      */
@@ -113,7 +115,6 @@ public class DateiSpeicher implements TagebuchRepository {
 
     /**
      * Liest den gesamten Inhalt einer Tagesdatei als zusammenhängenden Textblock.
-     *
      * @param datum das gewünschte Datum (Format: yyyy-MM-dd)
      * @return der Textinhalt oder eine Fehlermeldung
      */
@@ -124,7 +125,6 @@ public class DateiSpeicher implements TagebuchRepository {
 
     /**
      * Gibt eine Liste aller verfügbaren Tagebuchdaten (Dateinamen ohne ".txt"-Endung) zurück.
-     *
      * @return Liste von Datums-Strings aller vorhandenen Tagebucheinträge
      */
     @Override
@@ -143,7 +143,6 @@ public class DateiSpeicher implements TagebuchRepository {
 
     /**
      * Ersetzt den Text eines bestimmten Eintrags in einer Tagesdatei anhand der Uhrzeit.
-     *
      * @param datum das Datum der Datei
      * @param uhrzeit die Uhrzeit des Eintrags, der ersetzt werden soll
      * @param neuerText der neue Textinhalt

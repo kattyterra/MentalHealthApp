@@ -14,23 +14,30 @@ import java.util.List;
  * Für die Verzeichnisstruktur wird {@link VerzeichnisHelfer} verwendet.
  */
 public class ZielSpeicher implements ZielRepository {
-    private final String ordner = "Ziele/";
-    private final String pfad = ordner + "ziele.txt";
+    private final String ordner;
+    private final String pfad;
 
     /**
      * Konstruktor – stellt sicher, dass das Verzeichnis „Ziele/“ existiert.
      * Falls nicht vorhanden, wird es automatisch erstellt.
      */
     public ZielSpeicher() {
-        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
-        verzeichnisHelfer.sicherstellen(ordner);
+        this.ordner = "Ziele/";
+        this.pfad = ordner + "ziele.txt";
+        new VerzeichnisHelfer().sicherstellen(ordner);
+    }
+
+    /** Injektion-Konstruktor */
+    public ZielSpeicher(String ordnerPfad) {
+        this.ordner = ordnerPfad;
+        this.pfad = ordner + "ziele.txt";
+        new VerzeichnisHelfer().sicherstellen(ordner);
     }
 
     /**
      * Überschreibt die bestehende Zieldatei mit einer neuen Liste von Zielen.
      * Jedes Ziel wird in 7 aufeinanderfolgenden Zeilen gespeichert:
      * Kategorie, Beschreibung, Priorität, Erledigt (true/false), Fälligkeitsdatum, Wiederholungstyp, Motivationsnotiz.
-     *
      * @param ziele Liste der zu speichernden {@link Ziel}-Objekte
      */
     @Override
@@ -53,7 +60,6 @@ public class ZielSpeicher implements ZielRepository {
     /**
      * Lädt alle in der Datei gespeicherten Ziele und gibt sie als Liste zurück.
      * Falls die Datei nicht existiert, wird eine leere Liste zurückgegeben.
-     *
      * @return Liste aller gespeicherten {@link Ziel}-Objekte
      */
     @Override
@@ -80,7 +86,6 @@ public class ZielSpeicher implements ZielRepository {
     /**
      * Parst ein vollständiges Ziel aus sieben aufeinanderfolgenden Zeilen im Reader.
      * Diese Methode wird während des Ladevorgangs verwendet.
-     *
      * @param reader BufferedReader, positioniert auf der ersten Zeile eines Ziels
      * @return das rekonstruierte {@link Ziel}-Objekt
      * @throws IOException bei Problemen mit dem Datei- oder Lesefluss

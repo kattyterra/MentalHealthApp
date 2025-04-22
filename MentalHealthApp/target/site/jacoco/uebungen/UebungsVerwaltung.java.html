@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UebungsVerwaltung.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">uebungen</a> &gt; <span class="el_source">UebungsVerwaltung.java</span></div><h1>UebungsVerwaltung.java</h1><pre class="source lang-java linenums">package uebungen;
+
+import java.util.List;
+
+/**
+ * Der {@code UebungService} ist eine Serviceklasse zur Bereitstellung aller verfügbaren {@link Uebung}-Einträge.
+ * Er dient als Vermittler zwischen der Benutzeroberfläche (z.B. Menü) und dem {@link UebungRepository}.
+ */
+public class UebungsVerwaltung {
+
+    /** Das verwendete Repository zum Laden der Übungen */
+    private final UebungRepository repository;
+
+    /**
+     * Konstruktor – initialisiert den Service mit einem konkreten Repository.
+     * @param repository das Repository zur Bereitstellung der Übungen
+     */
+<span class="fc" id="L18">    public UebungsVerwaltung(UebungRepository repository) {</span>
+<span class="fc" id="L19">        this.repository = repository;</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * Gibt eine Liste aller verfügbaren {@link Uebung}-Objekte zurück.
+     * @return Liste aller Übungen aus dem Repository
+     */
+    public List&lt;Uebung&gt; getAlleUebungen() {
+<span class="fc" id="L27">        return repository.ladeAlle();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

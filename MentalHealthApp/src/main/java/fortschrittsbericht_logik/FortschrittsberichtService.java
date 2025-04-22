@@ -147,6 +147,10 @@ public class FortschrittsberichtService {
         System.out.println("• Gedankenreflexionen (Einträge): " + anzahl);
     }
 
+    /**
+     * Berechnet die Auswertung von Zielen: Wie viel Ziele gab es insgesamt,
+     * wie viele davon wurden erledigt und die Zielerreichungsquote
+     */
     private void zeigeZielauswertung() {
         ZielRepository zielRepo = new ZielSpeicher();
         List<Ziel> ziele = zielRepo.laden();
@@ -158,8 +162,5 @@ public class FortschrittsberichtService {
             double prozent = (100.0 * erledigt / ziele.size());
             System.out.printf("• Zielerreichungsquote: %.1f%%\n", prozent);
         }
-
-        System.out.println("• Offene Ziele als Motivation:");
-        ziele.stream().filter(z -> !z.isErledigt()).forEach(z -> System.out.println("  - " + z.getBeschreibung()));
     }
 }

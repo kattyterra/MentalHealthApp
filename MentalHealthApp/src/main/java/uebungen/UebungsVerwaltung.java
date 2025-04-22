@@ -4,9 +4,7 @@ import java.util.List;
 
 /**
  * Der {@code UebungService} ist eine Serviceklasse zur Bereitstellung aller verfügbaren {@link Uebung}-Einträge.
- * <p>
- * Er dient als Vermittler zwischen der Benutzeroberfläche (z. B. Menü) und dem {@link UebungRepository}.
- * Dadurch wird die Anwendung gemäß dem **Dependency Inversion Principle (DIP)** entkoppelt.
+ * Er dient als Vermittler zwischen der Benutzeroberfläche (z.B. Menü) und dem {@link UebungRepository}.
  */
 public class UebungsVerwaltung {
 
@@ -15,7 +13,6 @@ public class UebungsVerwaltung {
 
     /**
      * Konstruktor – initialisiert den Service mit einem konkreten Repository.
-     *
      * @param repository das Repository zur Bereitstellung der Übungen
      */
     public UebungsVerwaltung(UebungRepository repository) {
@@ -24,7 +21,6 @@ public class UebungsVerwaltung {
 
     /**
      * Gibt eine Liste aller verfügbaren {@link Uebung}-Objekte zurück.
-     *
      * @return Liste aller Übungen aus dem Repository
      */
     public List<Uebung> getAlleUebungen() {

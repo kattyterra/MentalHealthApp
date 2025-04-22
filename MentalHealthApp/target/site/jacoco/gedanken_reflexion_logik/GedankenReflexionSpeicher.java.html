@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GedankenReflexionSpeicher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">gedanken_reflexion_logik</a> &gt; <span class="el_source">GedankenReflexionSpeicher.java</span></div><h1>GedankenReflexionSpeicher.java</h1><pre class="source lang-java linenums">package gedanken_reflexion_logik;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import utility.*;
+
+/**
+ * Konkrete Implementierung des {@link GedankenReflexionRepository}.
+ * Diese Klasse verwaltet das Speichern und Auslesen von Gedankenreflexionseinträgen
+ * im Dateisystem. Jeder Eintrag wird in einer Textdatei abgelegt,
+ * gruppiert nach dem jeweiligen Tagesdatum.
+ */
+public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
+
+<span class="pc" id="L16">    private final String ordner = &quot;Reflexionen/&quot;;</span>
+    private final DateiSchreibHelfer schreiber;
+    private final DateiLeseHelfer leser;
+
+    /**
+     * Konstruktor – prüft, ob der Speicherordner vorhanden ist,
+     * und erstellt ihn bei Bedarf.
+     */
+<span class="nc" id="L24">    public GedankenReflexionSpeicher() {</span>
+<span class="nc" id="L25">        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();</span>
+<span class="nc" id="L26">        verzeichnisHelfer.sicherstellen(ordner);</span>
+<span class="nc" id="L27">        this.schreiber = new DateiSchreibHelfer();</span>
+<span class="nc" id="L28">        this.leser = new DateiLeseHelfer();</span>
+<span class="nc" id="L29">    }</span>
+
+    /** Injektion-Konstruktor */
+<span class="fc" id="L32">    public GedankenReflexionSpeicher(DateiSchreibHelfer schreiber, DateiLeseHelfer leser){</span>
+<span class="fc" id="L33">        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();</span>
+<span class="fc" id="L34">        verzeichnisHelfer.sicherstellen(ordner);</span>
+<span class="fc" id="L35">        this.schreiber = schreiber;</span>
+<span class="fc" id="L36">        this.leser = leser;</span>
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * Speichert einen neuen Gedankenreflexionseintrag in einer Tagesdatei.
+     * Falls bereits eine Datei für das heutige Datum existiert,
+     * wird der Eintrag dort angehängt.
+     * @param eintrag Der zu speichernde GedankenReflexionEintrag
+     */
+    @Override
+    public void speichern(GedankenReflexionEintrag eintrag) {
+<span class="fc" id="L47">        schreiber.anhaengen(ordner, LocalDate.now() + &quot;.txt&quot;, List.of(eintrag.formatForFile()));</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Liest alle vorhandenen Gedankenreflexionseinträge aus dem Speicherordner.
+     * Die Einträge werden nach Datum sortiert zurückgegeben und können direkt
+     * für die Anzeige genutzt werden.
+     * @return Liste aller gespeicherten Einträge als Textzeilen
+     */
+    @Override
+    public List&lt;String&gt; lesenAlle() {
+<span class="fc" id="L58">        return leser.leseAlleZeilen(ordner);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

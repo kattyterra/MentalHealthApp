@@ -10,24 +10,22 @@ import java.util.Random;
  */
 public class InspirationsVerwaltung {
     private final InspirationsRepository repository;
-    private final Random random;
 
-    /**
-     * Konstruktor – initialisiert die Inspirationsverwaltung mit einem Repository.
-     *
-     * @param repository Die konkrete Speicherquelle für Inspirationssätze (z. B. Datei)
-     */
-    public InspirationsVerwaltung(InspirationsRepository repository) {
-        this.repository = repository;
-        this.random = new Random();
+    // Produktivkonstruktor
+    public InspirationsVerwaltung() {
+        this.repository = new InspirationsSpeicher("Textvorlagen(nicht_ändern!)/Inspo.txt");
     }
 
+    // Injection-Konstruktor
+    public InspirationsVerwaltung(InspirationsRepository repository) {
+        this.repository = repository;
+    }
     /**
      * Gibt einen zufällig ausgewählten Inspirationssatz zurück.
-     *
      * @return Ein zufälliger Satz oder eine Fehlermeldung, wenn keine Sätze vorhanden sind.
      */
     public String gibZufaelligenSatz() {
+        Random random = new Random();
         List<String> saetze = repository.ladeSaetze();
         if (saetze.isEmpty()) {
             return "Keine Inspirationssätze verfügbar.";

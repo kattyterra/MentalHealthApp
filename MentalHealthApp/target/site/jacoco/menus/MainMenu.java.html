@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MentalHealthApp</a> &gt; <a href="index.source.html" class="el_package">menus</a> &gt; <span class="el_source">MainMenu.java</span></div><h1>MainMenu.java</h1><pre class="source lang-java linenums">package menus;
+
+import fortschrittsbericht_logik.FortschrittsberichtService;
+import routinen_logik.RoutineException;
+import uebungen.TextdateiUebungRepository;
+import uebungen.*;
+import utility.AnswerParser;
+
+import java.util.Scanner;
+
+/**
+ * Die Main-Klasse enthält das zentrale Hauptmenü der MentalHealthApp.
+ * Von hier aus gelangt der Benutzer in alle Teilbereiche der Anwendung:
+ * Tagebuch, Stimmungskalender, Routinen, Atemübungen, Achtsamkeit, Inspiration,
+ * Gedankenreflexion sowie der Fortschrittsbericht.
+ */
+public class MainMenu {
+
+    /**
+     * Leerer Konstruktor – notwendig für Instanziierung aus der App-Klasse.
+     */
+<span class="nc" id="L22">    public MainMenu() {</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * Zeigt das Hauptmenü und steuert die Navigation durch das gesamte Programm.
+     * Alle Menüaufrufe sind textbasiert und modular strukturiert.
+     */
+    public void showMenu() {
+<span class="nc" id="L30">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L31">        boolean running = true;</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        while (running) {</span>
+<span class="nc" id="L34">            System.out.println(&quot;\n🌟 Willkommen in deiner MentalHealthApp 🌟&quot;);</span>
+<span class="nc" id="L35">            System.out.println(&quot;Was möchtest du heute für dein Wohlbefinden tun?&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot;────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot; 1 - 📔  Tagebuch – Gedanken festhalten &amp; reflektieren&quot;);</span>
+<span class="nc" id="L38">            System.out.println(&quot; 2 - 😊  Stimmungskalender – Tagesstimmung &amp; Emotionen tracken&quot;);</span>
+<span class="nc" id="L39">            System.out.println(&quot; 3 - ✅  Routinen – Tagesstruktur &amp; Selbstfürsorge planen&quot;);</span>
+<span class="nc" id="L40">            System.out.println(&quot; 4 - 🫁  Atemübungen – zur Ruhe kommen &amp; fokussieren&quot;);</span>
+<span class="nc" id="L41">            System.out.println(&quot; 5 - 🧘  Achtsamkeitsübungen – im Moment ankommen&quot;);</span>
+<span class="nc" id="L42">            System.out.println(&quot; 6 - 💡  Inspirationsecke – kleine Impulse für deinen Tag&quot;);</span>
+<span class="nc" id="L43">            System.out.println(&quot; 7 - 🧠  Gedankenkarussell stoppen – klare Gedanken finden&quot;);</span>
+<span class="nc" id="L44">            System.out.println(&quot; 8 - 📊  Monatsrückblick – dein Fortschritt im Überblick&quot;);</span>
+<span class="nc" id="L45">            System.out.println(&quot; 9 - ✨ Ziele setzen &amp; Fortschritte feiern&quot;);</span>
+<span class="nc" id="L46">            System.out.println(&quot; 10 - ❌  Programm beenden&quot;);</span>
+<span class="nc" id="L47">            System.out.println(&quot;────────────────────────────────────────────&quot;);</span>
+<span class="nc" id="L48">            System.out.print(&quot;👉 Deine Wahl: &quot;);</span>
+
+
+<span class="nc" id="L51">            AnswerParser answerParser = new AnswerParser();</span>
+<span class="nc" id="L52">            int choice = answerParser.parsen(scanner);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (choice == 99){</span>
+<span class="nc" id="L54">                continue;</span>
+            }
+
+<span class="nc bnc" id="L57" title="All 11 branches missed.">            switch (choice) {</span>
+                case 1: {
+                    // Tagebuchmodul aufrufen
+<span class="nc" id="L60">                    TagebuchMenu tagebuchMenu = new TagebuchMenu();</span>
+<span class="nc" id="L61">                    tagebuchMenu.showMenu(scanner);</span>
+<span class="nc" id="L62">                    break;</span>
+                }
+                case 2: {
+                    // Stimmungskalender aufrufen
+<span class="nc" id="L66">                    StimmungskalenderMenu stimmungskalenderMenu = new StimmungskalenderMenu();</span>
+<span class="nc" id="L67">                    stimmungskalenderMenu.showMenu(scanner);</span>
+<span class="nc" id="L68">                    break;</span>
+                }
+                case 3: {
+                    // Routinenverwaltung mit Fehlerbehandlung aufrufen
+                    try {
+<span class="nc" id="L73">                        RoutinenMenu routine = new RoutinenMenu();</span>
+<span class="nc" id="L74">                        routine.showMenu(scanner);</span>
+<span class="nc" id="L75">                    } catch (RoutineException e) {</span>
+<span class="nc" id="L76">                        System.out.println(&quot;⚠ Fehler beim Öffnen der Routinenverwaltung: &quot; + e.getMessage());</span>
+<span class="nc" id="L77">                    }</span>
+<span class="nc" id="L78">                    break;</span>
+                }
+                case 4: {
+                    // Atemübungen anzeigen
+<span class="nc" id="L82">                    UebungsVerwaltung service = new UebungsVerwaltung(</span>
+                            new TextdateiUebungRepository(&quot;Textvorlagen(nicht_ändern!)/Atemuebungen.txt&quot;));
+<span class="nc" id="L84">                    new UebungMenu(service.getAlleUebungen(), &quot;🫁 Deine Atemübungen: &quot;).showMenu(scanner);</span>
+<span class="nc" id="L85">                    break;</span>
+                }
+                case 5: {
+                    // Achtsamkeitsübungen anzeigen
+<span class="nc" id="L89">                    UebungsVerwaltung service = new UebungsVerwaltung(</span>
+                            new TextdateiUebungRepository(&quot;Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt&quot;));
+<span class="nc" id="L91">                    new UebungMenu(service.getAlleUebungen(), &quot;🧘 Deine Achtsamkeitsübungen: &quot;).showMenu(scanner);</span>
+<span class="nc" id="L92">                    break;</span>
+                }
+                case 6: {
+                    // Inspirationssätze anzeigen
+<span class="nc" id="L96">                    InspirationssaetzeMenu inspirationssaetzeMenu = new InspirationssaetzeMenu();</span>
+<span class="nc" id="L97">                    inspirationssaetzeMenu.showMenu(scanner);</span>
+<span class="nc" id="L98">                    break;</span>
+                }
+                case 7: {
+                    // Gedankenkarussell stoppen (Reflexion starten oder Einträge ansehen)
+<span class="nc" id="L102">                    GedankenReflexionMenu gedankenReflexionMenu = new GedankenReflexionMenu();</span>
+<span class="nc" id="L103">                    gedankenReflexionMenu.showMenu(scanner);</span>
+<span class="nc" id="L104">                    break;</span>
+                }
+                case 8: {
+                    // Monatsrückblick anzeigen
+<span class="nc" id="L108">                    FortschrittsberichtService fortschrittsberichtService = new FortschrittsberichtService();</span>
+<span class="nc" id="L109">                    fortschrittsberichtService.monatsberichtAnzeigen();</span>
+<span class="nc" id="L110">                    break;</span>
+                }
+                case 9:{
+                    // Ziele verwalten
+<span class="nc" id="L114">                    ZielMenu zielMenu = new ZielMenu();</span>
+<span class="nc" id="L115">                    zielMenu.showMenu(scanner);</span>
+<span class="nc" id="L116">                    break;</span>
+                }
+                case 10: {
+                    // Programm beenden
+<span class="nc" id="L120">                    System.out.println(&quot;Programm wird beendet...&quot;);</span>
+<span class="nc" id="L121">                    running = false;</span>
+<span class="nc" id="L122">                    break;</span>
+                }
+                default: {
+                    // Ungültige Eingabe
+<span class="nc" id="L126">                    System.out.println(&quot;😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!&quot;);</span>
+                    break;
+                }
+            }
+<span class="nc" id="L130">        }</span>
+
+<span class="nc" id="L132">        scanner.close();</span>
+<span class="nc" id="L133">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

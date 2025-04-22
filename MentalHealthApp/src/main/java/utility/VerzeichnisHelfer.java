@@ -7,7 +7,6 @@ public class VerzeichnisHelfer {
     /**
      * Erstellt ein Verzeichnis, wenn es nicht existiert.
      * Gibt true zurück, wenn es erfolgreich erstellt oder schon vorhanden ist.
-     *
      * @param pfad Pfad zum Verzeichnis
      */
     public void sicherstellen(String pfad) {
