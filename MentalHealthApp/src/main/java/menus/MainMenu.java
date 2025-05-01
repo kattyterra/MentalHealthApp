@@ -47,88 +47,65 @@ public class MainMenu {
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
-
             AnswerParser answerParser = new AnswerParser();
             int choice = answerParser.parsen(scanner);
-            if (choice == 99){
-                continue;
-            }
+            if (choice == 99) continue;
 
             switch (choice) {
-                case 1: {
-                    // Tagebuchmodul aufrufen
-                    TagebuchMenu tagebuchMenu = new TagebuchMenu();
-                    tagebuchMenu.showMenu(scanner);
-                    break;
-                }
-                case 2: {
-                    // Stimmungskalender aufrufen
-                    StimmungskalenderMenu stimmungskalenderMenu = new StimmungskalenderMenu();
-                    stimmungskalenderMenu.showMenu(scanner);
-                    break;
-                }
-                case 3: {
-                    // Routinenverwaltung mit Fehlerbehandlung aufrufen
-                    try {
-                        RoutinenMenu routine = new RoutinenMenu();
-                        routine.showMenu(scanner);
-                    } catch (RoutineException e) {
-                        System.out.println("⚠ Fehler beim Öffnen der Routinenverwaltung: " + e.getMessage());
-                    }
-                    break;
-                }
-                case 4: {
-                    // Atemübungen anzeigen
-                    UebungsVerwaltung service = new UebungsVerwaltung(
-                            new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Atemuebungen.txt"));
-                    new UebungMenu(service.getAlleUebungen(), "🫁 Deine Atemübungen: ").showMenu(scanner);
-                    break;
-                }
-                case 5: {
-                    // Achtsamkeitsübungen anzeigen
-                    UebungsVerwaltung service = new UebungsVerwaltung(
-                            new TextdateiUebungRepository("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt"));
-                    new UebungMenu(service.getAlleUebungen(), "🧘 Deine Achtsamkeitsübungen: ").showMenu(scanner);
-                    break;
-                }
-                case 6: {
-                    // Inspirationssätze anzeigen
-                    InspirationssaetzeMenu inspirationssaetzeMenu = new InspirationssaetzeMenu();
-                    inspirationssaetzeMenu.showMenu(scanner);
-                    break;
-                }
-                case 7: {
-                    // Gedankenkarussell stoppen (Reflexion starten oder Einträge ansehen)
-                    GedankenReflexionMenu gedankenReflexionMenu = new GedankenReflexionMenu();
-                    gedankenReflexionMenu.showMenu(scanner);
-                    break;
-                }
-                case 8: {
-                    // Monatsrückblick anzeigen
-                    FortschrittsberichtService fortschrittsberichtService = new FortschrittsberichtService();
-                    fortschrittsberichtService.monatsberichtAnzeigen();
-                    break;
-                }
-                case 9:{
-                    // Ziele verwalten
-                    ZielMenu zielMenu = new ZielMenu();
-                    zielMenu.showMenu(scanner);
-                    break;
-                }
-                case 10: {
-                    // Programm beenden
+                case 1 -> starteTagebuch(scanner);
+                case 2 -> starteStimmungskalender(scanner);
+                case 3 -> starteRoutinen(scanner);
+                case 4 -> zeigeUebungen("Textvorlagen(nicht_ändern!)/Atemuebungen.txt", "🫁 Deine Atemübungen: ", scanner);
+                case 5 -> zeigeUebungen("Textvorlagen(nicht_ändern!)/Achtsamkeitsuebungen.txt", "🧘 Deine Achtsamkeitsübungen: ", scanner);
+                case 6 -> starteInspiration(scanner);
+                case 7 -> starteGedankenReflexion(scanner);
+                case 8 -> zeigeMonatsrueckblick();
+                case 9 -> starteZielMenu(scanner);
+                case 10 -> {
                     System.out.println("Programm wird beendet...");
                     running = false;
-                    break;
                 }
-                default: {
-                    // Ungültige Eingabe
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
 
         scanner.close();
+    }
+
+    private void starteTagebuch(Scanner scanner) {
+        new TagebuchMenu().showMenu(scanner);
+    }
+
+    private void starteStimmungskalender(Scanner scanner) {
+        new StimmungskalenderMenu().showMenu(scanner);
+    }
+
+    private void starteRoutinen(Scanner scanner) {
+        try {
+            new RoutinenMenu().showMenu(scanner);
+        } catch (RoutineException e) {
+            System.out.println("⚠ Fehler beim Öffnen der Routinenverwaltung: " + e.getMessage());
+        }
+    }
+
+    private void zeigeUebungen(String dateipfad, String titel, Scanner scanner) {
+        UebungsVerwaltung service = new UebungsVerwaltung(new TextdateiUebungRepository(dateipfad));
+        new UebungMenu(service.getAlleUebungen(), titel).showMenu(scanner);
+    }
+
+    private void starteInspiration(Scanner scanner) {
+        new InspirationssaetzeMenu().showMenu(scanner);
+    }
+
+    private void starteGedankenReflexion(Scanner scanner) {
+        new GedankenReflexionMenu().showMenu(scanner);
+    }
+
+    private void zeigeMonatsrueckblick() {
+        new FortschrittsberichtService().monatsberichtAnzeigen();
+    }
+
+    private void starteZielMenu(Scanner scanner) {
+        new ZielMenu().showMenu(scanner);
     }
 }

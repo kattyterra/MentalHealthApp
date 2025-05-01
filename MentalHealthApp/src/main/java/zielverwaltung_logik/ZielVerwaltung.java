@@ -18,34 +18,36 @@ public class ZielVerwaltung {
     }
 
     public void hinzufuegen(Ziel ziel) {
-        ziele.add(ziel);
-        speichern();
+        aktualisiereUndSpeichere(() -> ziele.add(ziel));
     }
 
     public void abhaken(int index) {
-        if (index >= 0 && index < ziele.size()) {
-            ziele.get(index).setErledigt(true);
-            speichern();
-        }
+        aktualisiereUndSpeichere(() -> {
+            if (index >= 0 && index < ziele.size()) {
+                ziele.get(index).setErledigt(true);
+            }
+        });
     }
 
     public void bearbeiten(int index, Ziel aktualisiert) {
-        if (index >= 0 && index < ziele.size()) {
-            Ziel ziel = ziele.get(index);
-            ziel.setBeschreibung(aktualisiert.getBeschreibung());
-            ziel.setPrioritaet(aktualisiert.getPrioritaet());
-            ziel.setFaelligkeit(aktualisiert.getFaelligkeit());
-            ziel.setWiederholung(aktualisiert.getWiederholung());
-            ziel.setMotivationsnotiz(aktualisiert.getMotivationsnotiz());
-            speichern();
-        }
+        aktualisiereUndSpeichere(() -> {
+            if (index >= 0 && index < ziele.size()) {
+                Ziel ziel = ziele.get(index);
+                ziel.setBeschreibung(aktualisiert.getBeschreibung());
+                ziel.setPrioritaet(aktualisiert.getPrioritaet());
+                ziel.setFaelligkeit(aktualisiert.getFaelligkeit());
+                ziel.setWiederholung(aktualisiert.getWiederholung());
+                ziel.setMotivationsnotiz(aktualisiert.getMotivationsnotiz());
+            }
+        });
     }
 
     public void loeschen(int index) {
-        if (index >= 0 && index < ziele.size()) {
-            ziele.remove(index);
-            speichern();
-        }
+        aktualisiereUndSpeichere(() -> {
+            if (index >= 0 && index < ziele.size()) {
+                ziele.remove(index);
+            }
+        });
     }
 
     public List<Ziel> getZiele() {
@@ -54,13 +56,12 @@ public class ZielVerwaltung {
 
     public List<Ziel> filterNachKategorie(String kategorie) {
         try {
-            ZielKategorie filterKategorie = ZielKategorie.valueOf(kategorie.toUpperCase());
             return ziele.stream()
-                    .filter(z -> z.getKategorie() == filterKategorie)
+                    .filter(z -> z.getKategorie() == ZielKategorie.valueOf(kategorie.toUpperCase()))
                     .toList();
         } catch (IllegalArgumentException e) {
             System.out.println("⚠ Ungültige Kategorie: " + kategorie);
-            return List.of(); // leere Liste zurückgeben
+            return List.of();
         }
     }
 
@@ -77,11 +78,16 @@ public class ZielVerwaltung {
         return gefiltert;
     }
 
-    private void speichern() {
-        repository.speichern(ziele);
+    public List<Ziel> filterNachKategorieMitAuswahl(Scanner scanner) {
+        ZielKategorie gewaehlteKategorie = waehleKategorie(scanner);
+        List<Ziel> gefiltert = filterNachKategorie(gewaehlteKategorie.name());
+        if (gefiltert.isEmpty()) {
+            System.out.println("⚠ Keine Ziele in Kategorie \"" + gewaehlteKategorie + "\" gefunden.");
+        }
+        return gefiltert;
     }
 
-    public List<Ziel> filterNachKategorieMitAuswahl(Scanner scanner) {
+    private ZielKategorie waehleKategorie(Scanner scanner) {
         ZielKategorie[] kategorien = ZielKategorie.values();
         System.out.println("\nWähle eine Zielkategorie:");
         for (int i = 0; i < kategorien.length; i++) {
@@ -89,19 +95,17 @@ public class ZielVerwaltung {
         }
         System.out.print("Auswahl: ");
         try {
-            int katIndex = Integer.parseInt(scanner.nextLine()) - 1;
-            ZielKategorie gewaehlteKategorie = kategorien[Math.max(0, Math.min(katIndex, kategorien.length - 1))];
-            List<Ziel> gefiltert = filterNachKategorie(gewaehlteKategorie.name());
-
-            if (gefiltert.isEmpty()) {
-                System.out.println("⚠ Es wurden keine Ziele in der Kategorie \"" + gewaehlteKategorie + "\" gefunden.");
-            }
-
-            return gefiltert;
+            int index = Integer.parseInt(scanner.nextLine()) - 1;
+            return kategorien[Math.max(0, Math.min(index, kategorien.length - 1))];
         } catch (Exception e) {
-            System.out.println("⚠ Ungültige Kategorieauswahl.");
-            return List.of();
+            System.out.println("⚠ Ungültige Kategorieauswahl. Standard: GESUNDHEIT.");
+            return ZielKategorie.GESUNDHEIT;
         }
+    }
+
+    private void aktualisiereUndSpeichere(Runnable aenderung) {
+        aenderung.run();
+        repository.speichern(ziele);
     }
 
 }

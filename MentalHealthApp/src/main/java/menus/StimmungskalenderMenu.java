@@ -15,6 +15,7 @@ public class StimmungskalenderMenu {
 
     /** Zentrale Verwaltung des Stimmungskalenders */
     private final StimmungskalenderVerwaltung verwaltung;
+    private final AnswerParser parser = new AnswerParser();
 
     /** Konstruktor – initialisiert die Verwaltung mit einem konkreten Speicher */
     public StimmungskalenderMenu() {
@@ -37,38 +38,18 @@ public class StimmungskalenderMenu {
             System.out.println("────────────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
-            AnswerParser answerParser = new AnswerParser();
-            int choice = answerParser.parsen(scanner);
-            if (choice == 99){
-                continue;
-            }
+            int choice = parser.parsen(scanner);
+            if (choice == 99) continue;
 
             switch (choice) {
-                case 1: {
-                    // Neue Stimmung und Emotionen erfassen
+                case 1 -> {
                     verwaltung.eintragHinzufuegen(scanner);
                     verwaltung.emotionenErfassen(scanner);
-                    break;
                 }
-                case 2: {
-                    // Stimmungskurve als Textgraph anzeigen
-                    verwaltung.eintraegeAlsGraphAnzeigen();
-                    break;
-                }
-                case 3: {
-                    // Alle Einträge in Textform ausgeben
-                    verwaltung.eintraegeTextuellAnzeigen();
-                    break;
-                }
-                case 4: {
-                    // Zurück zum Hauptmenü
-                    return;
-                }
-                default: {
-                    // Fehlerbehandlung bei ungültiger Eingabe
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                case 2 -> verwaltung.eintraegeAlsGraphAnzeigen();
+                case 3 -> verwaltung.eintraegeTextuellAnzeigen();
+                case 4 -> { return; }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
     }

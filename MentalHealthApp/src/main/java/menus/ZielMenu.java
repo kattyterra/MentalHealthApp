@@ -10,6 +10,7 @@ public class ZielMenu {
     private final ZielVerwaltung zielVerwaltung;
     private final ZielStatistikVerwaltung statistikService;
     private final ZielEingabeHelper eingabeHelper;
+    private final AnswerParser answerParser = new AnswerParser();
 
     public ZielMenu() {
         this.zielVerwaltung = new ZielVerwaltung();
@@ -33,87 +34,66 @@ public class ZielMenu {
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Auswahl: ");
 
-            AnswerParser answerParser = new AnswerParser();
             int choice = answerParser.parsen(scanner);
-            if (choice == 99){
+            if (choice == 99) {
                 continue;
             }
 
             switch (choice) {
-                case 1:
-                {
-                    zielVerwaltung.hinzufuegen(eingabeHelper.erstelleZielVomBenutzer(scanner));
-                    break;
-                }
-                case 2:
-                {
-                    zielVerwaltung.abhaken(eingabeHelper.indexAbfragen(scanner));
-                    break;
-                }
-                case 3:
-                {
-                    zielVerwaltung.bearbeiten(eingabeHelper.indexAbfragen(scanner), eingabeHelper.erstelleZielVomBenutzer(scanner));
-                    break;
-                }
-                case 4:
-                {
-                    zielVerwaltung.loeschen(eingabeHelper.indexAbfragen(scanner));
-                    break;
-                }
-                case 5:
-                {
-                    List<Ziel> alleZiele = zielVerwaltung.getZiele();
-                    if (alleZiele.isEmpty()) {
-                        System.out.println("⚠️ Du hast momentan noch keine Ziele eingetragen.");
-                        System.out.println("💡 Wie wäre es, wenn du dir ein neues Ziel setzt?");
-                    } else {
-                        System.out.println("\n🎯 Deine aktuellen Ziele:");
-                        alleZiele.forEach(System.out::println);
-                    }
-                    break;
-                }
-                case 6:
-                {
+                case 1 -> zielVerwaltung.hinzufuegen(eingabeHelper.erstelleZielVomBenutzer(scanner));
+                case 2 -> zielVerwaltung.abhaken(eingabeHelper.indexAbfragen(scanner));
+                case 3 -> zielVerwaltung.bearbeiten(
+                        eingabeHelper.indexAbfragen(scanner),
+                        eingabeHelper.erstelleZielVomBenutzer(scanner)
+                );
+                case 4 -> zielVerwaltung.loeschen(eingabeHelper.indexAbfragen(scanner));
+                case 5 -> zeigeAlleZiele(zielVerwaltung.getZiele());
+                case 6 -> {
                     System.out.println("\n📈 Deine Fortschritte auf einen Blick:");
                     statistikService.zeigeStatistik(zielVerwaltung.getZiele());
-                    break;
                 }
-                case 7:
-                {
+                case 7 -> {
                     System.out.println("\n📂 Gefilterte Ziele nach Kategorie:");
                     zielVerwaltung.filterNachKategorieMitAuswahl(scanner).forEach(System.out::println);
-                    break;
                 }
-                case 8:
-                {
-                    System.out.println("\n📌 Wähle den Status, den du filtern möchtest:");
-                    System.out.println("1 - ✅ Erledigte Ziele anzeigen");
-                    System.out.println("2 - ⏳ Offene Ziele anzeigen");
-                    System.out.print("👉 Deine Auswahl: ");
-                    try {
-                        int statusWahl = Integer.parseInt(scanner.nextLine());
-                        boolean erledigt = (statusWahl == 1);
-                        List<Ziel> gefiltert = zielVerwaltung.filterNachStatus(erledigt, true);
-                        if (gefiltert.isEmpty()) {
-                            System.out.println("🔍 Keine Ziele mit diesem Status gefunden.");
-                        } else {
-                            gefiltert.forEach(System.out::println);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("⚠ Ungültige Statusauswahl.");
+                case 8 -> {
+                    boolean erledigt = statusFilterAuswahl(scanner);
+                    List<Ziel> gefiltert = zielVerwaltung.filterNachStatus(erledigt, true);
+                    if (gefiltert.isEmpty()) {
+                        System.out.println("🔍 Keine Ziele mit diesem Status gefunden.");
+                    } else {
+                        gefiltert.forEach(System.out::println);
                     }
-                    break;
                 }
-                case 9:
-                {
+                case 9 -> {
                     return;
                 }
-                default:
-                {
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
+        }
+    }
+
+    private void zeigeAlleZiele(List<Ziel> ziele) {
+        if (ziele.isEmpty()) {
+            System.out.println("⚠️ Du hast momentan noch keine Ziele eingetragen.");
+            System.out.println("💡 Wie wäre es, wenn du dir ein neues Ziel setzt?");
+        } else {
+            System.out.println("\n🎯 Deine aktuellen Ziele:");
+            ziele.forEach(System.out::println);
+        }
+    }
+
+    private boolean statusFilterAuswahl(Scanner scanner) {
+        System.out.println("\n📌 Wähle den Status, den du filtern möchtest:");
+        System.out.println("1 - ✅ Erledigte Ziele anzeigen");
+        System.out.println("2 - ⏳ Offene Ziele anzeigen");
+        System.out.print("👉 Deine Auswahl: ");
+        try {
+            int statusWahl = Integer.parseInt(scanner.nextLine());
+            return statusWahl == 1;
+        } catch (Exception e) {
+            System.out.println("⚠ Ungültige Statusauswahl.");
+            return false;
         }
     }
 }

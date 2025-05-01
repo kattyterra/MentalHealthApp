@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class InspirationssaetzeMenu {
     private final InspirationsVerwaltung verwaltung = new InspirationsVerwaltung();
+    private final AnswerParser answerParser = new AnswerParser();
 
 
     /**
@@ -28,37 +29,21 @@ public class InspirationssaetzeMenu {
             System.out.println("────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
-            AnswerParser answerParser = new AnswerParser();
             int choice = answerParser.parsen(scanner);
-            if (choice == 99){
-                continue;
-            }
+            if (choice == 99) continue;
 
             switch (choice) {
-                case 1:
-                {
-                    zeigeSaetze(scanner);
-                    break;
-                }
-                case 2:
-                {
-                    return;
-                }
-                default:
-                {
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                case 1 -> zeigeSaetze();
+                case 2 -> { return; }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
     }
 
     /**
      * Gibt einen zufälligen Inspirationssatz aus der Datenquelle aus.
-     *
-     * @param scanner Scanner-Objekt (hier nicht direkt genutzt, aber für spätere Erweiterungen vorbereitet)
      */
-    private void zeigeSaetze(Scanner scanner) {
+    private void zeigeSaetze() {
         String satz = verwaltung.gibZufaelligenSatz();
         System.out.println("\n✨ " + satz);
     }

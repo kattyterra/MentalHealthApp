@@ -22,18 +22,16 @@ public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
      * und erstellt ihn bei Bedarf.
      */
     public GedankenReflexionSpeicher() {
-        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
-        verzeichnisHelfer.sicherstellen(ordner);
         this.schreiber = new DateiSchreibHelfer();
         this.leser = new DateiLeseHelfer();
+        initialisiereSpeicherort();
     }
 
     /** Injektion-Konstruktor */
     public GedankenReflexionSpeicher(DateiSchreibHelfer schreiber, DateiLeseHelfer leser){
-        VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
-        verzeichnisHelfer.sicherstellen(ordner);
         this.schreiber = schreiber;
         this.leser = leser;
+        initialisiereSpeicherort();
     }
 
     /**
@@ -56,5 +54,12 @@ public class GedankenReflexionSpeicher implements GedankenReflexionRepository {
     @Override
     public List<String> lesenAlle() {
         return leser.leseAlleZeilen(ordner);
+    }
+
+    /**
+     * Stellt sicher, dass der Speicherordner existiert.
+     */
+    private void initialisiereSpeicherort() {
+        new VerzeichnisHelfer().sicherstellen(ordner);
     }
 }

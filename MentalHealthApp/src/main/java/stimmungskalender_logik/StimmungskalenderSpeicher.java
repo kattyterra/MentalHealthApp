@@ -22,9 +22,7 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
         new VerzeichnisHelfer().sicherstellen(ordner);
     }
 
-    /**
-     * Konstruktor: Erstellt den Ordner „Stimmungskalender“, falls er noch nicht existiert.
-     */
+    /** Konstruktor: Erstellt den Ordner „Stimmungskalender“, falls er noch nicht existiert */
     public StimmungskalenderSpeicher() {
         VerzeichnisHelfer verzeichnisHelfer = new VerzeichnisHelfer();
         verzeichnisHelfer.sicherstellen(ordner);
@@ -39,7 +37,7 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
      */
     @Override
     public void speichern(Stimmungseintrag eintrag) {
-        schreiber.anhaengen(ordner, LocalDate.now() + ".txt", List.of(eintrag.formatForFile()));
+        schreiber.anhaengen(ordner, heutigesDateiname(), List.of(eintrag.formatForFile()));
     }
 
     /**
@@ -53,7 +51,7 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
                 .map(Emotionseintrag::formatForFile)
                 .toList();
 
-        schreiber.anhaengen("Stimmungskalender/", "2025-03-25.txt", zeilen);
+        schreiber.anhaengen(ordner, heutigesDateiname(), zeilen);
     }
 
     /**
@@ -64,5 +62,13 @@ public class StimmungskalenderSpeicher implements StimmungskalenderRepository {
     @Override
     public List<String> lesenAlle() {
         return leser.leseAlleZeilen(ordner);
+    }
+
+    /**
+     * Hilfsmethode zur Erzeugung des aktuellen Tagesdateinamens.
+     * @return Dateiname im Format yyyy-MM-dd.txt
+     */
+    private String heutigesDateiname() {
+        return LocalDate.now() + ".txt";
     }
 }

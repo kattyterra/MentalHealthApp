@@ -56,44 +56,19 @@ public class TagebuchVerwaltung {
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void eintragLoeschen(Scanner scanner) {
-        List<String> eintraege = repository.getVerfuegbareEintraege();
-        if (eintraege.isEmpty()) {
-            System.out.println("Keine Tagebucheinträge vorhanden.");
-            return;
-        }
+        List<String> eintraege = pruefeUndHoleEintraege();
+        if (eintraege.isEmpty()) return;
 
-        // Auswahl eines Datums
-        int auswahl;
-        while (true) {
-            System.out.println("\nVerfügbare Tagebucheinträge zum Löschen:");
-            for (int i = 0; i < eintraege.size(); i++) {
-                System.out.println((i + 1) + ". " + eintraege.get(i));
-            }
+        String datum = waehleDatumAusListe(scanner, eintraege, "löschen");
 
-            System.out.print("\nWähle eine Nummer, um den Eintrag zu löschen: ");
-            try {
-                auswahl = Integer.parseInt(scanner.nextLine());
-                if (auswahl < 1 || auswahl > eintraege.size()) {
-                    System.out.println("Ungültige Auswahl.");
-                } else {
-                    break;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Bitte eine gültige Zahl eingeben.");
-            }
-        }
-
-        String gewaehltesDatum = eintraege.get(auswahl - 1);
-
-        // Benutzer fragen: ganze Datei löschen oder Teil
         boolean ganzeDateiLoeschen = abfrage.eingabe_lesen(scanner);
         if (ganzeDateiLoeschen) {
-            repository.loeschen(gewaehltesDatum);
-            System.out.println("Der gesamte Eintrag für " + gewaehltesDatum + " wurde gelöscht.");
+            repository.loeschen(datum);
+            System.out.println("Der gesamte Eintrag für " + datum + " wurde gelöscht.");
         } else {
             System.out.print("\nGib die Uhrzeit des Eintrags ein, den du löschen möchtest (HH:mm:ss): ");
             String uhrzeit = scanner.nextLine();
-            repository.loeschenEintrag(gewaehltesDatum, uhrzeit);
+            repository.loeschenEintrag(datum, uhrzeit);
         }
     }
 
@@ -102,36 +77,12 @@ public class TagebuchVerwaltung {
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void eintragLesen(Scanner scanner) {
-        List<String> eintraege = repository.getVerfuegbareEintraege();
-        if (eintraege.isEmpty()) {
-            System.out.println("Keine Tagebucheinträge vorhanden.");
-            return;
-        }
+        List<String> eintraege = pruefeUndHoleEintraege();
+        if (eintraege.isEmpty()) return;
 
-        // Datumsauswahl
-        int auswahl;
-        while (true) {
-            System.out.println("\nVerfügbare Tagebucheinträge:");
-            for (int i = 0; i < eintraege.size(); i++) {
-                System.out.println((i + 1) + ". " + eintraege.get(i));
-            }
-
-            System.out.print("\nWähle eine Nummer, um den Eintrag zu lesen: ");
-            try {
-                auswahl = Integer.parseInt(scanner.nextLine());
-                if (auswahl < 1 || auswahl > eintraege.size()) {
-                    System.out.println("Ungültige Auswahl.");
-                } else {
-                    break;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Bitte eine Zahl eingeben.");
-            }
-        }
-
-        String gewaehltesDatum = eintraege.get(auswahl - 1);
-        String inhalt = repository.lesen(gewaehltesDatum);
-        System.out.println("\nEintrag für " + gewaehltesDatum + ":\n" + inhalt);
+        String datum = waehleDatumAusListe(scanner, eintraege, "lesen");
+        String inhalt = repository.lesen(datum);
+        System.out.println("\nEintrag für " + datum + ":\n" + inhalt);
     }
 
     /**
@@ -140,45 +91,57 @@ public class TagebuchVerwaltung {
      * @param scanner Scanner-Objekt für Benutzereingaben
      */
     public void eintragBearbeiten(Scanner scanner) {
-        List<String> eintraege = repository.getVerfuegbareEintraege();
-        if (eintraege.isEmpty()) {
-            System.out.println("Keine Tagebucheinträge vorhanden.");
-            return;
-        }
+        List<String> eintraege = pruefeUndHoleEintraege();
+        if (eintraege.isEmpty()) return;
 
-        // Auswahl eines Datums
+        String datum = waehleDatumAusListe(scanner, eintraege, "bearbeiten");
+        String uhrzeit = leseUhrzeit(scanner);
+        String neuerText = leseBearbeitungstext(scanner);
+        fuehreBearbeitungDurch(datum, uhrzeit, neuerText);
+    }
+
+    private String waehleDatumAusListe(Scanner scanner, List<String> eintraege, String aktion) {
         int auswahl;
         while (true) {
-            System.out.println("\nVerfügbare Tagebucheinträge zum Bearbeiten:");
+            System.out.println("\nVerfügbare Tagebucheinträge zum " + aktion + ":");
             for (int i = 0; i < eintraege.size(); i++) {
                 System.out.println((i + 1) + ". " + eintraege.get(i));
             }
 
-            System.out.print("\nWähle eine Nummer, um einen Eintrag zu bearbeiten: ");
+            System.out.print("\nWähle eine Nummer, um den Eintrag zu " + aktion + ": ");
             try {
                 auswahl = Integer.parseInt(scanner.nextLine());
-                if (auswahl < 1 || auswahl > eintraege.size()) {
-                    System.out.println("Ungültige Auswahl.");
-                } else {
-                    break;
+                if (auswahl >= 1 && auswahl <= eintraege.size()) {
+                    return eintraege.get(auswahl - 1);
                 }
+                System.out.println("Ungültige Auswahl.");
             } catch (NumberFormatException e) {
                 System.out.println("Bitte eine gültige Zahl eingeben.");
             }
         }
+    }
 
-        String gewaehltesDatum = eintraege.get(auswahl - 1);
+    private List<String> pruefeUndHoleEintraege() {
+        List<String> eintraege = repository.getVerfuegbareEintraege();
+        if (eintraege.isEmpty()) {
+            System.out.println("Keine Tagebucheinträge vorhanden.");
+            return List.of();
+        }
+        return eintraege;
+    }
 
-        // Uhrzeit des zu bearbeitenden Eintrags
+    private String leseUhrzeit(Scanner scanner) {
         System.out.print("\nGib die Uhrzeit des Eintrags ein, den du bearbeiten möchtest (HH:mm:ss): ");
-        String uhrzeit = scanner.nextLine();
+        return scanner.nextLine();
+    }
 
-        // Neuer Text für den Eintrag
+    private String leseBearbeitungstext(Scanner scanner) {
         System.out.println("Gib den neuen Text für den Eintrag ein:");
-        String neuerText = scanner.nextLine();
+        return scanner.nextLine();
+    }
 
-        // Bearbeitung durchführen
-        boolean erfolgreich = repository.bearbeiten(gewaehltesDatum, uhrzeit, neuerText);
+    private void fuehreBearbeitungDurch(String datum, String uhrzeit, String text) {
+        boolean erfolgreich = repository.bearbeiten(datum, uhrzeit, text);
         if (erfolgreich) {
             System.out.println("Der Eintrag wurde erfolgreich aktualisiert!");
         } else {
