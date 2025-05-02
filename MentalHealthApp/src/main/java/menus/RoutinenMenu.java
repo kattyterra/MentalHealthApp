@@ -14,6 +14,7 @@ public class RoutinenMenu {
 
     /** Zentrale Verwaltungsklasse für alle Routine-Funktionen */
     private final RoutinenVerwaltung verwaltung;
+    private final AnswerParser parser = new AnswerParser();
 
     /**
      * Konstruktor – initialisiert die Routinenverwaltung mit
@@ -42,53 +43,21 @@ public class RoutinenMenu {
             System.out.println(" 7 - 🔙 Zurück zum Hauptmenü");
             System.out.println("──────────────────────────────────────────────────────────────");
 
-            AnswerParser answerParser = new AnswerParser();
-            int choice = answerParser.parsen(scanner);
+            int choice = parser.parsen(scanner);
             if (choice == 99){
                 continue;
             }
 
             try {
                 switch (choice) {
-                    case 1:
-                    {
-                        verwaltung.checklisteVerwalten(scanner);
-                        break;
-                    }
-                    case 2:
-                    {
-                        verwaltung.routinenStatistikAnzeigen();
-                        break;
-                    }
-                    case 3:
-                    {
-                        verwaltung.routineHinzufuegen(scanner);
-                        break;
-                    }
-                    case 4:
-                    {
-                        verwaltung.routineBearbeiten(scanner);
-                        break;
-                    }
-                    case 5:
-                    {
-                        verwaltung.routineLoeschen(scanner);
-                        break;
-                    }
-                    case 6:
-                    {
-                        verwaltung.routinenHistorieAnzeigen();
-                        break;
-                    }
-                    case 7:
-                    {
-                        return;
-                    }
-                    default:
-                    {
-                        System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                        break;
-                    }
+                    case 1 -> verwaltung.checklisteVerwalten(scanner);
+                    case 2 -> verwaltung.routinenStatistikAnzeigen();
+                    case 3 -> verwaltung.routineHinzufuegen(scanner);
+                    case 4 -> verwaltung.routineBearbeiten(scanner);
+                    case 5 -> verwaltung.routineLoeschen(scanner);
+                    case 6 -> verwaltung.routinenHistorieAnzeigen();
+                    case 7 -> { return; }
+                    default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
                 }
             } catch (RoutineException e) {
                 System.out.println("⚠ Fehler: " + e.getMessage());

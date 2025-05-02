@@ -16,6 +16,7 @@ public class GedankenReflexionMenu {
 
     /** Verwaltungsklasse für die Gedankenreflexion (steuert Logik & Speicherung) */
     private final GedankenReflexionVerwaltung verwaltung = new GedankenReflexionVerwaltung();
+    private final AnswerParser answerParser = new AnswerParser();
 
     /**
      * Zeigt das Menü zur Gedankenreflexion in einer Schleife, bis der Benutzer den Menüpunkt „Zurück“ wählt.
@@ -31,31 +32,16 @@ public class GedankenReflexionMenu {
             System.out.println("──────────────────────────────────────────────────────────────");
             System.out.print("👉 Deine Auswahl: ");
 
-            AnswerParser answerParser = new AnswerParser();
             int choice = answerParser.parsen(scanner);
             if (choice == 99){
                 continue;
             }
 
             switch (choice) {
-                case 1:
-                {
-                    verwaltung.neuerEintrag(scanner);
-                    break;
-                }
-                case 2:
-                {
-                    verwaltung.alleEintraegeAnzeigen();
-                    break;
-                }
-                case 0:
-                {
-                    return;
-                }
-                default:{
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                case 1 -> verwaltung.neuerEintrag(scanner);
+                case 2 -> verwaltung.alleEintraegeAnzeigen();
+                case 0 -> { return; }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
     }

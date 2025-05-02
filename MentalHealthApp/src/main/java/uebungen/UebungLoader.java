@@ -4,24 +4,15 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Diese Klasse dient zum Einlesen von Übungstexten aus einer externen Textdatei.
- * Das Dateiformat folgt einer klaren Struktur pro Übung:
- * 1. Name der Übung
- * Ziel: Zielbeschreibung
- * Schritt 1 der Anleitung
- * Schritt 2 der Anleitung
- * Jede Übung besteht aus:
- *     -einem Namen (Beginn mit „1. “, „2. “, …)
- *     -einem Ziel (beginnend mit „Ziel: “)
- *     -mehreren Anleitungsschritten
+ * Diese Klasse liest Übungen im bekannten Textformat aus einer Datei.
+ * Jede Übung besteht aus einem Namen, Ziel und mehreren Anleitungsschritten.
  */
 public class UebungLoader {
 
     /**
-     * Liest eine Liste von Übungen aus einer gegebenen Textdatei ein.
-     * Die Datei muss im beschriebenen Format aufgebaut sein.
-     * @param dateipfad Pfad zur Datei mit Übungsvorlagen
-     * @return Liste aller eingelesenen {@link Uebung}-Objekte
+     * Lädt alle Übungen aus der angegebenen Datei im vordefinierten Format.
+     * @param dateipfad Pfad zur Datei mit den Übungen
+     * @return Liste eingelesener {@link Uebung}-Objekte
      */
     public List<Uebung> ladeUebungen(String dateipfad) {
         List<Uebung> uebungen = new ArrayList<>();
@@ -34,34 +25,39 @@ public class UebungLoader {
             boolean leseAnleitung = false;
 
             while ((zeile = reader.readLine()) != null) {
-                // Neue Übung beginnt mit "1. ", "2. ", etc.
-                if (zeile.matches("^\\d+\\.\\s.*")) {
-                    // Vorherige Übung hinzufügen (falls vorhanden)
-                    if (name != null) {
-                        uebungen.add(new Uebung(name, ziel, new ArrayList<>(anleitung)));
-                        anleitung.clear();
-                    }
-                    name = zeile.substring(3).trim(); // Name extrahieren
+                if (istUebungsTitel(zeile)) {
+                    fuegeUebungHinzuWennVollstaendig(uebungen, name, ziel, anleitung);
+                    name = zeile.substring(3).trim();
                     ziel = null;
+                    anleitung.clear();
                     leseAnleitung = false;
                 } else if (zeile.startsWith("Ziel:")) {
-                    ziel = zeile.substring(5).trim(); // Ziel extrahieren
+                    ziel = zeile.substring(5).trim();
                     leseAnleitung = true;
                 } else if (leseAnleitung && !zeile.isBlank()) {
-                    // Anleitungsschritte sammeln
                     anleitung.add(zeile);
                 }
             }
 
-            // Letzte Übung hinzufügen (nach Dateiende)
-            if (name != null) {
-                uebungen.add(new Uebung(name, ziel, anleitung));
-            }
+            // letzte Übung nach Datei-Ende hinzufügen
+            fuegeUebungHinzuWennVollstaendig(uebungen, name, ziel, anleitung);
 
         } catch (IOException e) {
-            System.out.println("Fehler beim Laden der Übungen: " + e.getMessage());
+            System.err.println("Fehler beim Laden der Übungen: " + e.getMessage());
         }
 
         return uebungen;
+    }
+
+    /** Prüft, ob die Zeile eine neue Übung einleitet (z.B. „1. …“) */
+    private boolean istUebungsTitel(String zeile) {
+        return zeile.matches("^\\d+\\.\\s.*");
+    }
+
+    /** Fügt eine vollständige Übung zur Liste hinzu, wenn der Name vorhanden ist. */
+    private void fuegeUebungHinzuWennVollstaendig(List<Uebung> liste, String name, String ziel, List<String> anleitung) {
+        if (name != null && ziel != null && !anleitung.isEmpty()) {
+            liste.add(new Uebung(name, ziel, new ArrayList<>(anleitung)));
+        }
     }
 }

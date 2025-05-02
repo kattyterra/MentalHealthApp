@@ -9,11 +9,13 @@ import java.util.Random;
  * und gibt einen zufälligen Satz zurück.
  */
 public class InspirationsVerwaltung {
+    private static final String STANDARD_PFAD = "Textvorlagen(nicht_ändern!)/Inspo.txt";
     private final InspirationsRepository repository;
+    private final Random random = new Random();
 
     // Produktivkonstruktor
     public InspirationsVerwaltung() {
-        this.repository = new InspirationsSpeicher("Textvorlagen(nicht_ändern!)/Inspo.txt");
+        this.repository = new InspirationsSpeicher(STANDARD_PFAD);
     }
 
     // Injection-Konstruktor
@@ -25,7 +27,6 @@ public class InspirationsVerwaltung {
      * @return Ein zufälliger Satz oder eine Fehlermeldung, wenn keine Sätze vorhanden sind.
      */
     public String gibZufaelligenSatz() {
-        Random random = new Random();
         List<String> saetze = repository.ladeSaetze();
         if (saetze.isEmpty()) {
             return "Keine Inspirationssätze verfügbar.";

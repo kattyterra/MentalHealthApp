@@ -18,6 +18,7 @@ import java.util.List;
  */
 
 public class DateiSpeicher implements TagebuchRepository {
+    private final String EINTRAGS_PREFIX = "Eingetragen um ";
     private final String ordner;
     private final DateiSchreibHelfer schreibHelfer;
     private final DateiLeseHelfer leseHelfer;
@@ -82,20 +83,20 @@ public class DateiSpeicher implements TagebuchRepository {
      */
     @Override
     public void loeschenEintrag(String datum, String uhrzeit) {
-        Path path = getPfad(datum);
-        if (!Files.exists(path)) return;
+        Path pfad = getPfad(datum);
+        if (!Files.exists(pfad)) return;
 
         try {
-            List<String> lines = Files.readAllLines(path);
+            List<String> lines = Files.readAllLines(pfad);
             List<String> updated = new ArrayList<>();
             boolean loesche = false;
 
             for (String line : lines) {
-                if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
+                if (line.startsWith(EINTRAGS_PREFIX + uhrzeit + ":")) {
                     loesche = true;
                     continue;
                 }
-                if (loesche && !line.startsWith("Eingetragen um ")) {
+                if (loesche && !line.startsWith(EINTRAGS_PREFIX)) {
                     continue;
                 }
                 loesche = false;
@@ -103,9 +104,9 @@ public class DateiSpeicher implements TagebuchRepository {
             }
 
             if (updated.isEmpty()) {
-                Files.delete(path);
+                Files.delete(pfad);
             } else {
-                Files.write(path, updated);
+                Files.write(pfad, updated);
             }
 
         } catch (IOException e) {
@@ -150,32 +151,39 @@ public class DateiSpeicher implements TagebuchRepository {
      */
     @Override
     public boolean bearbeiten(String datum, String uhrzeit, String neuerText) {
-        Path path = getPfad(datum);
-        if (!Files.exists(path)) return false;
+        Path pfad = getPfad(datum);
+        if (!Files.exists(pfad)) return false;
 
         try {
-            List<String> lines = Files.readAllLines(path);
-            List<String> updated = new ArrayList<>();
-            boolean ersetzen = false;
-
-            for (String line : lines) {
-                if (line.startsWith("Eingetragen um " + uhrzeit + ":")) {
-                    ersetzen = true;
-                    updated.add(line);
-                    continue;
-                }
-                if (ersetzen && !line.startsWith("Eingetragen um ")) {
-                    updated.add(neuerText);
-                    ersetzen = false;
-                    continue;
-                }
-                updated.add(line);
-            }
-
-            Files.write(path, updated);
+            List<String> lines = Files.readAllLines(pfad);
+            List<String> updated = ersetzeEintrag(lines, uhrzeit, neuerText);
+            Files.write(pfad, updated);
             return true;
+
         } catch (IOException e) {
+            System.err.println("Fehler beim Bearbeiten des Eintrags: " + e.getMessage());
             return false;
         }
+    }
+
+    private List<String> ersetzeEintrag(List<String> lines, String uhrzeit, String neuerText) {
+        List<String> updated = new ArrayList<>();
+        boolean ersetzen = false;
+
+        for (String line : lines) {
+            if (line.startsWith(EINTRAGS_PREFIX + uhrzeit + ":")) {
+                ersetzen = true;
+                updated.add(line);
+                continue;
+            }
+            if (ersetzen && !line.startsWith(EINTRAGS_PREFIX)) {
+                updated.add(neuerText);
+                ersetzen = false;
+                continue;
+            }
+            updated.add(line);
+        }
+
+        return updated;
     }
 }

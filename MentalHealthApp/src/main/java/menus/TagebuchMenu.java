@@ -14,6 +14,7 @@ public class TagebuchMenu {
 
     /** Verwaltungsklasse für alle Tagebuchfunktionen */
     private final TagebuchVerwaltung tagebuchVerwaltung;
+    private final AnswerParser answerParser = new AnswerParser();
 
     /** Konstruktor – initialisiert die Tagebuchverwaltung mit einem Dateispeicher */
     public TagebuchMenu() {
@@ -36,49 +37,18 @@ public class TagebuchMenu {
             System.out.println("───────────────────────────────────────────────");
             System.out.print("👉 Deine Wahl: ");
 
-
-            AnswerParser answerParser = new AnswerParser();
             int choice = answerParser.parsen(scanner);
             if (choice == 99){
                 continue;
             }
 
             switch (choice) {
-                case 1:
-                {
-                    // Neuer Tagebucheintrag wird geschrieben
-                    tagebuchVerwaltung.eintragSchreiben(scanner);
-                    break;
-                }
-                case 2:
-                {
-                    // Bestehenden Eintrag anzeigen
-                    tagebuchVerwaltung.eintragLesen(scanner);
-                    break;
-                }
-                case 3:
-                {
-                    // Eintrag bearbeiten
-                    tagebuchVerwaltung.eintragBearbeiten(scanner);
-                    break;
-                }
-                case 4:
-                {
-                    // Eintrag löschen
-                    tagebuchVerwaltung.eintragLoeschen(scanner);
-                    break;
-                }
-                case 5:
-                {
-                    // Zurück zum Hauptmenü
-                    return;
-                }
-                default:
-                {
-                    // Ungültige Auswahlbehandlung
-                    System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
-                    break;
-                }
+                case 1 -> tagebuchVerwaltung.eintragSchreiben(scanner);
+                case 2 -> tagebuchVerwaltung.eintragLesen(scanner);
+                case 3 -> tagebuchVerwaltung.eintragBearbeiten(scanner);
+                case 4 -> tagebuchVerwaltung.eintragLoeschen(scanner);
+                case 5 -> { return; }
+                default -> System.out.println("😅 Diese Eingabe kennt mein Menü nicht. Versuch’s nochmal!");
             }
         }
     }

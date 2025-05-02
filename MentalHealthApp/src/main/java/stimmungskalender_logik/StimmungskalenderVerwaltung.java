@@ -122,37 +122,47 @@ public class StimmungskalenderVerwaltung {
      * @param scanner Eingabequelle für Benutzereingaben
      */
     public void emotionenErfassen(Scanner scanner) {
-        List<Emotionseintrag> emotionseintraege = new ArrayList<>();
+        List<String> emotionenListe = ladeEmotionenListe();
+        if (emotionenListe.isEmpty()) return;
 
-        List<String> emotionenListe;
+        List<String> emotionenNamen = zeigeEmotionenAusDatei(emotionenListe);
+        List<Emotionseintrag> eintraege = erfasseEmotionenVomBenutzer(scanner, emotionenListe, emotionenNamen);
+
+        if (!eintraege.isEmpty() && repository instanceof StimmungskalenderSpeicher speicher) {
+            speicher.speichernEmotionen(eintraege);
+            System.out.println("Emotionen gespeichert.");
+        }
+    }
+
+    private List<String> ladeEmotionenListe() {
         try {
-            emotionenListe = Files.readAllLines(Paths.get("Textvorlagen(nicht_ändern!)/EmotionenListe.txt"));
+            return Files.readAllLines(Paths.get("Textvorlagen(nicht_ändern!)/EmotionenListe.txt"));
         } catch (IOException e) {
             System.err.println("Fehler beim Lesen der EmotionenListe.txt: " + e.getMessage());
-            return;
+            return List.of();
         }
+    }
 
-        // Emotionen mit Kategorien anzeigen
+    private List<String> zeigeEmotionenAusDatei(List<String> emotionenListe) {
         System.out.println("\n💬 Verfügbare Emotionen – was fühlst du gerade?");
-        System.out.println("──────────────────────────────────────────────");
-
-        List<String> emotionenNamen = new ArrayList<>();
-        int auswahlNummer = 1;
+        List<String> namen = new ArrayList<>();
+        int nummer = 1;
 
         for (String zeile : emotionenListe) {
             if (zeile.startsWith("#")) {
-                // Kategorieüberschrift anzeigen
                 System.out.println("\n" + zeile.replace("#", "===").trim());
             } else if (zeile.startsWith("Emotion:")) {
-                String[] teile = zeile.split(";");
-                String name = teile[0].replace("Emotion:", "").trim();
-                emotionenNamen.add(name);
-                System.out.println(auswahlNummer + ". " + name);
-                auswahlNummer++;
+                String name = zeile.split(";")[0].replace("Emotion:", "").trim();
+                System.out.println(nummer++ + ". " + name);
+                namen.add(name);
             }
         }
+        return namen;
+    }
 
-        // Emotionen erfassen
+    private List<Emotionseintrag> erfasseEmotionenVomBenutzer(Scanner scanner, List<String> emotionenListe, List<String> emotionenNamen) {
+        List<Emotionseintrag> eintraege = new ArrayList<>();
+
         while (true) {
             System.out.print("\nNummer der Emotion wählen (oder 0 zum Beenden): ");
             String eingabe = scanner.nextLine();
@@ -167,32 +177,29 @@ public class StimmungskalenderVerwaltung {
 
                 String emotion = emotionenNamen.get(index);
                 String beschreibung = getIntensitaetsbeschreibungZuEmotion(emotion, emotionenListe);
-
-                int intensitaet;
-                while (true) {
-                    System.out.print("Wie stark fühlst du diese Emotion (1–10)? (" + beschreibung + "): ");
-                    try {
-                        intensitaet = Integer.parseInt(scanner.nextLine());
-                        if (intensitaet >= 1 && intensitaet <= 10) break;
-                        else System.out.println("Bitte eine Zahl von 1 bis 10 eingeben.");
-                    } catch (NumberFormatException e) {
-                        System.out.println("Ungültige Zahl.");
-                    }
-                }
+                int intensitaet = frageIntensitaet(scanner, beschreibung);
 
                 System.out.print("Was ist die Ursache für diese Emotion? ");
                 String ursache = scanner.nextLine();
 
-                emotionseintraege.add(new Emotionseintrag(emotion, intensitaet, ursache));
+                eintraege.add(new Emotionseintrag(emotion, intensitaet, ursache));
             } catch (NumberFormatException e) {
                 System.out.println("Ungültige Eingabe.");
             }
         }
 
-        if (!emotionseintraege.isEmpty()) {
-            if (repository instanceof StimmungskalenderSpeicher speicher) {
-                speicher.speichernEmotionen(emotionseintraege);
-                System.out.println("Emotionen gespeichert.");
+        return eintraege;
+    }
+
+    private int frageIntensitaet(Scanner scanner, String beschreibung) {
+        while (true) {
+            System.out.print("Wie stark fühlst du diese Emotion (1–10)? (" + beschreibung + "): ");
+            try {
+                int wert = Integer.parseInt(scanner.nextLine());
+                if (wert >= 1 && wert <= 10) return wert;
+                System.out.println("Bitte eine Zahl von 1 bis 10 eingeben.");
+            } catch (NumberFormatException e) {
+                System.out.println("Ungültige Zahl.");
             }
         }
     }
