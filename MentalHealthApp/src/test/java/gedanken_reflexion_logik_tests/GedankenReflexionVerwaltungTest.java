@@ -42,8 +42,8 @@ class GedankenReflexionVerwaltungTest {
     @Test
     void neuerEintrag_speichertEintragMitScannerInput() {
         String simulatedInput = String.join("\n",
-                "Ich bin müde",
                 "7",
+                "Ich bin müde",
                 "Ich habe wenig geschlafen",
                 "Ich kann früher ins Bett gehen",
                 "Ich schaffe das",
@@ -57,7 +57,7 @@ class GedankenReflexionVerwaltungTest {
         assertNotNull(mockRepo.letzterEintrag);
         assertEquals("7", mockRepo.letzterEintrag.belastung());
         assertEquals(5, mockRepo.letzterEintrag.antworten().size());
-        assertEquals("Ich bin müde", mockRepo.letzterEintrag.antworten().get(0));
+        assertEquals("Ich bin müde", mockRepo.letzterEintrag.antworten().getFirst());
     }
 
     @Test

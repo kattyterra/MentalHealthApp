@@ -100,8 +100,7 @@ class UebungLoaderTest {
         UebungLoader loader = new UebungLoader();
         List<Uebung> uebungen = loader.ladeUebungen(tempFile.toString());
 
-        assertEquals(1, uebungen.size());
-        assertEquals("Kurzatmung stoppen", uebungen.getFirst().name());
-        assertNull(uebungen.getFirst().ziel());
+        // Erwartung: keine Übung wird geladen, weil das Ziel fehlt
+        assertEquals(0, uebungen.size());
     }
 }
