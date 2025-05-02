@@ -210,7 +210,7 @@ public class StimmungskalenderVerwaltung {
      * @param emotionenListe Liste mit allen Emotionen inkl. Beschreibung
      * @return Intensitätsbeschreibung (Text)
      */
-    private String getIntensitaetsbeschreibungZuEmotion(String emotionName, List<String> emotionenListe) {
+    public String getIntensitaetsbeschreibungZuEmotion(String emotionName, List<String> emotionenListe) {
         for (String zeile : emotionenListe) {
             if (zeile.startsWith("Emotion:") && zeile.contains(emotionName)) {
                 String[] teile = zeile.split("Intensität:");
