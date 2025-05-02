@@ -7,6 +7,8 @@ import stimmungskalender_logik.StimmungskalenderSpeicher;
 import utility.DateiLeseHelfer;
 import utility.DateiSchreibHelfer;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +49,13 @@ class StimmungskalenderSpeicherTest {
         MockDateiSchreibHelfer mock = new MockDateiSchreibHelfer();
         StimmungskalenderSpeicher speicher = new StimmungskalenderSpeicher(mock, new MockDateiLeseHelfer());
 
-        Stimmungseintrag eintrag = new Stimmungseintrag("2025-04-20", "10:00", 7);
+        String heutigesDatum = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        Stimmungseintrag eintrag = new Stimmungseintrag(heutigesDatum, "10:00", 7);
         speicher.speichern(eintrag);
 
         assertTrue(mock.anhaengenAufgerufen);
         assertEquals("Stimmungskalender/", mock.letzterOrdner);
-        assertTrue(mock.letzterDateiname.endsWith(".txt"));
+        assertEquals(heutigesDatum + ".txt", mock.letzterDateiname);
         assertTrue(mock.letzteZeilen.getFirst().toString().contains("Stimmung: 7"));
     }
 
@@ -66,7 +69,10 @@ class StimmungskalenderSpeicherTest {
 
         assertTrue(mock.anhaengenAufgerufen);
         assertEquals("Stimmungskalender/", mock.letzterOrdner);
-        assertEquals("2025-03-25.txt", mock.letzterDateiname);
+
+        String erwartetesDatum = LocalDate.now().format(DateTimeFormatter.ISO_DATE) + ".txt";
+        assertEquals(erwartetesDatum, mock.letzterDateiname);
+
         assertTrue(mock.letzteZeilen.getFirst().toString().contains("Freude"));
     }
 
